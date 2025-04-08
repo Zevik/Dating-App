@@ -1,5 +1,10 @@
+// At the very beginning of the file:
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
+const dbSetup = require('./db/setupDatabase');
+const db = require('./services/database');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const http = require('http');
@@ -176,40 +181,81 @@ app.post('/auth/register', async (req, res) => {
     return res.status(400).json({ error: 'Invalid email format' });
   }
   
-  // Check if email already exists
-  if (users.some(user => user.email === email)) {
-    return res.status(409).json({ error: 'Email already in use' });
-  }
-  
   try {
+    // Check if email already exists in the database
+    const existingUserQuery = 'SELECT id FROM users WHERE email = $1';
+    const existingUser = await db.query(existingUserQuery, [email]);
+    
+    if (existingUser.rowCount > 0) {
+      return res.status(409).json({ error: 'Email already in use' });
+    }
+    
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
     
-    // Create new user
-    const newUser = {
-      id: getNextId(users),
-      name,
-      email,
-      password: hashedPassword,
-      age: Number(age),
-      gender
-    };
+    // Calculate birth date from age (approximate, setting to January 1st of the calculated year)
+    const currentYear = new Date().getFullYear();
+    const birthYear = currentYear - Number(age);
+    const birthDate = new Date(birthYear, 0, 1); // January 1st of the birth year
     
-    // Add to our "database"
-    users.push(newUser);
+    // Convert gender to lowercase and ensure it matches allowed values
+    let dbGender = gender.toLowerCase();
+    // Only allow 'male', 'female', or 'other'
+    if (!['male', 'female', 'other'].includes(dbGender)) {
+      dbGender = 'other';
+    }
+    
+    // Generate UUID for the user ID
+    const uuid = require('uuid');
+    const userId = uuid.v4();
+    
+    // Insert the new user into the database
+    const insertUserQuery = `
+      INSERT INTO users (
+        id,
+        email, 
+        password_hash, 
+        display_name, 
+        birth_date, 
+        gender,
+        is_active,
+        created_at,
+        updated_at
+      ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      RETURNING id, email, display_name, gender, birth_date, is_active
+    `;
+    
+    const values = [
+      userId,
+      email,
+      hashedPassword,
+      name,
+      birthDate,
+      dbGender,
+      true, // is_active
+      new Date(), // created_at
+      new Date() // updated_at
+    ];
+    
+    const result = await db.query(insertUserQuery, values);
+    const newUser = result.rows[0];
     
     // Generate JWT token
-    const token = generateToken(newUser);
+    const token = generateToken({
+      id: newUser.id,
+      name: newUser.display_name,
+      email: newUser.email
+    });
     
-    // Return user data and token (without password)
-    const { password: _, ...userWithoutPassword } = newUser;
-    
+    // Return user data and token
     res.status(201).json({
-      user: userWithoutPassword,
+      user: newUser,
       token
     });
   } catch (error) {
-    res.status(500).json({ error: 'Error creating user' });
+    console.error('Registration error:', error);
+    res.status(500).json({ error: 'Error creating user: ' + error.message });
   }
 });
 
@@ -222,136 +268,176 @@ app.post('/auth/login', async (req, res) => {
     return res.status(400).json({ error: 'Email and password are required' });
   }
   
-  // Find user by email
-  const user = users.find(u => u.email === email);
-  
-  if (!user) {
-    return res.status(401).json({ error: 'Invalid email or password' });
-  }
-  
   try {
+    // Find user by email in the database
+    const findUserQuery = 'SELECT * FROM users WHERE email = $1';
+    const result = await db.query(findUserQuery, [email]);
+    
+    if (result.rowCount === 0) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+    
+    const user = result.rows[0];
+    
+    // Check if user is active
+    if (!user.is_active) {
+      return res.status(403).json({ error: 'This account has been deactivated' });
+    }
+    
     // Compare provided password with stored hash
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password_hash);
     
     if (!isPasswordValid) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
     
     // Generate JWT token
-    const token = generateToken(user);
+    const token = generateToken({
+      id: user.id,
+      name: user.display_name,
+      email: user.email
+    });
     
-    // Return user data and token (without password)
-    const { password: _, ...userWithoutPassword } = user;
+    // Update last active timestamp
+    const updateLastActiveQuery = 'UPDATE users SET last_active_at = $1 WHERE id = $2';
+    await db.query(updateLastActiveQuery, [new Date(), user.id]);
+    
+    // Remove password_hash from the user object before sending
+    delete user.password_hash;
     
     res.status(200).json({
-      user: userWithoutPassword,
+      user,
       token
     });
   } catch (error) {
-    res.status(500).json({ error: 'Login failed' });
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Login failed: ' + error.message });
   }
 });
 
 // Check current user based on token
-app.get('/auth/me', verifyToken, (req, res) => {
-  // Find the user by ID from the token
-  const user = users.find(u => u.id === req.user.id);
-  
-  if (!user) {
-    return res.status(404).json({ error: 'User not found' });
+app.get('/auth/me', verifyToken, async (req, res) => {
+  try {
+    // Find the user by ID from the token
+    const findUserQuery = 'SELECT * FROM users WHERE id = $1';
+    const result = await db.query(findUserQuery, [req.user.id]);
+    
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    const user = result.rows[0];
+    
+    // Remove password hash before sending
+    delete user.password_hash;
+    
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ error: 'Failed to retrieve user profile' });
   }
-  
-  // Return user data without password
-  const { password, ...userWithoutPassword } = user;
-  
-  res.status(200).json(userWithoutPassword);
 });
 
 // Users endpoint - return all users with optional filtering
-app.get('/users', (req, res) => {
-  let filteredUsers = [...users];
-  
-  // Get the current user ID from token if available
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-  let currentUserId = null;
-  
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, JWT_SECRET);
-      currentUserId = decoded.id;
-      
-      // If user is authenticated, filter out users that have blocked the current user
-      // or have been blocked by the current user
-      if (currentUserId) {
-        filteredUsers = filteredUsers.filter(user => {
-          // Skip the current user
-          if (user.id === currentUserId) return false;
-          
-          // Check if either user has blocked the other
-          const isBlocked = blocks.some(block => 
-            (block.blockerId === currentUserId && block.blockedId === user.id) ||
-            (block.blockerId === user.id && block.blockedId === currentUserId)
-          );
-          
-          return !isBlocked;
-        });
-      }
-    } catch (error) {
-      // Invalid token, continue without filtering
-    }
-  }
-  
-  // Parse query parameters
-  const { name, minAge, maxAge, gender, sortBy, order } = req.query;
-  
-  // Filter by name (case-insensitive partial match)
-  if (name) {
-    filteredUsers = filteredUsers.filter(u => 
-      u.name.toLowerCase().includes(name.toLowerCase())
-    );
-  }
-  
-  // Filter by minimum age
-  if (minAge) {
-    const min = parseInt(minAge);
-    if (!isNaN(min)) {
-      filteredUsers = filteredUsers.filter(u => u.age >= min);
-    }
-  }
-  
-  // Filter by maximum age
-  if (maxAge) {
-    const max = parseInt(maxAge);
-    if (!isNaN(max)) {
-      filteredUsers = filteredUsers.filter(u => u.age <= max);
-    }
-  }
-  
-  // Filter by gender
-  if (gender) {
-    filteredUsers = filteredUsers.filter(u => u.gender === gender);
-  }
-  
-  // Apply sorting if requested
-  if (sortBy && ['name', 'age', 'gender'].includes(sortBy)) {
-    const direction = order === 'desc' ? -1 : 1;
+app.get('/users', async (req, res) => {
+  try {
+    // Parse query parameters
+    const { name, minAge, maxAge, gender, sortBy, order, limit = 20, offset = 0 } = req.query;
     
-    filteredUsers.sort((a, b) => {
-      if (a[sortBy] < b[sortBy]) return -1 * direction;
-      if (a[sortBy] > b[sortBy]) return 1 * direction;
-      return 0;
+    // Build the query dynamically based on filters
+    let queryParams = [];
+    let conditions = [];
+    let queryString = 'SELECT * FROM users WHERE is_active = true';
+    
+    // Filter by name (display_name)
+    if (name) {
+      queryParams.push(`%${name}%`);
+      conditions.push(`display_name ILIKE $${queryParams.length}`);
+    }
+    
+    // Filter by minimum age (we need to convert age to birth_date comparison)
+    if (minAge) {
+      const minAgeDate = new Date();
+      minAgeDate.setFullYear(minAgeDate.getFullYear() - parseInt(minAge));
+      queryParams.push(minAgeDate);
+      conditions.push(`birth_date <= $${queryParams.length}`);
+    }
+    
+    // Filter by maximum age (we need to convert age to birth_date comparison)
+    if (maxAge) {
+      const maxAgeDate = new Date();
+      maxAgeDate.setFullYear(maxAgeDate.getFullYear() - parseInt(maxAge));
+      queryParams.push(maxAgeDate);
+      conditions.push(`birth_date >= $${queryParams.length}`);
+    }
+    
+    // Filter by gender
+    if (gender) {
+      queryParams.push(gender.toUpperCase());
+      conditions.push(`gender = $${queryParams.length}`);
+    }
+    
+    // Add all conditions to the query
+    if (conditions.length > 0) {
+      queryString += ' AND ' + conditions.join(' AND ');
+    }
+    
+    // Add sorting
+    if (sortBy) {
+      let dbSortBy;
+      switch (sortBy.toLowerCase()) {
+        case 'name':
+          dbSortBy = 'display_name';
+          break;
+        case 'age':
+          dbSortBy = 'birth_date';
+          break;
+        default:
+          dbSortBy = sortBy;
+      }
+      
+      const sortOrder = order && order.toLowerCase() === 'desc' ? 'DESC' : 'ASC';
+      
+      // Special case for age sorting (reverse the order since older = earlier date)
+      if (sortBy.toLowerCase() === 'age') {
+        queryString += ` ORDER BY ${dbSortBy} ${sortOrder === 'ASC' ? 'DESC' : 'ASC'}`;
+      } else {
+        queryString += ` ORDER BY ${dbSortBy} ${sortOrder}`;
+      }
+    } else {
+      // Default sorting by last_active_at
+      queryString += ' ORDER BY last_active_at DESC';
+    }
+    
+    // Add pagination
+    queryParams.push(parseInt(limit));
+    queryParams.push(parseInt(offset));
+    queryString += ` LIMIT $${queryParams.length - 1} OFFSET $${queryParams.length}`;
+    
+    // Get total count for pagination headers
+    const countQuery = queryString.replace('SELECT *', 'SELECT COUNT(*)');
+    const countResult = await db.query(countQuery, queryParams);
+    const totalCount = parseInt(countResult.rows[0].count);
+    
+    // Execute the main query
+    const result = await db.query(queryString, queryParams);
+    
+    // Remove sensitive information
+    const users = result.rows.map(user => {
+      const { password_hash, ...userWithoutPassword } = user;
+      return userWithoutPassword;
     });
+    
+    // Set pagination headers
+    res.setHeader('X-Total-Count', totalCount.toString());
+    res.setHeader('X-Limit', limit.toString());
+    res.setHeader('X-Offset', offset.toString());
+    
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: 'Failed to retrieve users' });
   }
-  
-  // Add pagination headers
-  res.setHeader('X-Total-Count', filteredUsers.length.toString());
-  
-  // Remove password from response
-  const usersWithoutPassword = filteredUsers.map(({ password, ...user }) => user);
-  
-  // Return filtered users
-  res.status(200).json(usersWithoutPassword);
 });
 
 // Search users by query - IMPORTANT: must be defined BEFORE /users/:id
@@ -1660,6 +1746,14 @@ let io;
  */
 async function startServer() {
   try {
+    // Set up database connection and run migrations
+    console.log('Setting up database connection...');
+    const dbSetupSuccess = await dbSetup.setupDatabase();
+    
+    if (!dbSetupSuccess) {
+      console.warn('Database setup encountered issues. Server will start but some features might not work properly.');
+    }
+    
     // Create HTTP (or HTTPS in production) server with Socket.IO
     const serverConfig = createServer(app);
     const server = serverConfig.server;
