@@ -91,8 +91,19 @@ const matches = [
   }
 ];
 
-// Mock calls data (in-memory database)
-const calls = [];
+// In-memory database for calls
+const calls = [
+  {
+    id: 1,
+    matchId: 1,
+    callerId: 1,
+    calledId: 2,
+    startTime: '2023-11-01T10:00:00Z',
+    endTime: null,
+    status: 'active',
+    callType: 'video' // Added call type
+  }
+];
 
 // Mock reports data (in-memory database)
 const reports = [];
