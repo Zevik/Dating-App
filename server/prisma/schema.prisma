@@ -1,0 +1,247 @@
+// Prisma schema for Dating App
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id                String    @id @default(uuid())
+  email             String    @unique
+  password          String
+  firstName         String
+  lastName          String?
+  birthDate         DateTime
+  gender            Gender
+  preferredGenders  Gender[]
+  ageRangeMin       Int       @default(18)
+  ageRangeMax       Int       @default(100)
+  bio               String?
+  location          Json?     // Contains latitude and longitude
+  locationName      String?
+  maxDistance       Int       @default(50) // in kilometers
+  isPremium         Boolean   @default(false)
+  lastActive        DateTime  @default(now())
+  profileCompleted  Boolean   @default(false)
+  isEmailVerified   Boolean   @default(false)
+  isActive          Boolean   @default(true)
+  verificationToken String?
+  resetToken        String?
+  resetTokenExpiry  DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relationships
+  photos            Photo[]
+  sentLikes         Like[]             @relation("SentLikes")
+  receivedLikes     Like[]             @relation("ReceivedLikes")
+  sentBlocks        Block[]            @relation("SentBlocks")
+  receivedBlocks    Block[]            @relation("ReceivedBlocks")
+  matchesAsUser1    Match[]            @relation("User1Matches")
+  matchesAsUser2    Match[]            @relation("User2Matches")
+  initiatedCalls    Call[]             @relation("InitiatedCalls")
+  receivedCalls     Call[]             @relation("ReceivedCalls")
+  reportsSent       Report[]           @relation("ReportSender")
+  reportsReceived   Report[]           @relation("ReportReceiver")
+  pushTokens        PushNotificationToken[]
+  refreshTokens     RefreshToken[]
+}
+
+// Gender enum
+enum Gender {
+  MALE
+  FEMALE
+  NON_BINARY
+  OTHER
+}
+
+// Photo model
+model Photo {
+  id        String   @id @default(uuid())
+  userId    String
+  url       String
+  isPrimary Boolean  @default(false)
+  order     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// Like model
+model Like {
+  id        String   @id @default(uuid())
+  senderId  String
+  receiverId String
+  createdAt DateTime @default(now())
+  
+  // Relationships
+  sender    User     @relation("SentLikes", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver  User     @relation("ReceivedLikes", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId])
+  @@index([senderId])
+  @@index([receiverId])
+}
+
+// Block model
+model Block {
+  id        String   @id @default(uuid())
+  senderId  String
+  receiverId String
+  reason    String?
+  createdAt DateTime @default(now())
+
+  // Relationships
+  sender    User     @relation("SentBlocks", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver  User     @relation("ReceivedBlocks", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId])
+  @@index([senderId])
+  @@index([receiverId])
+}
+
+// Match model
+model Match {
+  id         String       @id @default(uuid())
+  user1Id    String
+  user2Id    String
+  status     MatchStatus  @default(ACTIVE)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  endedAt    DateTime?
+
+  // Relationships
+  user1      User         @relation("User1Matches", fields: [user1Id], references: [id], onDelete: Cascade)
+  user2      User         @relation("User2Matches", fields: [user2Id], references: [id], onDelete: Cascade)
+  calls      Call[]
+
+  @@unique([user1Id, user2Id])
+  @@index([user1Id])
+  @@index([user2Id])
+  @@index([status])
+}
+
+// Match status enum
+enum MatchStatus {
+  ACTIVE
+  ENDED
+  EXPIRED
+}
+
+// Call model
+model Call {
+  id               String      @id @default(uuid())
+  matchId          String
+  initiatorId      String
+  receiverId       String
+  status           CallStatus  @default(PENDING)
+  startTime        DateTime?
+  endTime          DateTime?
+  duration         Int?        // in seconds
+  isAudioOnly      Boolean     @default(false)
+  signalData       Json?
+  callQuality      Int?        // rating 1-5
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  // Relationships
+  match            Match       @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  initiator        User        @relation("InitiatedCalls", fields: [initiatorId], references: [id], onDelete: Cascade)
+  receiver         User        @relation("ReceivedCalls", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@index([matchId])
+  @@index([initiatorId])
+  @@index([receiverId])
+  @@index([status])
+}
+
+// Call status enum
+enum CallStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  COMPLETED
+  MISSED
+  CANCELED
+}
+
+// Report model
+model Report {
+  id          String        @id @default(uuid())
+  senderId    String
+  receiverId  String
+  reason      ReportReason
+  description String?
+  status      ReportStatus  @default(PENDING)
+  reviewedBy  String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  resolvedAt  DateTime?
+
+  // Relationships
+  sender      User          @relation("ReportSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver    User          @relation("ReportReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@index([senderId])
+  @@index([receiverId])
+  @@index([status])
+}
+
+// Report reason enum
+enum ReportReason {
+  INAPPROPRIATE_CONTENT
+  HARASSMENT
+  FAKE_PROFILE
+  UNDERAGE
+  OTHER
+}
+
+// Report status enum
+enum ReportStatus {
+  PENDING
+  REVIEWED
+  RESOLVED
+  DISMISSED
+}
+
+// Push Notification Token model
+model PushNotificationToken {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  device    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// Refresh Token model
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  device    String?
+  ip        String?
+  isRevoked Boolean  @default(false)
+
+  // Relationships
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+} 

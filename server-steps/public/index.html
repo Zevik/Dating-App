@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dating App WebRTC Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .login-container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .call-container {
+            display: none;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .videos-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .video-container {
+            position: relative;
+            width: 320px;
+        }
+        video {
+            width: 320px;
+            height: 240px;
+            background-color: #000;
+            border-radius: 8px;
+        }
+        .audio-only {
+            width: 320px;
+            height: 240px;
+            background-color: #555;
+            border-radius: 5px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            font-size: 48px;
+        }
+        #localAudioOnly {
+            background-color: #444;
+        }
+        #remoteAudioOnly {
+            background-color: #666;
+        }
+        button {
+            padding: 8px 16px;
+            cursor: pointer;
+            background-color: #4c84af;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:disabled {
+            background-color: #cccccc;
+        }
+        #incomingCall {
+            display: none;
+            background-color: #f8d7da;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        #logs {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+            background-color: #f5f5f5;
+            font-family: monospace;
+        }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Dating App WebRTC Demo</h1>
+        
+        <div class="login-container" id="loginContainer">
+            <h2>Login</h2>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="e.g., john@example.com">
+            </div>
+            <div style="margin-top: 10px;">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="e.g., password123">
+            </div>
+            <div style="margin-top: 15px;">
+                <button id="loginBtn">Login</button>
+            </div>
+        </div>
+        
+        <div class="call-container" id="callContainer">
+            <h2>Call Demo</h2>
+            <p id="userInfo"></p>
+            <div>
+                <label for="matchId">Match ID:</label>
+                <input type="number" id="matchId" placeholder="e.g., 1" value="1">
+            </div>
+            
+            <div style="margin-top: 10px;">
+                <label>Call Type:</label>
+                <select id="callType">
+                    <option value="voice">Voice Call</option>
+                    <option value="video" selected>Video Call</option>
+                </select>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <button id="startCallBtn">Start Call</button>
+                <button id="hangupBtn" disabled>Hang Up</button>
+            </div>
+            
+            <div id="incomingCall">
+                <h3>Incoming Call</h3>
+                <p>Someone is calling you!</p>
+                <button id="answerCallBtn">Answer</button>
+                <button id="rejectCallBtn">Reject</button>
+            </div>
+            
+            <h3>Call Status: <span id="callStatus">Idle</span></h3>
+            
+            <div class="videos-container">
+                <div>
+                    <h3 id="localVideoLabel">Local Video</h3>
+                    <video id="localVideo" autoplay muted playsinline></video>
+                    <div id="localAudioOnly" class="audio-only">🎤</div>
+                </div>
+                <div>
+                    <h3 id="remoteVideoLabel">Remote Video</h3>
+                    <video id="remoteVideo" autoplay playsinline></video>
+                    <div id="remoteAudioOnly" class="audio-only">🎧</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="logs"></div>
+    </div>
+    
+    <script>
+        // Global variables
+        let socket;
+        let localStream;
+        let peerConnection;
+        let remoteStream;
+        let callStatus = 'idle';
+        let currentMatchId = null;
+        let token = null;
+        let userId = null;
+        let incomingCallData = null;
+        
+        // DOM elements
+        const loginContainer = document.getElementById('loginContainer');
+        const callContainer = document.getElementById('callContainer');
+        const userInfo = document.getElementById('userInfo');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const matchIdInput = document.getElementById('matchId');
+        const callTypeSelect = document.getElementById('callType');
+        const startCallBtn = document.getElementById('startCallBtn');
+        const answerCallBtn = document.getElementById('answerCallBtn');
+        const rejectCallBtn = document.getElementById('rejectCallBtn');
+        const hangupBtn = document.getElementById('hangupBtn');
+        const localVideo = document.getElementById('localVideo');
+        const remoteVideo = document.getElementById('remoteVideo');
+        const logsElement = document.getElementById('logs');
+        
+        // Log function
+        function log(message) {
+            const time = new Date().toLocaleTimeString();
+            logsElement.innerHTML += `<div>[${time}] ${message}</div>`;
+            logsElement.scrollTop = logsElement.scrollHeight;
+            console.log(`[${time}] ${message}`);
+        }
+        
+        // Login function
+        loginBtn.addEventListener('click', async () => {
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            
+            if (!email || !password) {
+                log('Please enter email and password');
+                return;
+            }
+            
+            try {
+                log(`Logging in as ${email}...`);
+                
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Login failed: ${response.status} ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                token = data.token;
+                userId = data.user.id;
+                
+                log(`Login successful! User ID: ${userId}`);
+                userInfo.textContent = `Logged in as: ${data.user.name} (ID: ${userId})`;
+                
+                // Show call container and hide login container
+                loginContainer.style.display = 'none';
+                callContainer.style.display = 'block';
+                
+                // Connect to WebSocket and setup WebRTC
+                connectWebSocket();
+                setupPeerConnection();
+                
+            } catch (error) {
+                log(`Error: ${error.message}`);
+            }
+        });
+        
+        // Connect to WebSocket
+        function connectWebSocket() {
+            if (!token) {
+                log('Cannot connect to WebSocket: No authentication token');
+                return;
+            }
+            
+            log('Connecting to WebSocket...');
+            
+            socket = io({
+                auth: { token }
+            });
+            
+            // WebSocket event listeners
+            socket.on('connect', () => {
+                log('WebSocket connected');
+            });
+            
+            socket.on('disconnect', () => {
+                log('WebSocket disconnected');
+                hangupCall();
+            });
+            
+            socket.on('error', (error) => {
+                log(`WebSocket error: ${error.message}`);
+            });
+            
+            socket.on('webrtc-signal', (data) => {
+                log(`Received webrtc signal of type: ${data.type}`);
+                
+                switch (data.type) {
+                    case 'offer':
+                        handleCallOffer(data);
+                        break;
+                    case 'answer':
+                        handleCallAnswer(data);
+                        break;
+                    case 'ice-candidate':
+                        handleIceCandidate(data);
+                        break;
+                    case 'call-ended':
+                        handleCallEnded();
+                        break;
+                    default:
+                        log(`Unknown signal type: ${data.type}`);
+                }
+            });
+        }
+        
+        // Setup WebRTC Peer Connection
+        function setupPeerConnection() {
+            // Configure ICE servers (STUN and TURN servers)
+            const configuration = {
+                iceServers: [
+                    {
+                        urls: [
+                            'stun:stun.l.google.com:19302',
+                            'stun:stun1.l.google.com:19302'
+                        ]
+                    }
+                ]
+            };
+            
+            // Create a new RTCPeerConnection
+            peerConnection = new RTCPeerConnection(configuration);
+            
+            // Setup event handlers for peer connection
+            peerConnection.onicecandidate = handleICECandidate;
+            peerConnection.ontrack = handleTrack;
+            peerConnection.oniceconnectionstatechange = handleICEConnectionStateChange;
+            
+            log('WebRTC Peer Connection setup complete');
+        }
+        
+        // Handle ICE candidate
+        function handleICECandidate(event) {
+            if (event.candidate && socket && currentMatchId) {
+                log('Sending ICE candidate to remote peer');
+                
+                socket.emit('webrtc-signal', {
+                    type: 'ice-candidate',
+                    matchId: currentMatchId,
+                    candidate: event.candidate
+                });
+            }
+        }
+        
+        // Handle incoming track
+        function handleTrack(event) {
+            log('Received remote track');
+            remoteStream = event.streams[0];
+            
+            // Get the current call type
+            const callType = callTypeSelect.value;
+            
+            // Update UI based on call type
+            if (callType === 'voice') {
+                remoteVideo.style.display = 'none';
+                document.getElementById('remoteAudioOnly').style.display = 'flex';
+                document.getElementById('remoteVideoLabel').textContent = 'Remote Audio';
+            } else {
+                remoteVideo.style.display = 'block';
+                document.getElementById('remoteAudioOnly').style.display = 'none';
+                document.getElementById('remoteVideoLabel').textContent = 'Remote Video';
+                remoteVideo.srcObject = remoteStream;
+            }
+        }
+        
+        // Handle ICE connection state change
+        function handleICEConnectionStateChange() {
+            log(`ICE connection state: ${peerConnection.iceConnectionState}`);
+            
+            if (peerConnection.iceConnectionState === 'connected') {
+                log('ICE connected - call established!');
+                updateCallStatus('Connected');
+            }
+            
+            // Handle disconnection
+            if (peerConnection.iceConnectionState === 'disconnected' || 
+                peerConnection.iceConnectionState === 'failed' ||
+                peerConnection.iceConnectionState === 'closed') {
+                hangupCall();
+            }
+        }
+        
+        // Start a call
+        async function startCall() {
+            const matchId = matchIdInput.value;
+            if (!matchId) {
+                log('Please enter a valid Match ID');
+                return;
+            }
+            
+            currentMatchId = parseInt(matchId);
+            const callType = callTypeSelect.value;
+            
+            try {
+                log(`Starting ${callType} call to match ID: ${currentMatchId}`);
+                
+                // Get media stream based on call type
+                const constraints = callType === 'voice' 
+                    ? { audio: true, video: false } 
+                    : { audio: true, video: true };
+                    
+                localStream = await navigator.mediaDevices.getUserMedia(constraints);
+                
+                // Update UI based on call type
+                updateUIForCallType(callType);
+                
+                // Add local stream to peer connection
+                localStream.getTracks().forEach(track => {
+                    peerConnection.addTrack(track, localStream);
+                });
+                
+                // Create offer and send it
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
+                
+                // Send offer to the other user
+                socket.emit('webrtc-signal', {
+                    type: 'offer',
+                    matchId: currentMatchId,
+                    offer: peerConnection.localDescription,
+                    callType
+                });
+                
+                updateCallStatus('Calling...');
+                startCallBtn.disabled = true;
+                hangupBtn.disabled = false;
+                
+            } catch (error) {
+                log('Error starting call: ' + error.message);
+            }
+        }
+        
+        // Handle incoming call offer
+        async function handleCallOffer(data) {
+            log('Received call offer');
+            
+            try {
+                currentMatchId = data.matchId;
+                
+                // Get media stream based on call type
+                const callType = data.callType || 'video'; // Default to video if not specified
+                const constraints = callType === 'voice' 
+                    ? { audio: true, video: false } 
+                    : { audio: true, video: true };
+                
+                localStream = await navigator.mediaDevices.getUserMedia(constraints);
+                
+                // Update UI based on call type
+                callTypeSelect.value = callType;
+                updateUIForCallType(callType);
+                
+                // Add local stream to peer connection
+                localStream.getTracks().forEach(track => {
+                    peerConnection.addTrack(track, localStream);
+                });
+                
+                // Store the remote description
+                await peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));
+                
+                // Show the incoming call UI
+                document.getElementById('incomingCall').style.display = 'block';
+                updateCallStatus('Incoming call...');
+                
+            } catch (error) {
+                log('Error handling incoming call: ' + error.message);
+            }
+        }
+        
+        // Answer incoming call
+        async function answerCall() {
+            try {
+                log('Answering call...');
+                
+                // Create answer
+                const answer = await peerConnection.createAnswer();
+                await peerConnection.setLocalDescription(answer);
+                
+                // Send answer to caller
+                socket.emit('webrtc-signal', {
+                    type: 'answer',
+                    matchId: currentMatchId,
+                    answer: peerConnection.localDescription
+                });
+                
+                // Hide incoming call UI
+                document.getElementById('incomingCall').style.display = 'none';
+                hangupBtn.disabled = false;
+                
+                updateCallStatus('Connected');
+                
+            } catch (error) {
+                log('Error answering call: ' + error.message);
+            }
+        }
+        
+        // Handle call answer
+        function handleCallAnswer(data) {
+            log('Call answered');
+            
+            peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer))
+                .then(() => {
+                    updateCallStatus('Connected');
+                })
+                .catch(error => log('Error setting remote description: ' + error.message));
+        }
+        
+        // Handle ICE candidate from remote peer
+        function handleIceCandidate(data) {
+            log('Received ICE candidate');
+            
+            const candidate = new RTCIceCandidate(data.candidate);
+            peerConnection.addIceCandidate(candidate)
+                .catch(error => log('Error adding ICE candidate: ' + error.message));
+        }
+        
+        // Handle call ended by remote peer
+        function handleCallEnded() {
+            log('Call ended by the other user');
+            hangupCall();
+        }
+        
+        // Hang up call
+        function hangupCall() {
+            log('Hanging up call');
+            
+            // Send end call signal if we have an active connection
+            if (socket && currentMatchId) {
+                socket.emit('webrtc-signal', {
+                    type: 'call-ended',
+                    matchId: currentMatchId
+                });
+            }
+            
+            // Stop all tracks in the local stream
+            if (localStream) {
+                localStream.getTracks().forEach(track => track.stop());
+                localVideo.srcObject = null;
+                localStream = null;
+            }
+            
+            // Reset remote stream
+            if (remoteStream) {
+                remoteVideo.srcObject = null;
+                remoteStream = null;
+            }
+            
+            // Close peer connection and create a new one
+            if (peerConnection) {
+                peerConnection.close();
+                setupPeerConnection();
+            }
+            
+            // Reset UI
+            document.getElementById('incomingCall').style.display = 'none';
+            startCallBtn.disabled = false;
+            hangupBtn.disabled = true;
+            
+            // Reset video display
+            document.getElementById('localVideo').style.display = 'block';
+            document.getElementById('remoteVideo').style.display = 'block';
+            document.getElementById('localAudioOnly').style.display = 'none';
+            document.getElementById('remoteAudioOnly').style.display = 'none';
+            
+            currentMatchId = null;
+            updateCallStatus('Idle');
+        }
+        
+        // Update UI based on call type
+        function updateUIForCallType(callType) {
+            if (callType === 'voice') {
+                // For voice call, hide video elements and show audio-only indicators
+                localVideo.style.display = 'none';
+                document.getElementById('localAudioOnly').style.display = 'flex';
+                document.getElementById('localVideoLabel').textContent = 'Local Audio';
+                
+                if (localStream) {
+                    // Display local stream if it exists
+                    localStream.getVideoTracks().forEach(track => {
+                        track.enabled = false;
+                    });
+                }
+            } else {
+                // For video call, show video elements and hide audio-only indicators
+                localVideo.style.display = 'block';
+                document.getElementById('localAudioOnly').style.display = 'none';
+                document.getElementById('localVideoLabel').textContent = 'Local Video';
+                
+                if (localStream) {
+                    // Display local stream if it exists
+                    localVideo.srcObject = localStream;
+                    localStream.getVideoTracks().forEach(track => {
+                        track.enabled = true;
+                    });
+                }
+            }
+        }
+        
+        // Update call status display
+        function updateCallStatus(status) {
+            document.getElementById('callStatus').textContent = status;
+        }
+        
+        // Handle call type change
+        callTypeSelect.addEventListener('change', () => {
+            updateUIForCallType(callTypeSelect.value);
+        });
+        
+        // Add event listeners for call controls
+        startCallBtn.addEventListener('click', startCall);
+        answerCallBtn.addEventListener('click', answerCall);
+        rejectCallBtn.addEventListener('click', hangupCall);
+        hangupBtn.addEventListener('click', hangupCall);
+    </script>
+</body>
+</html> 
