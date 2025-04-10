@@ -1,2 +1,37 @@
-# Archived server-steps code
-server-steps-old/ 
+# Node modules
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# IDE configs
+.vscode/
+.idea/
+
+# Test outputs
+coverage/
+*.test.ts.snap
+
+# Optional: lockfiles
+package-lock.json
+yarn.lock
+
+# Docker
+docker-compose.override.yml
+
+# Misc
+*.swp
