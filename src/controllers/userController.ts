@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { getUserProfile, updateUserProfile, getDiscoveryCandidate, getOnlineUsers, updateUserStatus } from '../services/userService';
+import { getUserProfile, updateUserProfile, getDiscoveryCandidate, getOnlineUsers, updateUserStatus, getRecommendedUsers } from '../services/userService';
 import { updateProfileSchema } from '../validations/userSchemas'; // Import validation schema
 import { ZodError } from 'zod';
 import { z } from 'zod';
@@ -148,6 +148,31 @@ export async function updateUserStatusController(req: Request, res: Response, ne
     });
   } catch (error) {
     console.error('Error updating user status:', error);
+    next(error);
+  }
+}
+
+/**
+ * Get recommended users for discovery
+ * GET /api/v1/users/discover
+ */
+export async function getRecommendedUsersController(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized: User ID not found' });
+    }
+
+    // Get recommended users
+    const recommendedUsers = await getRecommendedUsers(userId);
+    
+    return res.status(200).json({
+      success: true,
+      count: recommendedUsers.length,
+      users: recommendedUsers
+    });
+  } catch (error) {
+    console.error('Error fetching recommended users:', error);
     next(error);
   }
 } 

@@ -1,5 +1,5 @@
 import express from 'express';
-import { getMyProfileController, updateMyProfileController, getDiscoveryCandidateController, getOnlineUsersController, updateUserStatusController } from '../controllers/userController';
+import { getMyProfileController, updateMyProfileController, getDiscoveryCandidateController, getOnlineUsersController, updateUserStatusController, getRecommendedUsersController } from '../controllers/userController';
 import { authenticate } from '../middleware/authMiddleware';
 
 const router = express.Router();
@@ -12,6 +12,9 @@ router.put('/me', authenticate, updateMyProfileController);
 
 // GET /api/v1/users/discovery - Protected route for discovering potential matches
 router.get('/discovery', authenticate, getDiscoveryCandidateController);
+
+// GET /api/v1/users/discover - Protected route for getting recommended users
+router.get('/discover', authenticate, getRecommendedUsersController);
 
 // GET /api/v1/users/online - Protected route for getting online users
 router.get('/online', authenticate, getOnlineUsersController);
