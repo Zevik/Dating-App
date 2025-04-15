@@ -135,6 +135,7 @@ export async function getActiveMatchForUser(userId: number) {
           id: true,
           display_name: true,
           profile_image_url: true,
+          status_message: true,
         },
       },
       user2: {
@@ -142,6 +143,7 @@ export async function getActiveMatchForUser(userId: number) {
           id: true,
           display_name: true,
           profile_image_url: true,
+          status_message: true,
         },
       },
     },
@@ -237,6 +239,7 @@ export async function getMatchHistory(
             id: true,
             display_name: true,
             profile_image_url: true,
+            status_message: true,
           },
         },
         user2: {
@@ -244,6 +247,7 @@ export async function getMatchHistory(
             id: true,
             display_name: true,
             profile_image_url: true,
+            status_message: true,
           },
         },
       },
@@ -271,6 +275,7 @@ export async function getMatchHistory(
         id: partner.id,
         display_name: partner.display_name,
         profile_image_url: partner.profile_image_url,
+        status_message: partner.status_message || "",
       }
     };
   });

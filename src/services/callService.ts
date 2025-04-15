@@ -66,6 +66,7 @@ export async function startCall(initiatorUserId: number, matchId: number, callTy
           id: true,
           display_name: true,
           profile_image_url: true,
+          status_message: true,
         },
       },
       receiver_user: {
@@ -73,6 +74,7 @@ export async function startCall(initiatorUserId: number, matchId: number, callTy
           id: true,
           display_name: true,
           profile_image_url: true,
+          status_message: true,
         },
       },
     },
@@ -133,6 +135,7 @@ export async function getCallHistoryForUser(
             id: true,
             display_name: true,
             profile_image_url: true,
+            status_message: true,
           }
         },
         receiver_user: {
@@ -140,6 +143,7 @@ export async function getCallHistoryForUser(
             id: true,
             display_name: true,
             profile_image_url: true,
+            status_message: true,
           }
         }
       }
@@ -209,6 +213,7 @@ export async function endCall(callId: bigint | number, userId: number) {
           id: true,
           display_name: true,
           profile_image_url: true,
+          status_message: true,
         }
       },
       receiver_user: {
@@ -216,6 +221,7 @@ export async function endCall(callId: bigint | number, userId: number) {
           id: true,
           display_name: true,
           profile_image_url: true,
+          status_message: true,
         }
       }
     }
@@ -249,10 +255,20 @@ export async function getActiveCallForUser(userId: number) {
     include: {
       match: true,
       initiator_user: {
-        select: { id: true, display_name: true, profile_image_url: true }
+        select: { 
+          id: true, 
+          display_name: true, 
+          profile_image_url: true,
+          status_message: true 
+        }
       },
       receiver_user: {
-        select: { id: true, display_name: true, profile_image_url: true }
+        select: { 
+          id: true, 
+          display_name: true, 
+          profile_image_url: true,
+          status_message: true 
+        }
       }
     }
   });

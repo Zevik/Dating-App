@@ -17,6 +17,7 @@ const userProfileSelectFields = {
   preferred_age_min: true,
   preferred_age_max: true,
   preferred_distance_km: true,
+  status_message: true,
 };
 
 export async function getUserProfile(userId: number) {
@@ -143,6 +144,7 @@ export async function getOnlineUsers(excludeUserId?: number) {
       id: true,
       display_name: true,
       profile_image_url: true,
+      status_message: true,
       last_seen_at: true
     },
     orderBy: {
@@ -172,4 +174,32 @@ export async function isUserOnline(userId: number): Promise<boolean> {
   });
   
   return !!user;
+}
+
+/**
+ * Update user status message
+ * @param userId The ID of the user to update status
+ * @param statusMessage The new status message to set
+ * @returns The updated user with the new status message
+ */
+export async function updateUserStatus(userId: number, statusMessage: string) {
+  if (!userId || typeof userId !== 'number') {
+    console.error("updateUserStatus called with invalid userId:", userId);
+    throw new Error('Invalid user ID for status update');
+  }
+  
+  return prisma.user.update({
+    where: { id: userId },
+    data: { 
+      status_message: statusMessage,
+      // Also update last_seen_at to show the user is active
+      last_seen_at: new Date()
+    },
+    select: {
+      id: true,
+      display_name: true,
+      status_message: true,
+      last_seen_at: true
+    }
+  });
 }

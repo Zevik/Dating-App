@@ -1,7 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import { getUserProfile, updateUserProfile, getDiscoveryCandidate, getOnlineUsers } from '../services/userService';
+import { getUserProfile, updateUserProfile, getDiscoveryCandidate, getOnlineUsers, updateUserStatus } from '../services/userService';
 import { updateProfileSchema } from '../validations/userSchemas'; // Import validation schema
 import { ZodError } from 'zod';
+import { z } from 'zod';
+
+// Schema for validating status message
+const statusSchema = z.object({
+  status_message: z.string().max(100)
+});
 
 export async function getMyProfileController(req: Request, res: Response, next: NextFunction) {
   try {
@@ -107,6 +113,41 @@ export async function getOnlineUsersController(req: Request, res: Response, next
     });
   } catch (error) {
     console.error('Error fetching online users:', error);
+    next(error);
+  }
+}
+
+/**
+ * Update user status message
+ * PUT /api/v1/users/status
+ */
+export async function updateUserStatusController(req: Request, res: Response, next: NextFunction) {
+  try {
+    // Get user ID from authenticated user
+    const userId = req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized: User ID not found' });
+    }
+
+    // Validate request body
+    const validationResult = statusSchema.safeParse(req.body);
+    if (!validationResult.success) {
+      return res.status(400).json({ 
+        message: 'Invalid request body',
+        errors: validationResult.error.errors
+      });
+    }
+
+    // Update user status
+    const updatedUser = await updateUserStatus(userId, validationResult.data.status_message);
+
+    // Return the updated user with new status
+    return res.status(200).json({
+      success: true,
+      user: updatedUser
+    });
+  } catch (error) {
+    console.error('Error updating user status:', error);
     next(error);
   }
 } 
