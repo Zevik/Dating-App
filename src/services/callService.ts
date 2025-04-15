@@ -34,6 +34,19 @@ export async function startCall(initiatorUserId: number, matchId: number, callTy
   // Determine the receiver user ID (the other user in the match)
   const receiverUserId = match.user1_id === initiatorUserId ? match.user2_id : match.user1_id;
 
+  // Find the latest call for this match to link them
+  const latestCall = await prisma.call.findFirst({
+    where: {
+      match_id: matchId,
+    },
+    orderBy: {
+      initiated_at: 'desc',
+    },
+    select: {
+      call_segment_uuid: true,
+    },
+  });
+
   // Create a new call record
   const call = await prisma.call.create({
     data: {
@@ -43,6 +56,7 @@ export async function startCall(initiatorUserId: number, matchId: number, callTy
       call_type: callType,
       status: 'initiated',
       initiated_at: new Date(),
+      previous_call_segment_uuid: latestCall?.call_segment_uuid,
     },
     include: {
       match: true,
@@ -192,8 +206,10 @@ export async function endCall(callId: bigint | number, userId: number) {
  * Get the active call for a user
  * @param userId The ID of the user to get active call for
  * @returns The active call the user is currently in, or null if no active call
+ * @returns Call object including previous_call_segment_uuid for call chaining
  */
 export async function getActiveCallForUser(userId: number) {
+  // This query returns all Call fields including previous_call_segment_uuid
   return prisma.call.findFirst({
     where: {
       status: 'initiated',
