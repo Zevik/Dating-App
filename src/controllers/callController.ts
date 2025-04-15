@@ -117,12 +117,24 @@ export async function getActiveCallController(req: Request, res: Response, next:
     // Normalize BigInt values before sending as JSON
     const normalizedCall = normalizeBigInts(call);
     
+    // Ensure initiator and receiver user status_message is exposed
+    // First create a copy to avoid modifying the normalized object directly
+    const formattedCall = {
+      ...normalizedCall,
+      initiator_user: {
+        ...normalizedCall.initiator_user,
+        status_message: normalizedCall.initiator_user.status_message || "" 
+      },
+      receiver_user: {
+        ...normalizedCall.receiver_user,
+        status_message: normalizedCall.receiver_user.status_message || ""
+      },
+      is_partner_online: isPartnerOnline
+    };
+    
     return res.status(200).json({
       success: true,
-      call: {
-        ...normalizedCall,
-        is_partner_online: isPartnerOnline
-      }
+      call: formattedCall
     });
   } catch (error) {
     console.error('Error fetching active call:', error);

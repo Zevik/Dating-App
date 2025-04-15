@@ -84,19 +84,33 @@ export async function getActiveMatchController(req: Request, res: Response, next
       return res.status(404).json({ message: 'No active match found' });
     }
 
-    // Determine partner user ID
+    // Determine partner user ID and get partner data
     const partnerId = match.user1_id === userId ? match.user2_id : match.user1_id;
+    const partnerData = match.user1_id === userId ? match.user2 : match.user1;
     
     // Check if partner is online
     const isPartnerOnline = await isUserOnline(partnerId);
     
-    // Add is_partner_online field to response
-    const matchWithOnlineStatus = {
-      ...match,
+    // Create a response with the right structure
+    const formattedMatch = {
+      id: match.id,
+      matched_at: match.matched_at,
+      is_active: match.is_active,
+      closed_at: match.closed_at,
+      close_reason: match.close_reason,
+      last_interaction_at: match.last_interaction_at,
+      user1: match.user1,
+      user2: match.user2,
+      partner: {
+        id: partnerId,
+        display_name: partnerData.display_name,
+        profile_image_url: partnerData.profile_image_url,
+        status_message: partnerData.status_message || ""
+      },
       is_partner_online: isPartnerOnline
     };
 
-    res.status(200).json(matchWithOnlineStatus);
+    res.status(200).json(formattedMatch);
   } catch (error) {
     console.error('Error fetching active match:', error);
     next(error);
