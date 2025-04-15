@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { likeUser, dislikeUser, getActiveMatchForUser } from '../services/matchService';
+import { likeUser, dislikeUser, getActiveMatchForUser, endMatch } from '../services/matchService';
 
 /**
  * Handle like request from one user to another
@@ -85,6 +85,46 @@ export async function getActiveMatchController(req: Request, res: Response, next
     res.status(200).json(match);
   } catch (error) {
     console.error('Error fetching active match:', error);
+    next(error);
+  }
+}
+
+/**
+ * End an active match
+ * POST /api/v1/matches/:matchId/end
+ */
+export async function endMatchController(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const matchId = parseInt(req.params.matchId, 10);
+    if (isNaN(matchId)) {
+      return res.status(400).json({ message: 'Invalid match ID format' });
+    }
+
+    try {
+      const updatedMatch = await endMatch(matchId, userId);
+      return res.status(200).json({
+        success: true,
+        match: updatedMatch
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === 'Match not found') {
+          return res.status(404).json({ message: 'Match not found' });
+        } else if (error.message === 'User not part of this match') {
+          return res.status(403).json({ message: 'Unauthorized: You are not part of this match' });
+        } else if (error.message === 'Match already inactive') {
+          return res.status(400).json({ message: 'Match is already inactive' });
+        }
+      }
+      throw error; // Re-throw for the outer catch
+    }
+  } catch (error) {
+    console.error('Error ending match:', error);
     next(error);
   }
 } 

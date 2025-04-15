@@ -1,5 +1,5 @@
 import express from 'express';
-import { likeUserController, dislikeUserController, getActiveMatchController } from '../controllers/matchController';
+import { likeUserController, dislikeUserController, getActiveMatchController, endMatchController } from '../controllers/matchController';
 import { authenticate } from '../middleware/authMiddleware';
 
 const router = express.Router();
@@ -12,5 +12,8 @@ router.post('/dislike/:userId', authenticate, dislikeUserController);
 
 // GET /api/v1/matches/active - Get the user's active match
 router.get('/active', authenticate, getActiveMatchController);
+
+// POST /api/v1/matches/:matchId/end - End an active match
+router.post('/:matchId/end', authenticate, endMatchController);
 
 export default router; 

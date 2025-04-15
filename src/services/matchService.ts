@@ -145,4 +145,58 @@ export async function getActiveMatchForUser(userId: number) {
       },
     },
   });
+}
+
+/**
+ * End an active match
+ * @param matchId The ID of the match to end
+ * @param userId The ID of the user trying to end the match
+ * @returns The updated match
+ * @throws Error if match not found, user not part of match, or match already inactive
+ */
+export async function endMatch(matchId: number, userId: number) {
+  // Find the match and verify it exists
+  const match = await prisma.match.findUnique({
+    where: { id: matchId }
+  });
+
+  if (!match) {
+    throw new Error('Match not found');
+  }
+
+  // Verify the user is part of the match
+  if (match.user1_id !== userId && match.user2_id !== userId) {
+    throw new Error('User not part of this match');
+  }
+
+  // Verify the match is active
+  if (!match.is_active) {
+    throw new Error('Match already inactive');
+  }
+
+  // Update the match to be inactive
+  return prisma.match.update({
+    where: { id: matchId },
+    data: {
+      is_active: false,
+      closed_at: new Date(),
+      close_reason: 'user_ended',
+    },
+    include: {
+      user1: {
+        select: {
+          id: true,
+          display_name: true,
+          profile_image_url: true,
+        },
+      },
+      user2: {
+        select: {
+          id: true,
+          display_name: true,
+          profile_image_url: true,
+        },
+      },
+    },
+  });
 } 
