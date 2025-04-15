@@ -70,4 +70,45 @@ export async function startCall(initiatorUserId: number, matchId: number, callTy
   });
 
   return call;
+}
+
+/**
+ * Get call history for a user
+ * @param userId The ID of the user to get history for
+ * @returns Array of calls the user has initiated or received
+ */
+export async function getCallHistoryForUser(userId: number) {
+  return prisma.call.findMany({
+    where: {
+      OR: [
+        { initiator_user_id: userId },
+        { receiver_user_id: userId }
+      ]
+    },
+    orderBy: {
+      initiated_at: 'desc',
+    },
+    include: {
+      match: {
+        select: {
+          id: true,
+          matched_at: true,
+        }
+      },
+      initiator_user: {
+        select: {
+          id: true,
+          display_name: true,
+          profile_image_url: true,
+        }
+      },
+      receiver_user: {
+        select: {
+          id: true,
+          display_name: true,
+          profile_image_url: true,
+        }
+      }
+    }
+  });
 } 

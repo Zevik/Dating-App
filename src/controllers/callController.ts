@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { startCall } from '../services/callService';
+import { startCall, getCallHistoryForUser } from '../services/callService';
 import { z } from 'zod';
 
 // Schema for validating request body
@@ -89,6 +89,29 @@ export async function startCallController(req: Request, res: Response, next: Nex
     }
   } catch (error) {
     console.error('Error starting call:', error);
+    next(error);
+  }
+}
+
+/**
+ * Get the call history for a user
+ * GET /api/v1/calls/history
+ */
+export async function getCallHistoryController(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const history = await getCallHistoryForUser(userId);
+    
+    // Normalize any BigInt values before sending as JSON
+    const normalizedHistory = normalizeBigInt(history);
+    
+    res.status(200).json(normalizedHistory);
+  } catch (error) {
+    console.error("Error fetching call history:", error);
     next(error);
   }
 } 
