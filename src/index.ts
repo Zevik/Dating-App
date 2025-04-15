@@ -11,6 +11,8 @@ import authRouter from './routes/auth';
 import userRouter from './routes/users';
 import matchesRouter from './routes/matches';
 import callsRouter from './routes/calls';
+import blocksRouter from './routes/blocks';
+import reportsRouter from './routes/reports';
 import { errorHandler } from './middleware/errorMiddleware';
 
 // Load environment variables
@@ -28,6 +30,8 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/matches', matchesRouter);
 app.use('/api/v1/calls', callsRouter);
+app.use('/api/v1/blocks', blocksRouter);
+app.use('/api/v1/reports', reportsRouter);
 
 // Basic health check endpoint
 app.get('/health', (req, res) => {
