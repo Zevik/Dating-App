@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { blockUser, getBlockedUsers, unblockUser } from '../services/blockService';
-import { BadRequestError } from '../errors/AppError';
+import { BadRequestError, NotFoundError } from '../errors/AppError';
 
 /**
  * Block a user
@@ -44,18 +44,21 @@ export async function unblockUserController(req: Request, res: Response) {
     throw new BadRequestError('Invalid user ID');
   }
   
-  const success = await unblockUser(currentUserId, blockedUserId);
-  
-  if (success) {
+  try {
+    await unblockUser(currentUserId, blockedUserId);
+    
     res.status(200).json({
       success: true,
       message: 'User unblocked successfully'
     });
-  } else {
-    res.status(200).json({
-      success: false,
-      message: 'User was not blocked or already unblocked'
-    });
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return res.status(404).json({
+        success: false,
+        message: error.message
+      });
+    }
+    throw error; // Let the global error handler handle other errors
   }
 }
 
