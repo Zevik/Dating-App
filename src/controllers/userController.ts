@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { getUserProfile, updateUserProfile } from '../services/userService';
+import { getUserProfile, updateUserProfile, getDiscoveryCandidate } from '../services/userService';
 import { updateProfileSchema } from '../validations/userSchemas'; // Import validation schema
 import { ZodError } from 'zod';
 
@@ -57,6 +57,31 @@ export async function updateMyProfileController(req: Request, res: Response, nex
     // Handle potential errors from service (like user not found during update, though less likely)
     // Or pass other errors to the global handler
     console.error("Error updating user profile:", error);
+    next(error);
+  }
+}
+
+// Controller for discovering potential matches
+export async function getDiscoveryCandidateController(req: Request, res: Response, next: NextFunction) {
+  try {
+    // Get userId from authenticated user
+    const userId = req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized: User ID not found' });
+    }
+
+    // Call the service to get a potential match
+    const candidate = await getDiscoveryCandidate(userId);
+
+    // If no candidates are found
+    if (!candidate) {
+      return res.status(404).json({ message: 'No more candidates available' });
+    }
+
+    // Return the candidate
+    res.status(200).json(candidate);
+  } catch (error) {
+    console.error("Error getting discovery candidate:", error);
     next(error);
   }
 } 
