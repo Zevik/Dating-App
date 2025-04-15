@@ -1,39 +1,40 @@
 import { Request, Response, NextFunction } from 'express';
-import { startCall, getCallHistoryForUser } from '../services/callService';
+import { startCall, getCallHistoryForUser, endCall, getActiveCallForUser } from '../services/callService';
 import { z } from 'zod';
 
 // Schema for validating request body
 const startCallSchema = z.object({
-  type: z.enum(['voice', 'video']),
+  callType: z.enum(['voice', 'video']),
 });
 
 /**
- * Helper function to convert BigInt values to Number for JSON serialization
- * This helps prevent "TypeError: Do not know how to serialize a BigInt"
+ * Normalizes BigInt values in an object for JSON serialization
+ * @param obj The object to normalize
+ * @returns A new object with BigInts converted to strings
  */
-function normalizeBigInt(data: any): any {
-  if (data === null || data === undefined) {
-    return data;
+const normalizeBigInts = (obj: any): any => {
+  if (obj === null || obj === undefined) {
+    return obj;
   }
-  
-  if (typeof data === 'bigint') {
-    return Number(data);
+
+  if (typeof obj === 'bigint') {
+    return obj.toString();
   }
-  
-  if (Array.isArray(data)) {
-    return data.map(item => normalizeBigInt(item));
+
+  if (Array.isArray(obj)) {
+    return obj.map(normalizeBigInts);
   }
-  
-  if (typeof data === 'object') {
-    const normalized: any = {};
-    for (const key in data) {
-      normalized[key] = normalizeBigInt(data[key]);
+
+  if (typeof obj === 'object') {
+    const result: any = {};
+    for (const key in obj) {
+      result[key] = normalizeBigInts(obj[key]);
     }
-    return normalized;
+    return result;
   }
-  
-  return data;
-}
+
+  return obj;
+};
 
 /**
  * Start a new call between users in an active match
@@ -54,22 +55,20 @@ export async function startCallController(req: Request, res: Response, next: Nex
     }
 
     // Validate request body
-    let validatedData;
-    try {
-      validatedData = startCallSchema.parse(req.body);
-    } catch (validationError) {
+    const validationResult = startCallSchema.safeParse(req.body);
+    if (!validationResult.success) {
       return res.status(400).json({ 
-        message: 'Invalid request data', 
-        details: validationError instanceof z.ZodError ? validationError.errors : 'Validation failed' 
+        message: 'Invalid request body',
+        errors: validationResult.error.errors
       });
     }
 
     // Start the call
     try {
-      const call = await startCall(initiatorUserId, matchId, validatedData.type);
+      const call = await startCall(initiatorUserId, matchId, validationResult.data.callType);
       
       // Normalize BigInt values before sending as JSON
-      const normalizedCall = normalizeBigInt(call);
+      const normalizedCall = normalizeBigInts(call);
       
       return res.status(201).json({
         success: true,
@@ -107,11 +106,93 @@ export async function getCallHistoryController(req: Request, res: Response, next
     const history = await getCallHistoryForUser(userId);
     
     // Normalize any BigInt values before sending as JSON
-    const normalizedHistory = normalizeBigInt(history);
+    const normalizedHistory = normalizeBigInts(history);
     
     res.status(200).json(normalizedHistory);
   } catch (error) {
     console.error("Error fetching call history:", error);
+    next(error);
+  }
+}
+
+/**
+ * End an existing call
+ * POST /api/v1/calls/end/:callId
+ */
+export async function endCallController(req: Request, res: Response, next: NextFunction) {
+  try {
+    // Get the user ID from the token
+    const userId = req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized: User ID not found' });
+    }
+
+    // Get the call ID from URL parameters and convert to BigInt/number
+    const callIdParam = req.params.callId;
+    if (!callIdParam) {
+      return res.status(400).json({ message: 'Call ID is required' });
+    }
+    
+    // Try to parse the callId as a number
+    const callId = parseInt(callIdParam, 10);
+    if (isNaN(callId)) {
+      return res.status(400).json({ message: 'Invalid call ID format' });
+    }
+
+    try {
+      // End the call
+      const updatedCall = await endCall(callId, userId);
+      
+      // Normalize BigInt values before sending as JSON
+      const normalizedCall = normalizeBigInts(updatedCall);
+      
+      return res.status(200).json({
+        success: true,
+        call: normalizedCall
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === 'Call not found') {
+          return res.status(404).json({ message: 'Call not found' });
+        } else if (error.message === 'User not part of this call') {
+          return res.status(403).json({ message: 'Unauthorized: You are not part of this call' });
+        } else if (error.message === 'Call is already ended') {
+          return res.status(400).json({ message: 'Call is already ended' });
+        }
+      }
+      throw error; // Re-throw for the outer catch
+    }
+  } catch (error) {
+    console.error('Error ending call:', error);
+    next(error);
+  }
+}
+
+/**
+ * Get the active call for the current user
+ * GET /api/v1/calls/active
+ */
+export async function getActiveCallController(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized: User ID not found' });
+    }
+
+    const call = await getActiveCallForUser(userId);
+    if (!call) {
+      return res.status(404).json({ message: 'No active call found' });
+    }
+
+    // Normalize BigInt values before sending as JSON
+    const normalizedCall = normalizeBigInts(call);
+    
+    return res.status(200).json({
+      success: true,
+      call: normalizedCall
+    });
+  } catch (error) {
+    console.error('Error fetching active call:', error);
     next(error);
   }
 } 

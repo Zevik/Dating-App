@@ -111,4 +111,105 @@ export async function getCallHistoryForUser(userId: number) {
       }
     }
   });
+}
+
+/**
+ * End an existing call
+ * @param callId The ID of the call to end
+ * @param userId The ID of the user ending the call
+ * @returns The updated call record
+ * @throws Error if call not found, user not part of call, or call already ended
+ */
+export async function endCall(callId: bigint | number, userId: number) {
+  // Find the call and validate it exists
+  const call = await prisma.call.findUnique({
+    where: { id: BigInt(callId) }
+  });
+
+  if (!call) {
+    throw new Error('Call not found');
+  }
+
+  // Verify the user is part of the call
+  if (call.initiator_user_id !== userId && call.receiver_user_id !== userId) {
+    throw new Error('User not part of this call');
+  }
+
+  // Check if the call is already ended
+  if (call.status === 'ended') {
+    throw new Error('Call is already ended');
+  }
+
+  // Calculate duration if needed
+  let durationSeconds = null;
+  if (call.start_time) {
+    const endTime = new Date();
+    const startTime = call.start_time;
+    durationSeconds = Math.floor((endTime.getTime() - startTime.getTime()) / 1000);
+  }
+
+  // Determine end reason based on who ended the call
+  const endReason = call.initiator_user_id === userId ? 'initiator_ended' : 'receiver_ended';
+
+  // Update the call
+  const updatedCall = await prisma.call.update({
+    where: { id: BigInt(callId) },
+    data: {
+      status: 'ended',
+      end_time: new Date(),
+      duration_seconds: durationSeconds,
+      end_reason: endReason
+    },
+    include: {
+      match: true,
+      initiator_user: {
+        select: {
+          id: true,
+          display_name: true,
+          profile_image_url: true,
+        }
+      },
+      receiver_user: {
+        select: {
+          id: true,
+          display_name: true,
+          profile_image_url: true,
+        }
+      }
+    }
+  });
+
+  // Update the match's last_interaction_at
+  await prisma.match.update({
+    where: { id: updatedCall.match_id },
+    data: { last_interaction_at: new Date() },
+  });
+
+  return updatedCall;
+}
+
+/**
+ * Get the active call for a user
+ * @param userId The ID of the user to get active call for
+ * @returns The active call the user is currently in, or null if no active call
+ */
+export async function getActiveCallForUser(userId: number) {
+  return prisma.call.findFirst({
+    where: {
+      status: 'initiated',
+      OR: [
+        { initiator_user_id: userId },
+        { receiver_user_id: userId }
+      ]
+    },
+    include: {
+      match: true,
+      initiator_user: {
+        select: { id: true, display_name: true, profile_image_url: true }
+      },
+      receiver_user: {
+        select: { id: true, display_name: true, profile_image_url: true }
+      }
+    }
+  });
 } 
