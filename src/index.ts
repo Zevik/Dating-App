@@ -10,6 +10,7 @@ import env from 'env-var';
 import authRouter from './routes/auth';
 import userRouter from './routes/users';
 import matchesRouter from './routes/matches';
+import callsRouter from './routes/calls';
 
 // Load environment variables
 // We already check required vars in check-env.ts
@@ -25,6 +26,7 @@ app.use(express.json()); // for parsing application/json
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/matches', matchesRouter);
+app.use('/api/v1/calls', callsRouter);
 
 // Basic health check endpoint
 app.get('/health', (req, res) => {
