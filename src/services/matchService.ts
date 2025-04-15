@@ -1,5 +1,6 @@
 import prisma from '../lib/prisma';
 import { Prisma } from '../generated/prisma';
+import { PaginationParams, PaginatedResult } from '../utils/paginationUtils';
 
 /**
  * Record a like from one user to another
@@ -202,41 +203,60 @@ export async function endMatch(matchId: number, userId: number) {
 }
 
 /**
- * Get all matches (active and inactive) for a user
+ * Get all matches (active and inactive) for a user with pagination
  * @param userId The ID of the user to find matches for
- * @returns Array of matches with basic partner information
+ * @param pagination The pagination parameters (page, limit)
+ * @returns Paginated array of matches with basic partner information
  */
-export async function getMatchHistory(userId: number) {
-  const matches = await prisma.match.findMany({
-    where: {
-      OR: [
-        { user1_id: userId },
-        { user2_id: userId },
-      ],
-    },
-    include: {
-      user1: {
-        select: {
-          id: true,
-          display_name: true,
-          profile_image_url: true,
+export async function getMatchHistory(
+  userId: number,
+  pagination?: PaginationParams
+): Promise<PaginatedResult<any>> {
+  const { page = 1, limit = 10 } = pagination || {};
+  const skip = (page - 1) * limit;
+
+  // Query conditions
+  const where = {
+    OR: [
+      { user1_id: userId },
+      { user2_id: userId },
+    ],
+  };
+
+  // Execute count query and data query in parallel
+  const [totalCount, matches] = await Promise.all([
+    // Count total matching records
+    prisma.match.count({ where }),
+    
+    // Get paginated data
+    prisma.match.findMany({
+      where,
+      include: {
+        user1: {
+          select: {
+            id: true,
+            display_name: true,
+            profile_image_url: true,
+          },
+        },
+        user2: {
+          select: {
+            id: true,
+            display_name: true,
+            profile_image_url: true,
+          },
         },
       },
-      user2: {
-        select: {
-          id: true,
-          display_name: true,
-          profile_image_url: true,
-        },
+      orderBy: {
+        matched_at: 'desc', // Most recent matches first
       },
-    },
-    orderBy: {
-      matched_at: 'desc', // Most recent matches first
-    },
-  });
+      skip,
+      take: limit,
+    })
+  ]);
 
   // Transform the data to include a 'partner' property with the other user's info
-  return matches.map(match => {
+  const transformedMatches = matches.map(match => {
     const isUser1 = match.user1_id === userId;
     const partner = isUser1 ? match.user2 : match.user1;
     
@@ -254,4 +274,12 @@ export async function getMatchHistory(userId: number) {
       }
     };
   });
+
+  // Return paginated result
+  return {
+    totalCount,
+    page,
+    limit,
+    data: transformedMatches
+  };
 } 

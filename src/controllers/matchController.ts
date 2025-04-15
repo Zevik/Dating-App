@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { likeUser, dislikeUser, getActiveMatchForUser, endMatch, getMatchHistory } from '../services/matchService';
+import { parsePaginationParams } from '../utils/paginationUtils';
 
 /**
  * Handle like request from one user to another
@@ -132,6 +133,7 @@ export async function endMatchController(req: Request, res: Response, next: Next
 /**
  * Get user's match history
  * GET /api/v1/matches/history
+ * Support pagination with query parameters: page, limit
  */
 export async function getMatchHistoryController(req: Request, res: Response, next: NextFunction) {
   try {
@@ -140,13 +142,14 @@ export async function getMatchHistoryController(req: Request, res: Response, nex
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const matchHistory = await getMatchHistory(userId);
+    // Parse pagination parameters from query
+    const pagination = parsePaginationParams(req.query);
 
-    if (!matchHistory || matchHistory.length === 0) {
-      return res.status(404).json({ message: 'No match history found' });
-    }
+    // Get paginated match history
+    const result = await getMatchHistory(userId, pagination);
 
-    return res.status(200).json(matchHistory);
+    // No need to check for empty data, just return what we have with the count
+    return res.status(200).json(result);
   } catch (error) {
     console.error('Error fetching match history:', error);
     next(error);

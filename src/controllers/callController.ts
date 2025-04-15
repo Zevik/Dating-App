@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { startCall, getCallHistoryForUser, endCall, getActiveCallForUser } from '../services/callService';
 import { z } from 'zod';
 import { normalizeBigInts } from '../utils/jsonUtils';
+import { parsePaginationParams } from '../utils/paginationUtils';
 
 // Schema for validating request body
 const startCallSchema = z.object({
@@ -11,6 +12,7 @@ const startCallSchema = z.object({
 /**
  * Get the call history for a user
  * GET /api/v1/calls/history
+ * Support pagination with query parameters: page, limit
  */
 export async function getCallHistoryController(req: Request, res: Response, next: NextFunction) {
   try {
@@ -19,12 +21,17 @@ export async function getCallHistoryController(req: Request, res: Response, next
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const history = await getCallHistoryForUser(userId);
+    // Parse pagination parameters from query
+    const pagination = parsePaginationParams(req.query);
+    
+    // Get paginated call history
+    const result = await getCallHistoryForUser(userId, pagination);
     
     // Normalize any BigInt values before sending as JSON
-    const normalizedHistory = normalizeBigInts(history);
+    const normalizedResult = normalizeBigInts(result);
     
-    res.status(200).json(normalizedHistory);
+    // No need to check for empty data, just return what we have with the count
+    res.status(200).json(normalizedResult);
   } catch (error) {
     console.error("Error fetching call history:", error);
     next(error);

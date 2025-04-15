@@ -1,4 +1,5 @@
 import prisma from '../lib/prisma';
+import { PaginationParams, PaginatedResult } from '../utils/paginationUtils';
 
 /**
  * Start a new call between users in an active match
@@ -87,44 +88,71 @@ export async function startCall(initiatorUserId: number, matchId: number, callTy
 }
 
 /**
- * Get call history for a user
+ * Get call history for a user with pagination
  * @param userId The ID of the user to get history for
- * @returns Array of calls the user has initiated or received
+ * @param pagination The pagination parameters (page, limit)
+ * @returns Paginated result of calls the user has initiated or received
  */
-export async function getCallHistoryForUser(userId: number) {
-  return prisma.call.findMany({
-    where: {
-      OR: [
-        { initiator_user_id: userId },
-        { receiver_user_id: userId }
-      ]
-    },
-    orderBy: {
-      initiated_at: 'desc',
-    },
-    include: {
-      match: {
-        select: {
-          id: true,
-          matched_at: true,
-        }
+export async function getCallHistoryForUser(
+  userId: number, 
+  pagination?: PaginationParams
+): Promise<PaginatedResult<any>> {
+  const { page = 1, limit = 10 } = pagination || {};
+  const skip = (page - 1) * limit;
+
+  // Query conditions
+  const where = {
+    OR: [
+      { initiator_user_id: userId },
+      { receiver_user_id: userId }
+    ]
+  };
+
+  // Execute count query and data query in parallel
+  const [totalCount, calls] = await Promise.all([
+    // Count total matching records
+    prisma.call.count({ where }),
+    
+    // Get paginated data
+    prisma.call.findMany({
+      where,
+      orderBy: {
+        initiated_at: 'desc',
       },
-      initiator_user: {
-        select: {
-          id: true,
-          display_name: true,
-          profile_image_url: true,
-        }
-      },
-      receiver_user: {
-        select: {
-          id: true,
-          display_name: true,
-          profile_image_url: true,
+      skip,
+      take: limit,
+      include: {
+        match: {
+          select: {
+            id: true,
+            matched_at: true,
+          }
+        },
+        initiator_user: {
+          select: {
+            id: true,
+            display_name: true,
+            profile_image_url: true,
+          }
+        },
+        receiver_user: {
+          select: {
+            id: true,
+            display_name: true,
+            profile_image_url: true,
+          }
         }
       }
-    }
-  });
+    })
+  ]);
+
+  // Return paginated result
+  return {
+    totalCount,
+    page,
+    limit,
+    data: calls
+  };
 }
 
 /**
