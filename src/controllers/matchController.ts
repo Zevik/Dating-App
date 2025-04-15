@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { likeUser, dislikeUser } from '../services/matchService';
+import { likeUser, dislikeUser, getActiveMatchForUser } from '../services/matchService';
 
 /**
  * Handle like request from one user to another
@@ -63,6 +63,28 @@ export async function dislikeUserController(req: Request, res: Response, next: N
     });
   } catch (error) {
     console.error('Error in dislikeUserController:', error);
+    next(error);
+  }
+}
+
+/**
+ * Get the user's active match
+ * GET /api/v1/matches/active
+ */
+export async function getActiveMatchController(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+
+    const match = await getActiveMatchForUser(userId);
+
+    if (!match) {
+      return res.status(404).json({ message: 'No active match found' });
+    }
+
+    res.status(200).json(match);
+  } catch (error) {
+    console.error('Error fetching active match:', error);
     next(error);
   }
 } 

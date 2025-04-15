@@ -112,4 +112,37 @@ export async function dislikeUser(fromUserId: number, toUserId: number) {
   });
 
   return { dislike };
+}
+
+/**
+ * Get the active match for a user
+ * @param userId The ID of the user to find an active match for
+ * @returns The active match with basic user information or null if none exists
+ */
+export async function getActiveMatchForUser(userId: number) {
+  return prisma.match.findFirst({
+    where: {
+      is_active: true,
+      OR: [
+        { user1_id: userId },
+        { user2_id: userId },
+      ],
+    },
+    include: {
+      user1: {
+        select: {
+          id: true,
+          display_name: true,
+          profile_image_url: true,
+        },
+      },
+      user2: {
+        select: {
+          id: true,
+          display_name: true,
+          profile_image_url: true,
+        },
+      },
+    },
+  });
 } 
