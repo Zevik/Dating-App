@@ -1,6 +1,8 @@
 import prisma from '../lib/prisma';
 import { Prisma } from '../generated/prisma';
 import { PaginationParams, PaginatedResult } from '../utils/paginationUtils';
+import { ForbiddenError } from '../errors/AppError';
+import { isBlocked } from './blockService';
 
 /**
  * Record a like from one user to another
@@ -9,6 +11,26 @@ import { PaginationParams, PaginatedResult } from '../utils/paginationUtils';
 export async function likeUser(fromUserId: number, toUserId: number) {
   if (fromUserId === toUserId) {
     throw new Error('Users cannot like themselves');
+  }
+
+  // Check if either user has blocked the other
+  const blockExists = await isBlocked(fromUserId, toUserId);
+  if (blockExists) {
+    throw new ForbiddenError('You cannot match with a user that has been blocked');
+  }
+
+  // Check if either user has reported the other
+  const reportExists = await prisma.report.findFirst({
+    where: {
+      OR: [
+        { reporter_id: fromUserId, reported_user_id: toUserId },
+        { reporter_id: toUserId, reported_user_id: fromUserId }
+      ]
+    }
+  });
+
+  if (reportExists) {
+    throw new ForbiddenError('You cannot match with a user involved in a report');
   }
 
   // Create a like record (or update if it already exists)
