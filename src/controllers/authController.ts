@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { registerUser, registerSchema, loginUser, loginSchema } from '../services/authService';
 import { ZodError } from 'zod';
 
-export const register = async (req: Request, res: Response, next: NextFunction) => {
+export const registerUserController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const validatedData = registerSchema.parse(req.body);
     const { user, token } = await registerUser(validatedData);

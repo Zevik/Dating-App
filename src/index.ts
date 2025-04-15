@@ -11,6 +11,7 @@ import authRouter from './routes/auth';
 import userRouter from './routes/users';
 import matchesRouter from './routes/matches';
 import callsRouter from './routes/calls';
+import { errorHandler } from './middleware/errorMiddleware';
 
 // Load environment variables
 // We already check required vars in check-env.ts
@@ -34,18 +35,7 @@ app.get('/health', (req, res) => {
 });
 
 // Global Error Handler - Must be defined AFTER all other app.use() and routes calls
-app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error("Unhandled error:", err.stack || err);
-
-  // Check if headers were already sent (e.g., by middleware)
-  if (res.headersSent) {
-    return next(err);
-  }
-
-  // Default to 500 Internal Server Error
-  // You could add more specific error handling here based on error type (e.g., instanceof Prisma.PrismaClientKnownRequestError)
-  res.status(500).json({ message: 'Internal Server Error' });
-});
+app.use(errorHandler);
 
 // Start server
 app.listen(PORT, () => {

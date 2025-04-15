@@ -1,96 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { startCall, getCallHistoryForUser, endCall, getActiveCallForUser } from '../services/callService';
 import { z } from 'zod';
+import { normalizeBigInts } from '../utils/jsonUtils';
 
 // Schema for validating request body
 const startCallSchema = z.object({
   callType: z.enum(['voice', 'video']),
 });
-
-/**
- * Normalizes BigInt values in an object for JSON serialization
- * @param obj The object to normalize
- * @returns A new object with BigInts converted to strings
- */
-const normalizeBigInts = (obj: any): any => {
-  if (obj === null || obj === undefined) {
-    return obj;
-  }
-
-  if (typeof obj === 'bigint') {
-    return obj.toString();
-  }
-
-  if (Array.isArray(obj)) {
-    return obj.map(normalizeBigInts);
-  }
-
-  if (typeof obj === 'object') {
-    const result: any = {};
-    for (const key in obj) {
-      result[key] = normalizeBigInts(obj[key]);
-    }
-    return result;
-  }
-
-  return obj;
-};
-
-/**
- * Start a new call between users in an active match
- * POST /api/v1/calls/start/:matchId
- */
-export async function startCallController(req: Request, res: Response, next: NextFunction) {
-  try {
-    // Get the initiator user ID from the token
-    const initiatorUserId = req.user?.userId;
-    if (!initiatorUserId) {
-      return res.status(401).json({ message: 'Unauthorized: User ID not found' });
-    }
-
-    // Get the match ID from URL parameters
-    const matchId = parseInt(req.params.matchId, 10);
-    if (isNaN(matchId)) {
-      return res.status(400).json({ message: 'Invalid match ID format' });
-    }
-
-    // Validate request body
-    const validationResult = startCallSchema.safeParse(req.body);
-    if (!validationResult.success) {
-      return res.status(400).json({ 
-        message: 'Invalid request body',
-        errors: validationResult.error.errors
-      });
-    }
-
-    // Start the call
-    try {
-      const call = await startCall(initiatorUserId, matchId, validationResult.data.callType);
-      
-      // Normalize BigInt values before sending as JSON
-      const normalizedCall = normalizeBigInts(call);
-      
-      return res.status(201).json({
-        success: true,
-        call: normalizedCall
-      });
-    } catch (error) {
-      if (error instanceof Error) {
-        if (error.message === 'Active match not found') {
-          return res.status(404).json({ message: 'Active match not found' });
-        } else if (error.message === 'User not part of this match') {
-          return res.status(403).json({ message: 'Unauthorized: You are not part of this match' });
-        } else if (error.message === 'Invalid call type. Must be "voice" or "video"') {
-          return res.status(400).json({ message: error.message });
-        }
-      }
-      throw error; // Re-throw for the outer catch
-    }
-  } catch (error) {
-    console.error('Error starting call:', error);
-    next(error);
-  }
-}
 
 /**
  * Get the call history for a user
@@ -193,6 +109,62 @@ export async function getActiveCallController(req: Request, res: Response, next:
     });
   } catch (error) {
     console.error('Error fetching active call:', error);
+    next(error);
+  }
+}
+
+/**
+ * Start a new call between users in an active match
+ * POST /api/v1/calls/start/:matchId
+ */
+export async function startCallController(req: Request, res: Response, next: NextFunction) {
+  try {
+    // Get the initiator user ID from the token
+    const initiatorUserId = req.user?.userId;
+    if (!initiatorUserId) {
+      return res.status(401).json({ message: 'Unauthorized: User ID not found' });
+    }
+
+    // Get the match ID from URL parameters
+    const matchId = parseInt(req.params.matchId, 10);
+    if (isNaN(matchId)) {
+      return res.status(400).json({ message: 'Invalid match ID format' });
+    }
+
+    // Validate request body
+    const validationResult = startCallSchema.safeParse(req.body);
+    if (!validationResult.success) {
+      return res.status(400).json({ 
+        message: 'Invalid request body',
+        errors: validationResult.error.errors
+      });
+    }
+
+    // Start the call
+    try {
+      const call = await startCall(initiatorUserId, matchId, validationResult.data.callType);
+      
+      // Normalize BigInt values before sending as JSON
+      const normalizedCall = normalizeBigInts(call);
+      
+      return res.status(201).json({
+        success: true,
+        call: normalizedCall
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === 'Active match not found') {
+          return res.status(404).json({ message: 'Active match not found' });
+        } else if (error.message === 'User not part of this match') {
+          return res.status(403).json({ message: 'Unauthorized: You are not part of this match' });
+        } else if (error.message === 'Invalid call type. Must be "voice" or "video"') {
+          return res.status(400).json({ message: error.message });
+        }
+      }
+      throw error; // Re-throw for the outer catch
+    }
+  } catch (error) {
+    console.error('Error starting call:', error);
     next(error);
   }
 } 
