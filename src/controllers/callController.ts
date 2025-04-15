@@ -1,9 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { startCall, getCallHistoryForUser, endCall, getActiveCallForUser } from '../services/callService';
+import prisma from '../lib/prisma';
 import { z } from 'zod';
 import { normalizeBigInts } from '../utils/jsonUtils';
 import { parsePaginationParams } from '../utils/paginationUtils';
 import { isUserOnline } from '../services/userService';
+import { isBlocked } from '../services/blockService';
+import { hasReportBetweenUsers } from '../services/reportService';
 
 // Schema for validating request body
 const startCallSchema = z.object({
@@ -111,6 +114,26 @@ export async function getActiveCallController(req: Request, res: Response, next:
     // Determine partner user ID
     const partnerId = call.initiator_user_id === userId ? call.receiver_user_id : call.initiator_user_id;
     
+    // Check if either user has blocked the other or if there's a report between them
+    const [blockExists, reportExists] = await Promise.all([
+      isBlocked(userId, partnerId),
+      hasReportBetweenUsers(userId, partnerId)
+    ]);
+    
+    if (blockExists) {
+      return res.status(403).json({ 
+        success: false,
+        message: 'Forbidden: This call is unavailable due to a block between users' 
+      });
+    }
+    
+    if (reportExists) {
+      return res.status(403).json({ 
+        success: false,
+        message: 'Forbidden: This call is unavailable due to a report between users' 
+      });
+    }
+    
     // Check if partner is online
     const isPartnerOnline = await isUserOnline(partnerId);
 
@@ -166,6 +189,42 @@ export async function startCallController(req: Request, res: Response, next: Nex
       return res.status(400).json({ 
         message: 'Invalid request body',
         errors: validationResult.error.errors
+      });
+    }
+
+    // Get match details to determine the receiver user ID
+    const match = await prisma.match.findUnique({
+      where: { id: matchId },
+      select: { 
+        user1_id: true, 
+        user2_id: true 
+      }
+    });
+    
+    if (!match) {
+      return res.status(404).json({ message: 'Match not found' });
+    }
+    
+    // Determine the receiver user ID
+    const receiverUserId = match.user1_id === initiatorUserId ? match.user2_id : match.user1_id;
+    
+    // Check if either user has blocked the other or if there's a report between them
+    const [blockExists, reportExists] = await Promise.all([
+      isBlocked(initiatorUserId, receiverUserId),
+      hasReportBetweenUsers(initiatorUserId, receiverUserId)
+    ]);
+    
+    if (blockExists) {
+      return res.status(403).json({ 
+        success: false,
+        message: 'Forbidden: You cannot start a call with a user that has been blocked' 
+      });
+    }
+    
+    if (reportExists) {
+      return res.status(403).json({ 
+        success: false,
+        message: 'Forbidden: You cannot start a call with a user involved in a report' 
       });
     }
 

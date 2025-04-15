@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { likeUser, dislikeUser, getActiveMatchForUser, endMatch, getMatchHistory } from '../services/matchService';
 import { parsePaginationParams } from '../utils/paginationUtils';
 import { isUserOnline } from '../services/userService';
+import { isBlocked } from '../services/blockService';
+import { hasReportBetweenUsers } from '../services/reportService';
+import { ForbiddenError } from '../errors/AppError';
 
 /**
  * Handle like request from one user to another
@@ -87,6 +90,26 @@ export async function getActiveMatchController(req: Request, res: Response, next
     // Determine partner user ID and get partner data
     const partnerId = match.user1_id === userId ? match.user2_id : match.user1_id;
     const partnerData = match.user1_id === userId ? match.user2 : match.user1;
+    
+    // Check if either user has blocked the other or if there's a report between them
+    const [blockExists, reportExists] = await Promise.all([
+      isBlocked(userId, partnerId),
+      hasReportBetweenUsers(userId, partnerId)
+    ]);
+    
+    if (blockExists) {
+      return res.status(403).json({ 
+        success: false,
+        message: 'Forbidden: This match is unavailable due to a block between users' 
+      });
+    }
+    
+    if (reportExists) {
+      return res.status(403).json({ 
+        success: false,
+        message: 'Forbidden: This match is unavailable due to a report between users' 
+      });
+    }
     
     // Check if partner is online
     const isPartnerOnline = await isUserOnline(partnerId);

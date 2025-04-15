@@ -84,4 +84,28 @@ export async function getUserReports(userId: number) {
       created_at: 'desc'
     }
   });
+}
+
+/**
+ * Check if either user has reported the other
+ * @param userId1 First user ID
+ * @param userId2 Second user ID
+ * @returns Boolean indicating if either user has reported the other
+ */
+export async function hasReportBetweenUsers(userId1: number, userId2: number): Promise<boolean> {
+  if (!userId1 || !userId2) {
+    return false;
+  }
+
+  // Check if either user has reported the other
+  const reportCount = await prisma.report.count({
+    where: {
+      OR: [
+        { reporter_id: userId1, reported_user_id: userId2 },
+        { reporter_id: userId2, reported_user_id: userId1 }
+      ]
+    }
+  });
+
+  return reportCount > 0;
 } 
