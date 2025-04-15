@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { getUserProfile, updateUserProfile, getDiscoveryCandidate } from '../services/userService';
+import { getUserProfile, updateUserProfile, getDiscoveryCandidate, getOnlineUsers } from '../services/userService';
 import { updateProfileSchema } from '../validations/userSchemas'; // Import validation schema
 import { ZodError } from 'zod';
 
@@ -82,6 +82,31 @@ export async function getDiscoveryCandidateController(req: Request, res: Respons
     res.status(200).json(candidate);
   } catch (error) {
     console.error("Error getting discovery candidate:", error);
+    next(error);
+  }
+}
+
+/**
+ * Get all users who are currently online (active in the last 30 seconds)
+ * GET /api/v1/users/online
+ */
+export async function getOnlineUsersController(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized: User ID not found' });
+    }
+
+    // Get all online users except the current user
+    const onlineUsers = await getOnlineUsers(userId);
+    
+    return res.status(200).json({
+      success: true,
+      count: onlineUsers.length,
+      users: onlineUsers
+    });
+  } catch (error) {
+    console.error('Error fetching online users:', error);
     next(error);
   }
 } 

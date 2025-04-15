@@ -123,3 +123,53 @@ export async function getDiscoveryCandidate(userId: number) {
   // Return the candidate or null if none found
   return candidates.length > 0 ? candidates[0] : null;
 }
+
+/**
+ * Get all online users (users who have been seen within the last 30 seconds)
+ * @param excludeUserId Optional user ID to exclude from results (e.g., current user)
+ * @returns Array of basic user information for online users
+ */
+export async function getOnlineUsers(excludeUserId?: number) {
+  const thirtySecondsAgo = new Date(Date.now() - 30 * 1000);
+  
+  return prisma.user.findMany({
+    where: {
+      last_seen_at: {
+        gte: thirtySecondsAgo
+      },
+      ...(excludeUserId ? { id: { not: excludeUserId } } : {})
+    },
+    select: {
+      id: true,
+      display_name: true,
+      profile_image_url: true,
+      last_seen_at: true
+    },
+    orderBy: {
+      last_seen_at: 'desc'
+    }
+  });
+}
+
+/**
+ * Check if a user is currently online (seen within the last 30 seconds)
+ * @param userId The ID of the user to check
+ * @returns Boolean indicating if the user is online
+ */
+export async function isUserOnline(userId: number): Promise<boolean> {
+  const thirtySecondsAgo = new Date(Date.now() - 30 * 1000);
+  
+  const user = await prisma.user.findFirst({
+    where: {
+      id: userId,
+      last_seen_at: {
+        gte: thirtySecondsAgo
+      }
+    },
+    select: {
+      id: true
+    }
+  });
+  
+  return !!user;
+}

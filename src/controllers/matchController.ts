@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { likeUser, dislikeUser, getActiveMatchForUser, endMatch, getMatchHistory } from '../services/matchService';
 import { parsePaginationParams } from '../utils/paginationUtils';
+import { isUserOnline } from '../services/userService';
 
 /**
  * Handle like request from one user to another
@@ -83,7 +84,19 @@ export async function getActiveMatchController(req: Request, res: Response, next
       return res.status(404).json({ message: 'No active match found' });
     }
 
-    res.status(200).json(match);
+    // Determine partner user ID
+    const partnerId = match.user1_id === userId ? match.user2_id : match.user1_id;
+    
+    // Check if partner is online
+    const isPartnerOnline = await isUserOnline(partnerId);
+    
+    // Add is_partner_online field to response
+    const matchWithOnlineStatus = {
+      ...match,
+      is_partner_online: isPartnerOnline
+    };
+
+    res.status(200).json(matchWithOnlineStatus);
   } catch (error) {
     console.error('Error fetching active match:', error);
     next(error);

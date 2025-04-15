@@ -39,6 +39,7 @@ model User {
   created_at               DateTime  @default(now()) @db.Timestamptz(3)
   updated_at               DateTime  @default(now()) @updatedAt @db.Timestamptz(3)
   last_active_at           DateTime  @default(now()) @db.Timestamptz(3)
+  last_seen_at             DateTime? @default(now()) @db.Timestamptz(3)
 
   likes_from       Like[]    @relation("LikesFrom")
   likes_to         Like[]    @relation("LikesTo")
@@ -54,6 +55,7 @@ model User {
   @@index([email])
   // @@index([location], type: Gist) // Requires PostGIS
   @@index([last_active_at])
+  @@index([last_seen_at])
   @@map("users") // Map to PostgreSQL table name 'users'
 }
 

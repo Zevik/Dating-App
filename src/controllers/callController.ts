@@ -3,6 +3,7 @@ import { startCall, getCallHistoryForUser, endCall, getActiveCallForUser } from 
 import { z } from 'zod';
 import { normalizeBigInts } from '../utils/jsonUtils';
 import { parsePaginationParams } from '../utils/paginationUtils';
+import { isUserOnline } from '../services/userService';
 
 // Schema for validating request body
 const startCallSchema = z.object({
@@ -107,12 +108,21 @@ export async function getActiveCallController(req: Request, res: Response, next:
       return res.status(404).json({ message: 'No active call found' });
     }
 
+    // Determine partner user ID
+    const partnerId = call.initiator_user_id === userId ? call.receiver_user_id : call.initiator_user_id;
+    
+    // Check if partner is online
+    const isPartnerOnline = await isUserOnline(partnerId);
+
     // Normalize BigInt values before sending as JSON
     const normalizedCall = normalizeBigInts(call);
     
     return res.status(200).json({
       success: true,
-      call: normalizedCall
+      call: {
+        ...normalizedCall,
+        is_partner_online: isPartnerOnline
+      }
     });
   } catch (error) {
     console.error('Error fetching active call:', error);

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import prisma from '../lib/prisma';
 
 // JWT_SECRET should be loaded via dotenv in index.ts
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -12,7 +13,7 @@ interface JwtPayload {
   exp: number;
 }
 
-export const authenticate = (req: Request, res: Response, next: NextFunction) => {
+export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -34,6 +35,12 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
     // Attach user info (userId and email) to the request object
     // Ensure the property name matches the type definition (userId)
     req.user = { userId: payload.userId, email: payload.email }; 
+    
+    // Update user's last_seen_at timestamp
+    await prisma.user.update({
+      where: { id: payload.userId },
+      data: { last_seen_at: new Date() },
+    });
     
     // Add console log here for verification
     console.log('auth ok - User ID:', req.user.userId);
