@@ -55,4 +55,33 @@ export async function createReport(reporterId: number, data: CreateReportInput) 
       reason: reason
     }
   });
+}
+
+/**
+ * Get all reports created by a user
+ * @param userId ID of the user whose reports to retrieve
+ * @returns Array of reports with basic information about reported users
+ */
+export async function getUserReports(userId: number) {
+  return prisma.report.findMany({
+    where: {
+      reporter_id: userId
+    },
+    select: {
+      id: true,
+      reason: true,
+      created_at: true,
+      reported_user_id: true,
+      reported: {
+        select: {
+          id: true,
+          display_name: true,
+          profile_image_url: true
+        }
+      }
+    },
+    orderBy: {
+      created_at: 'desc'
+    }
+  });
 } 
