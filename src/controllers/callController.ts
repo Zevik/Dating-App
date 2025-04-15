@@ -8,6 +8,34 @@ const startCallSchema = z.object({
 });
 
 /**
+ * Helper function to convert BigInt values to Number for JSON serialization
+ * This helps prevent "TypeError: Do not know how to serialize a BigInt"
+ */
+function normalizeBigInt(data: any): any {
+  if (data === null || data === undefined) {
+    return data;
+  }
+  
+  if (typeof data === 'bigint') {
+    return Number(data);
+  }
+  
+  if (Array.isArray(data)) {
+    return data.map(item => normalizeBigInt(item));
+  }
+  
+  if (typeof data === 'object') {
+    const normalized: any = {};
+    for (const key in data) {
+      normalized[key] = normalizeBigInt(data[key]);
+    }
+    return normalized;
+  }
+  
+  return data;
+}
+
+/**
  * Start a new call between users in an active match
  * POST /api/v1/calls/start/:matchId
  */
@@ -40,9 +68,12 @@ export async function startCallController(req: Request, res: Response, next: Nex
     try {
       const call = await startCall(initiatorUserId, matchId, validatedData.type);
       
+      // Normalize BigInt values before sending as JSON
+      const normalizedCall = normalizeBigInt(call);
+      
       return res.status(201).json({
         success: true,
-        call
+        call: normalizedCall
       });
     } catch (error) {
       if (error instanceof Error) {
