@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { likeUser, dislikeUser, getActiveMatchForUser, endMatch } from '../services/matchService';
+import { likeUser, dislikeUser, getActiveMatchForUser, endMatch, getMatchHistory } from '../services/matchService';
 
 /**
  * Handle like request from one user to another
@@ -125,6 +125,30 @@ export async function endMatchController(req: Request, res: Response, next: Next
     }
   } catch (error) {
     console.error('Error ending match:', error);
+    next(error);
+  }
+}
+
+/**
+ * Get user's match history
+ * GET /api/v1/matches/history
+ */
+export async function getMatchHistoryController(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const matchHistory = await getMatchHistory(userId);
+
+    if (!matchHistory || matchHistory.length === 0) {
+      return res.status(404).json({ message: 'No match history found' });
+    }
+
+    return res.status(200).json(matchHistory);
+  } catch (error) {
+    console.error('Error fetching match history:', error);
     next(error);
   }
 } 

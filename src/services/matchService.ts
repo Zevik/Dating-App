@@ -199,4 +199,59 @@ export async function endMatch(matchId: number, userId: number) {
       },
     },
   });
+}
+
+/**
+ * Get all matches (active and inactive) for a user
+ * @param userId The ID of the user to find matches for
+ * @returns Array of matches with basic partner information
+ */
+export async function getMatchHistory(userId: number) {
+  const matches = await prisma.match.findMany({
+    where: {
+      OR: [
+        { user1_id: userId },
+        { user2_id: userId },
+      ],
+    },
+    include: {
+      user1: {
+        select: {
+          id: true,
+          display_name: true,
+          profile_image_url: true,
+        },
+      },
+      user2: {
+        select: {
+          id: true,
+          display_name: true,
+          profile_image_url: true,
+        },
+      },
+    },
+    orderBy: {
+      matched_at: 'desc', // Most recent matches first
+    },
+  });
+
+  // Transform the data to include a 'partner' property with the other user's info
+  return matches.map(match => {
+    const isUser1 = match.user1_id === userId;
+    const partner = isUser1 ? match.user2 : match.user1;
+    
+    return {
+      id: match.id,
+      matched_at: match.matched_at,
+      is_active: match.is_active,
+      closed_at: match.closed_at,
+      close_reason: match.close_reason,
+      last_interaction_at: match.last_interaction_at,
+      partner: {
+        id: partner.id,
+        display_name: partner.display_name,
+        profile_image_url: partner.profile_image_url,
+      }
+    };
+  });
 } 
