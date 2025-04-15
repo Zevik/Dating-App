@@ -272,4 +272,81 @@ export async function getActiveCallForUser(userId: number) {
       }
     }
   });
+}
+
+/**
+ * Get a chain of call segments for a specific match
+ * @param matchId The ID of the match to get call chain for
+ * @param userId The ID of the user making the request (for authorization checking)
+ * @returns Array of calls sorted from newest to oldest, linked by previous_call_segment_uuid
+ */
+export async function getCallChainForMatch(matchId: number, userId: number) {
+  // First ensure the match exists and the user is part of it
+  const match = await prisma.match.findUnique({
+    where: { id: matchId },
+    select: {
+      user1_id: true,
+      user2_id: true,
+    }
+  });
+
+  if (!match) {
+    throw new Error('Match not found');
+  }
+
+  // Verify user is part of this match
+  if (match.user1_id !== userId && match.user2_id !== userId) {
+    throw new Error('User not part of this match');
+  }
+
+  // Get all calls for this match, ordered by initiated_at desc
+  const calls = await prisma.call.findMany({
+    where: { match_id: matchId },
+    orderBy: { initiated_at: 'desc' },
+    include: {
+      initiator_user: {
+        select: {
+          id: true,
+          display_name: true,
+          profile_image_url: true,
+          status_message: true,
+        }
+      },
+      receiver_user: {
+        select: {
+          id: true,
+          display_name: true,
+          profile_image_url: true,
+          status_message: true,
+        }
+      }
+    }
+  });
+  
+  // Process the calls to organize them in chronological order
+  // This creates a clear chain showing how calls are linked
+  const callChain = [];
+  const callMap = new Map();
+  
+  // First, create a map of all calls keyed by their UUID
+  for (const call of calls) {
+    callMap.set(call.call_segment_uuid, call);
+  }
+  
+  // Find the most recent call (should be the first one due to orderBy desc)
+  let currentCall = calls.length > 0 ? calls[0] : null;
+  
+  // Build the chain from newest to oldest
+  while (currentCall) {
+    callChain.push(currentCall);
+    
+    // If this call has a previous segment, add it next
+    if (currentCall.previous_call_segment_uuid) {
+      currentCall = callMap.get(currentCall.previous_call_segment_uuid) || null;
+    } else {
+      currentCall = null; // No more previous calls
+    }
+  }
+  
+  return callChain;
 } 

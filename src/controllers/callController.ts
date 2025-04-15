@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { startCall, getCallHistoryForUser, endCall, getActiveCallForUser } from '../services/callService';
+import { startCall, getCallHistoryForUser, endCall, getActiveCallForUser, getCallChainForMatch } from '../services/callService';
 import prisma from '../lib/prisma';
 import { z } from 'zod';
 import { normalizeBigInts } from '../utils/jsonUtils';
@@ -7,6 +7,7 @@ import { parsePaginationParams } from '../utils/paginationUtils';
 import { isUserOnline } from '../services/userService';
 import { isBlocked } from '../services/blockService';
 import { hasReportBetweenUsers } from '../services/reportService';
+import { NotFoundError, ForbiddenError } from '../errors/AppError';
 
 // Schema for validating request body
 const startCallSchema = z.object({
@@ -253,6 +254,94 @@ export async function startCallController(req: Request, res: Response, next: Nex
     }
   } catch (error) {
     console.error('Error starting call:', error);
+    next(error);
+  }
+}
+
+/**
+ * Get a chain of call segments for a specific match
+ * GET /api/v1/calls/chain/:matchId
+ */
+export async function getCallChainController(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized: User ID not found' });
+    }
+
+    const matchId = parseInt(req.params.matchId, 10);
+    if (isNaN(matchId)) {
+      return res.status(400).json({ message: 'Invalid match ID format' });
+    }
+
+    try {
+      // Get the match to check for blocks/reports
+      const match = await prisma.match.findUnique({
+        where: { id: matchId },
+        select: {
+          user1_id: true,
+          user2_id: true,
+        }
+      });
+
+      if (!match) {
+        return res.status(404).json({ 
+          success: false,
+          message: 'Match not found' 
+        });
+      }
+
+      // Determine the partner user ID
+      const partnerId = match.user1_id === userId ? match.user2_id : match.user1_id;
+
+      // Check if either user has blocked the other or if there's a report between them
+      const [blockExists, reportExists] = await Promise.all([
+        isBlocked(userId, partnerId),
+        hasReportBetweenUsers(userId, partnerId)
+      ]);
+
+      if (blockExists) {
+        return res.status(403).json({ 
+          success: false,
+          message: 'Forbidden: Cannot access call history due to a block between users' 
+        });
+      }
+
+      if (reportExists) {
+        return res.status(403).json({ 
+          success: false,
+          message: 'Forbidden: Cannot access call history due to a report between users' 
+        });
+      }
+
+      // Get the call chain
+      const callChain = await getCallChainForMatch(matchId, userId);
+
+      // Normalize any BigInt values in the response
+      const normalizedCallChain = normalizeBigInts(callChain);
+
+      return res.status(200).json({
+        success: true,
+        data: normalizedCallChain
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === 'Match not found') {
+          return res.status(404).json({ 
+            success: false,
+            message: 'Match not found' 
+          });
+        } else if (error.message === 'User not part of this match') {
+          return res.status(403).json({ 
+            success: false,
+            message: 'Unauthorized: You are not part of this match' 
+          });
+        }
+      }
+      throw error; // Re-throw for the outer catch
+    }
+  } catch (error) {
+    console.error('Error fetching call chain:', error);
     next(error);
   }
 } 
