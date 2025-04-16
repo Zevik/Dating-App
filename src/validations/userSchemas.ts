@@ -28,6 +28,10 @@ export const updateProfileSchema = z.object({
   preferred_age_min: z.number().int().min(18, 'Minimum preferred age is 18').optional(),
   preferred_age_max: z.number().int().optional(), // Max age validation depends on min age
   preferred_distance_km: z.number().int().positive('Distance must be positive').optional(),
+  // Add latitude validation (-90 to 90 degrees)
+  latitude: z.number().min(-90, 'Latitude must be between -90 and 90').max(90, 'Latitude must be between -90 and 90').optional(),
+  // Add longitude validation (-180 to 180 degrees)
+  longitude: z.number().min(-180, 'Longitude must be between -180 and 180').max(180, 'Longitude must be between -180 and 180').optional(),
 }).partial() // Mark all fields as optional explicitly
 .refine(data => {
     // Validate that max age is >= min age if both are provided

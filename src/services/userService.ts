@@ -1,5 +1,7 @@
 import prisma from '../lib/prisma';
 import { Prisma } from '../generated/prisma'; // Import Prisma namespace for types
+import { PaginationParams, PaginatedResult } from '../utils/paginationUtils';
+import { calculateDistance } from '../utils/geoUtils';
 
 // Define the select object once to reuse it
 const userProfileSelectFields = {
@@ -218,8 +220,11 @@ export async function getRecommendedUsers(userId: number) {
       gender: true,
       looking_for_gender: true,
       city: true,
+      latitude: true,
+      longitude: true,
       preferred_age_min: true,
       preferred_age_max: true,
+      preferred_distance_km: true,
     }
   });
 
@@ -291,33 +296,76 @@ export async function getRecommendedUsers(userId: number) {
       profile_image_url: true,
       birth_date: true,
       status_message: true,
+      latitude: true,
+      longitude: true,
     },
-    // Take at most 20 users
-    take: 20,
+    // Take more users so we can sort by distance later
+    take: 100,
+    // Base ordering before we apply our custom distance sorting
     orderBy: [
-      // Prioritize users in the same city
-      {
-        city: user.city ? 'asc' : undefined  // This will put matching cities first
-      },
-      // Then order randomly for diversity
-      {
-        id: 'asc'  // Normally you'd use a DB-specific random function
-      }
+      // Default sort
+      { id: 'asc' }
     ]
   });
   
-  // Calculate age for each user
-  const usersWithAge = recommendedUsers.map(u => {
+  // Calculate age and distance for each user
+  const usersWithDetails = recommendedUsers.map(u => {
+    // Calculate age
     const birthDate = new Date(u.birth_date);
     const age = today.getFullYear() - birthDate.getFullYear() - 
                 (today < new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate()) ? 1 : 0);
     
+    // Calculate distance if both user and candidate have coordinates
+    let distance: number | null = null;
+    if (user.latitude != null && user.longitude != null && u.latitude != null && u.longitude != null) {
+      distance = calculateDistance(user.latitude, user.longitude, u.latitude, u.longitude);
+    }
+    
     return {
       ...u,
       age,
-      birth_date: undefined  // Remove birth_date from response
+      distance_km: distance,
+      latitude: undefined,  // Remove raw coordinates from response
+      longitude: undefined, // Remove raw coordinates from response
+      birth_date: undefined // Remove birth_date from response
     };
   });
   
-  return usersWithAge;
+  // Sort users by:
+  // 1. First, those with distance (meaning they have coordinates) sorted by closest
+  // 2. Then, those without distance (no coordinates)
+  const sortedUsers = usersWithDetails.sort((a, b) => {
+    // If both have distance, sort by closest
+    if (a.distance_km !== null && b.distance_km !== null) {
+      return a.distance_km - b.distance_km;
+    }
+    
+    // If only a has distance, a comes first
+    if (a.distance_km !== null && b.distance_km === null) {
+      return -1;
+    }
+    
+    // If only b has distance, b comes first
+    if (a.distance_km === null && b.distance_km !== null) {
+      return 1;
+    }
+    
+    // If neither has distance, sort by ID
+    return a.id - b.id;
+  });
+  
+  // Filter for distance if needed and user has coordinates
+  let filteredUsers = sortedUsers;
+  if (user.latitude != null && user.longitude != null && user.preferred_distance_km > 0) {
+    filteredUsers = sortedUsers.filter(u => {
+      // Keep users with no distance info
+      if (u.distance_km === null) return true;
+      
+      // Filter by preferred distance
+      return u.distance_km <= user.preferred_distance_km;
+    });
+  }
+  
+  // Return only the top 20 matches
+  return filteredUsers.slice(0, 20);
 }

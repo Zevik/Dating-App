@@ -24,6 +24,8 @@ model User {
   looking_for_gender     String[]  @db.Text // Array of genders
   relationship_type        String[]  @db.Text // Array of relationship types
   city                     String?   @db.Text
+  latitude                 Float?    // Geographic coordinate - latitude
+  longitude                Float?    // Geographic coordinate - longitude
   //location                 Unsupported("geography(Point, 4326)")? // Requires PostGIS extension
   bio                      String?   @db.Text
   profile_image_url        String?   @db.Text
