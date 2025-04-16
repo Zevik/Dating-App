@@ -67,7 +67,7 @@ export async function getAdminStats() {
     reportsByStatus.forEach(group => {
       // Only include statuses that exist in our predefined object
       if (group.status in reportsStatus) {
-        reportsStatus[group.status] = group._count;
+        reportsStatus[group.status as keyof typeof reportsStatus] = group._count;
       }
     });
 
