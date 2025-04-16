@@ -1,0 +1,12 @@
+{
+  "name": "onematch-admin-dashboard",
+  "version": "1.0.0",
+  "description": "Admin Dashboard for OneMatch Dating App",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cd admin-ui && npm run dev",
+    "build": "cd admin-ui && npm run build"
+  },
+  "author": "",
+  "license": "ISC"
+} 
