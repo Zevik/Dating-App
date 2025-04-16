@@ -137,8 +137,8 @@ model Report {
   status          String   @default("pending") @db.Text // pending, reviewed, resolved, rejected
   created_at      DateTime @default(now()) @db.Timestamptz(3)
 
-  reporter        User     @relation("ReportsMade", fields: [reporter_id], references: [id])
-  reported        User     @relation("ReportsReceived", fields: [reported_user_id], references: [id])
+  reporter        User     @relation("ReportsMade", fields: [reporter_id], references: [id], onDelete: Cascade)
+  reported        User     @relation("ReportsReceived", fields: [reported_user_id], references: [id], onDelete: Cascade)
 
   @@index([reported_user_id])
   @@index([reporter_id])
