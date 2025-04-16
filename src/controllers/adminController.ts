@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { getAllReports, updateReportStatus } from '../services/reportService';
+import { getAdminStats } from '../services/adminService';
 import { updateReportStatusSchema } from '../validations/reportSchemas';
 import { ZodError } from 'zod';
 
@@ -54,6 +55,24 @@ export async function updateReportStatusController(req: Request, res: Response, 
     }
   } catch (error) {
     console.error('Error updating report status:', error);
+    next(error);
+  }
+}
+
+/**
+ * Get system statistics for admin dashboard
+ * GET /api/v1/admin/stats
+ */
+export async function getAdminStatsController(req: Request, res: Response, next: NextFunction) {
+  try {
+    const stats = await getAdminStats();
+    
+    return res.status(200).json({
+      success: true,
+      stats
+    });
+  } catch (error) {
+    console.error('Error fetching admin statistics:', error);
     next(error);
   }
 } 
