@@ -7,6 +7,7 @@ dotenvExpand.expand(dotenv.config({ path: '.env.local' }));
 
 import express from 'express';
 import env from 'env-var';
+import cors from 'cors';
 import authRouter from './routes/auth';
 import userRouter from './routes/users';
 import matchesRouter from './routes/matches';
@@ -24,6 +25,7 @@ const PORT = env.get('PORT').default('3000').asPortNumber();
 const app = express();
 
 // Middlewares
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(express.json()); // for parsing application/json
 
 // Routes
