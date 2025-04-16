@@ -4,7 +4,7 @@ import axios from 'axios';
 const API_BASE_URL = 'http://localhost:3000/api/v1';
 
 // Create axios instance with default config
-const api = axios.create({
+const instance = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ const api = axios.create({
 });
 
 // Add a request interceptor to add the auth token to requests
-api.interceptors.request.use(
+instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -28,7 +28,7 @@ api.interceptors.request.use(
 );
 
 // Add a response interceptor to handle token expiration
-api.interceptors.response.use(
+instance.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -48,7 +48,7 @@ api.interceptors.response.use(
 export const authApi = {
   login: async (email: string, password: string) => {
     try {
-      const response = await api.post('/auth/login', { email, password });
+      const response = await instance.post('/auth/login', { email, password });
       return response.data;
     } catch (error) {
       console.error('Login API error:', error);
@@ -61,7 +61,7 @@ export const authApi = {
 export const adminApi = {
   getStats: async () => {
     try {
-      const response = await api.get('/admin/stats');
+      const response = await instance.get('/admin/stats');
       return response.data;
     } catch (error) {
       console.error('Get stats error:', error);
@@ -70,7 +70,7 @@ export const adminApi = {
   },
   getReports: async () => {
     try {
-      const response = await api.get('/admin/reports');
+      const response = await instance.get('/admin/reports');
       return response.data;
     } catch (error) {
       console.error('Get reports error:', error);
@@ -79,7 +79,7 @@ export const adminApi = {
   },
   updateReportStatus: async (reportId: number, status: string) => {
     try {
-      const response = await api.patch(`/admin/reports/${reportId}`, { status });
+      const response = await instance.patch(`/admin/reports/${reportId}`, { status });
       return response.data;
     } catch (error) {
       console.error(`Update report ${reportId} error:`, error);
@@ -88,4 +88,4 @@ export const adminApi = {
   },
 };
 
-export default api; 
+export default instance; 
