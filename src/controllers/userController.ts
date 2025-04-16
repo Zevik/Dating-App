@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { getUserProfile, updateUserProfile, getDiscoveryCandidate, getOnlineUsers, updateUserStatus, getRecommendedUsers } from '../services/userService';
+import { getUserProfile, updateUserProfile, getDiscoveryCandidate, getOnlineUsers, updateUserStatus, getRecommendedUsers, deleteUser } from '../services/userService';
 import { updateProfileSchema } from '../validations/userSchemas'; // Import validation schema
 import { ZodError } from 'zod';
 import { z } from 'zod';
@@ -173,6 +173,29 @@ export async function getRecommendedUsersController(req: Request, res: Response,
     });
   } catch (error) {
     console.error('Error fetching recommended users:', error);
+    next(error);
+  }
+}
+
+/**
+ * Delete user account
+ * DELETE /api/v1/users/me
+ */
+export async function deleteMyAccountController(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized: User ID not found' });
+    }
+
+    await deleteUser(userId);
+    
+    return res.status(200).json({
+      success: true,
+      message: 'User deleted successfully'
+    });
+  } catch (error) {
+    console.error('Error deleting user account:', error);
     next(error);
   }
 } 

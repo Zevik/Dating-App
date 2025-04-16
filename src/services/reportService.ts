@@ -1,6 +1,6 @@
 import prisma from '../lib/prisma';
 import { BadRequestError, NotFoundError, ConflictError } from '../errors/AppError';
-import { CreateReportInput } from '../validations/reportSchemas';
+import { CreateReportInput, UpdateReportStatusInput } from '../validations/reportSchemas';
 
 /**
  * Create a new report about a user
@@ -108,4 +108,81 @@ export async function hasReportBetweenUsers(userId1: number, userId2: number): P
   });
 
   return reportCount > 0;
+}
+
+/**
+ * Get all reports for admin review
+ * @returns Array of all reports with user details
+ */
+export async function getAllReports() {
+  return prisma.report.findMany({
+    select: {
+      id: true,
+      reason: true,
+      status: true,
+      created_at: true,
+      reporter: {
+        select: {
+          id: true,
+          display_name: true,
+          email: true,
+          profile_image_url: true
+        }
+      },
+      reported: {
+        select: {
+          id: true,
+          display_name: true,
+          email: true,
+          profile_image_url: true
+        }
+      }
+    },
+    orderBy: {
+      created_at: 'desc'
+    }
+  });
+}
+
+/**
+ * Update a report status
+ * @param reportId ID of the report to update
+ * @param data New status data
+ * @returns Updated report
+ */
+export async function updateReportStatus(reportId: number, data: UpdateReportStatusInput) {
+  // Check if report exists
+  const report = await prisma.report.findUnique({
+    where: { id: reportId }
+  });
+
+  if (!report) {
+    throw new NotFoundError('Report not found');
+  }
+
+  // Update report status
+  return prisma.report.update({
+    where: { id: reportId },
+    data: {
+      status: data.status
+    },
+    select: {
+      id: true,
+      reason: true,
+      status: true,
+      created_at: true,
+      reporter: {
+        select: {
+          id: true,
+          display_name: true
+        }
+      },
+      reported: {
+        select: {
+          id: true,
+          display_name: true
+        }
+      }
+    }
+  });
 } 

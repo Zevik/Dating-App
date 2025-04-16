@@ -2,6 +2,7 @@ import prisma from '../lib/prisma';
 import { Prisma } from '../generated/prisma'; // Import Prisma namespace for types
 import { PaginationParams, PaginatedResult } from '../utils/paginationUtils';
 import { calculateDistance } from '../utils/geoUtils';
+import { BadRequestError, NotFoundError } from '../errors/AppError';
 
 // Define the select object once to reuse it
 const userProfileSelectFields = {
@@ -368,4 +369,33 @@ export async function getRecommendedUsers(userId: number) {
   
   // Return only the top 20 matches
   return filteredUsers.slice(0, 20);
+}
+
+/**
+ * Delete a user and all their related data
+ * @param userId ID of the user to delete
+ * @returns True if deletion was successful
+ * @throws NotFoundError if user not found
+ */
+export async function deleteUser(userId: number): Promise<boolean> {
+  if (!userId || typeof userId !== 'number') {
+    throw new BadRequestError('Invalid user ID');
+  }
+
+  // Check if user exists
+  const user = await prisma.user.findUnique({
+    where: { id: userId }
+  });
+
+  if (!user) {
+    throw new NotFoundError('User not found');
+  }
+
+  // Delete the user - all related data will be deleted automatically 
+  // due to the onDelete: Cascade relationships defined in the schema
+  await prisma.user.delete({
+    where: { id: userId }
+  });
+
+  return true;
 }

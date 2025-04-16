@@ -1,5 +1,5 @@
 import express from 'express';
-import { getMyProfileController, updateMyProfileController, getDiscoveryCandidateController, getOnlineUsersController, updateUserStatusController, getRecommendedUsersController } from '../controllers/userController';
+import { getMyProfileController, updateMyProfileController, getDiscoveryCandidateController, getOnlineUsersController, updateUserStatusController, getRecommendedUsersController, deleteMyAccountController } from '../controllers/userController';
 import { authenticate } from '../middleware/authMiddleware';
 
 const router = express.Router();
@@ -21,6 +21,9 @@ router.get('/online', authenticate, getOnlineUsersController);
 
 // PUT /api/v1/users/status - Protected route for updating user status
 router.put('/status', authenticate, updateUserStatusController);
+
+// DELETE /api/v1/users/me - Protected route for deleting user account
+router.delete('/me', authenticate, deleteMyAccountController);
 
 // Add other user routes later (e.g., update profile, get other users)
 
