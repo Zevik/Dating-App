@@ -37,14 +37,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     
     if (token) {
       try {
-        // In a real app, decode the token or fetch user info from API
-        // For simplicity, we're just checking if a token exists
-        setUser({
-          userId: 1, // This should come from the token
-          email: 'admin@example.com', // This should come from the token
-        });
+        // In a real app, we would decode the JWT to get user info
+        // For now, we'll try to get user info from localStorage if available
+        const userDataString = localStorage.getItem('userData');
+        if (userDataString) {
+          const userData = JSON.parse(userDataString);
+          setUser({
+            userId: userData.userId || userData.user_id || 1,
+            email: userData.email || 'admin@example.com',
+          });
+        } else {
+          // Fallback if no userData in localStorage
+          setUser({
+            userId: 1,
+            email: 'admin@example.com',
+          });
+        }
       } catch (error) {
+        console.error('Error restoring auth state:', error);
         localStorage.removeItem('token');
+        localStorage.removeItem('userData');
       }
     }
     
@@ -55,12 +67,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsLoading(true);
     try {
       const response = await authApi.login(email, password);
+      
+      // Ensure token exists in the response
+      if (!response.token) {
+        throw new Error('No token received from server');
+      }
+      
+      // Store token in localStorage
       localStorage.setItem('token', response.token);
+      
+      // Store user data for later retrieval
+      const userData = {
+        userId: response.user?.id || response.userId || 1,
+        email: response.user?.email || email
+      };
+      
+      localStorage.setItem('userData', JSON.stringify(userData));
+      
+      // Update state
       setUser({
-        userId: response.userId,
-        email: response.email,
+        userId: userData.userId,
+        email: userData.email,
       });
     } catch (error) {
+      console.error('Login error:', error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -69,6 +99,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userData');
     setUser(null);
   };
 

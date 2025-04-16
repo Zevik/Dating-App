@@ -20,9 +20,12 @@ const LoginPage: React.FC = () => {
 
     try {
       await login(email, password);
+      
+      console.log('Login successful, redirecting to dashboard');
       navigate('/dashboard');
     } catch (error) {
-      setError('Invalid email or password');
+      console.error('Login error:', error);
+      setError('Login failed. Please check your email and password.');
     } finally {
       setIsLoading(false);
     }
