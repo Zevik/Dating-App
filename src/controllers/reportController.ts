@@ -84,16 +84,21 @@ export async function getUserReportsController(req: Request, res: Response) {
     const reports = await getUserReports(currentUserId);
     
     // Transform the data to match the expected format
-    const formattedReports = reports.map(report => ({
-      id: report.id,
-      reason: report.reason,
-      created_at: report.created_at,
-      reported_user: {
+    const formattedReports = reports.map(report => {
+      // First check if reported exists and extract values safely
+      const reportedUser = report.reported ? {
         id: report.reported.id,
         display_name: report.reported.display_name,
         profile_image_url: report.reported.profile_image_url
-      }
-    }));
+      } : null;
+      
+      return {
+        id: report.id,
+        reason: report.reason,
+        created_at: report.created_at,
+        reported_user: reportedUser
+      };
+    });
     
     res.status(200).json({
       success: true,
