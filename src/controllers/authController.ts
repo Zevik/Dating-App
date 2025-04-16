@@ -7,7 +7,7 @@ export const registerUserController = async (req: Request, res: Response, next: 
     const validatedData = registerSchema.parse(req.body);
     const { user, token } = await registerUser(validatedData);
     res.setHeader('Authorization', `Bearer ${token}`);
-    res.status(201).json(user);
+    res.status(201).json({ user, token });
   } catch (error) {
     if (error instanceof ZodError) {
       return res.status(400).json({ message: 'Validation failed', errors: error.errors });
@@ -24,7 +24,7 @@ export const loginUserController = async (req: Request, res: Response, next: Nex
     const validatedData = loginSchema.parse(req.body);
     const { user, token } = await loginUser(validatedData);
     res.setHeader('Authorization', `Bearer ${token}`);
-    res.status(200).json(user);
+    res.status(200).json({ user, token });
   } catch (error) {
     if (error instanceof ZodError) {
       return res.status(400).json({ message: 'Validation failed', errors: error.errors });
