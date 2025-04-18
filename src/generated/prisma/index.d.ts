@@ -1324,29 +1324,29 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
+    blocks_received: number
+    blocks_made: number
+    calls_initiated: number
+    calls_received: number
     likes_from: number
     likes_to: number
     matches_as_user1: number
     matches_as_user2: number
-    calls_initiated: number
-    calls_received: number
-    reports_made: number
     reports_received: number
-    blocks_made: number
-    blocks_received: number
+    reports_made: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    blocks_received?: boolean | UserCountOutputTypeCountBlocks_receivedArgs
+    blocks_made?: boolean | UserCountOutputTypeCountBlocks_madeArgs
+    calls_initiated?: boolean | UserCountOutputTypeCountCalls_initiatedArgs
+    calls_received?: boolean | UserCountOutputTypeCountCalls_receivedArgs
     likes_from?: boolean | UserCountOutputTypeCountLikes_fromArgs
     likes_to?: boolean | UserCountOutputTypeCountLikes_toArgs
     matches_as_user1?: boolean | UserCountOutputTypeCountMatches_as_user1Args
     matches_as_user2?: boolean | UserCountOutputTypeCountMatches_as_user2Args
-    calls_initiated?: boolean | UserCountOutputTypeCountCalls_initiatedArgs
-    calls_received?: boolean | UserCountOutputTypeCountCalls_receivedArgs
-    reports_made?: boolean | UserCountOutputTypeCountReports_madeArgs
     reports_received?: boolean | UserCountOutputTypeCountReports_receivedArgs
-    blocks_made?: boolean | UserCountOutputTypeCountBlocks_madeArgs
-    blocks_received?: boolean | UserCountOutputTypeCountBlocks_receivedArgs
+    reports_made?: boolean | UserCountOutputTypeCountReports_madeArgs
   }
 
   // Custom InputTypes
@@ -1358,6 +1358,34 @@ export namespace Prisma {
      * Select specific fields to fetch from the UserCountOutputType
      */
     select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBlocks_receivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BlockWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBlocks_madeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BlockWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCalls_initiatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CallWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCalls_receivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CallWhereInput
   }
 
   /**
@@ -1391,27 +1419,6 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountCalls_initiatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CallWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountCalls_receivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CallWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountReports_madeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ReportWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
   export type UserCountOutputTypeCountReports_receivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReportWhereInput
   }
@@ -1419,15 +1426,8 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountBlocks_madeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BlockWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountBlocks_receivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BlockWhereInput
+  export type UserCountOutputTypeCountReports_madeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReportWhereInput
   }
 
 
@@ -1483,6 +1483,8 @@ export namespace Prisma {
     preferred_age_min: number | null
     preferred_age_max: number | null
     preferred_distance_km: number | null
+    latitude: number | null
+    longitude: number | null
   }
 
   export type UserSumAggregateOutputType = {
@@ -1490,6 +1492,8 @@ export namespace Prisma {
     preferred_age_min: number | null
     preferred_age_max: number | null
     preferred_distance_km: number | null
+    latitude: number | null
+    longitude: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1512,6 +1516,11 @@ export namespace Prisma {
     created_at: Date | null
     updated_at: Date | null
     last_active_at: Date | null
+    last_seen_at: Date | null
+    status_message: string | null
+    latitude: number | null
+    longitude: number | null
+    is_admin: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1534,6 +1543,11 @@ export namespace Prisma {
     created_at: Date | null
     updated_at: Date | null
     last_active_at: Date | null
+    last_seen_at: Date | null
+    status_message: string | null
+    latitude: number | null
+    longitude: number | null
+    is_admin: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1560,6 +1574,11 @@ export namespace Prisma {
     created_at: number
     updated_at: number
     last_active_at: number
+    last_seen_at: number
+    status_message: number
+    latitude: number
+    longitude: number
+    is_admin: number
     _all: number
   }
 
@@ -1569,6 +1588,8 @@ export namespace Prisma {
     preferred_age_min?: true
     preferred_age_max?: true
     preferred_distance_km?: true
+    latitude?: true
+    longitude?: true
   }
 
   export type UserSumAggregateInputType = {
@@ -1576,6 +1597,8 @@ export namespace Prisma {
     preferred_age_min?: true
     preferred_age_max?: true
     preferred_distance_km?: true
+    latitude?: true
+    longitude?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -1598,6 +1621,11 @@ export namespace Prisma {
     created_at?: true
     updated_at?: true
     last_active_at?: true
+    last_seen_at?: true
+    status_message?: true
+    latitude?: true
+    longitude?: true
+    is_admin?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1620,6 +1648,11 @@ export namespace Prisma {
     created_at?: true
     updated_at?: true
     last_active_at?: true
+    last_seen_at?: true
+    status_message?: true
+    latitude?: true
+    longitude?: true
+    is_admin?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1646,6 +1679,11 @@ export namespace Prisma {
     created_at?: true
     updated_at?: true
     last_active_at?: true
+    last_seen_at?: true
+    status_message?: true
+    latitude?: true
+    longitude?: true
+    is_admin?: true
     _all?: true
   }
 
@@ -1759,6 +1797,11 @@ export namespace Prisma {
     created_at: Date
     updated_at: Date
     last_active_at: Date
+    last_seen_at: Date | null
+    status_message: string | null
+    latitude: number | null
+    longitude: number | null
+    is_admin: boolean
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1804,16 +1847,21 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     last_active_at?: boolean
+    last_seen_at?: boolean
+    status_message?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    is_admin?: boolean
+    blocks_received?: boolean | User$blocks_receivedArgs<ExtArgs>
+    blocks_made?: boolean | User$blocks_madeArgs<ExtArgs>
+    calls_initiated?: boolean | User$calls_initiatedArgs<ExtArgs>
+    calls_received?: boolean | User$calls_receivedArgs<ExtArgs>
     likes_from?: boolean | User$likes_fromArgs<ExtArgs>
     likes_to?: boolean | User$likes_toArgs<ExtArgs>
     matches_as_user1?: boolean | User$matches_as_user1Args<ExtArgs>
     matches_as_user2?: boolean | User$matches_as_user2Args<ExtArgs>
-    calls_initiated?: boolean | User$calls_initiatedArgs<ExtArgs>
-    calls_received?: boolean | User$calls_receivedArgs<ExtArgs>
-    reports_made?: boolean | User$reports_madeArgs<ExtArgs>
     reports_received?: boolean | User$reports_receivedArgs<ExtArgs>
-    blocks_made?: boolean | User$blocks_madeArgs<ExtArgs>
-    blocks_received?: boolean | User$blocks_receivedArgs<ExtArgs>
+    reports_made?: boolean | User$reports_madeArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1841,6 +1889,11 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     last_active_at?: boolean
+    last_seen_at?: boolean
+    status_message?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    is_admin?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1867,6 +1920,11 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     last_active_at?: boolean
+    last_seen_at?: boolean
+    status_message?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    is_admin?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1893,20 +1951,25 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     last_active_at?: boolean
+    last_seen_at?: boolean
+    status_message?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    is_admin?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password_hash" | "display_name" | "birth_date" | "gender" | "looking_for_gender" | "relationship_type" | "city" | "bio" | "profile_image_url" | "additional_photos" | "preferred_age_min" | "preferred_age_max" | "preferred_distance_km" | "is_active" | "is_paid" | "paid_until" | "verified_email" | "consents" | "created_at" | "updated_at" | "last_active_at", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password_hash" | "display_name" | "birth_date" | "gender" | "looking_for_gender" | "relationship_type" | "city" | "bio" | "profile_image_url" | "additional_photos" | "preferred_age_min" | "preferred_age_max" | "preferred_distance_km" | "is_active" | "is_paid" | "paid_until" | "verified_email" | "consents" | "created_at" | "updated_at" | "last_active_at" | "last_seen_at" | "status_message" | "latitude" | "longitude" | "is_admin", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    blocks_received?: boolean | User$blocks_receivedArgs<ExtArgs>
+    blocks_made?: boolean | User$blocks_madeArgs<ExtArgs>
+    calls_initiated?: boolean | User$calls_initiatedArgs<ExtArgs>
+    calls_received?: boolean | User$calls_receivedArgs<ExtArgs>
     likes_from?: boolean | User$likes_fromArgs<ExtArgs>
     likes_to?: boolean | User$likes_toArgs<ExtArgs>
     matches_as_user1?: boolean | User$matches_as_user1Args<ExtArgs>
     matches_as_user2?: boolean | User$matches_as_user2Args<ExtArgs>
-    calls_initiated?: boolean | User$calls_initiatedArgs<ExtArgs>
-    calls_received?: boolean | User$calls_receivedArgs<ExtArgs>
-    reports_made?: boolean | User$reports_madeArgs<ExtArgs>
     reports_received?: boolean | User$reports_receivedArgs<ExtArgs>
-    blocks_made?: boolean | User$blocks_madeArgs<ExtArgs>
-    blocks_received?: boolean | User$blocks_receivedArgs<ExtArgs>
+    reports_made?: boolean | User$reports_madeArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1915,16 +1978,16 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      blocks_received: Prisma.$BlockPayload<ExtArgs>[]
+      blocks_made: Prisma.$BlockPayload<ExtArgs>[]
+      calls_initiated: Prisma.$CallPayload<ExtArgs>[]
+      calls_received: Prisma.$CallPayload<ExtArgs>[]
       likes_from: Prisma.$LikePayload<ExtArgs>[]
       likes_to: Prisma.$LikePayload<ExtArgs>[]
       matches_as_user1: Prisma.$MatchPayload<ExtArgs>[]
       matches_as_user2: Prisma.$MatchPayload<ExtArgs>[]
-      calls_initiated: Prisma.$CallPayload<ExtArgs>[]
-      calls_received: Prisma.$CallPayload<ExtArgs>[]
-      reports_made: Prisma.$ReportPayload<ExtArgs>[]
       reports_received: Prisma.$ReportPayload<ExtArgs>[]
-      blocks_made: Prisma.$BlockPayload<ExtArgs>[]
-      blocks_received: Prisma.$BlockPayload<ExtArgs>[]
+      reports_made: Prisma.$ReportPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -1950,6 +2013,11 @@ export namespace Prisma {
       created_at: Date
       updated_at: Date
       last_active_at: Date
+      last_seen_at: Date | null
+      status_message: string | null
+      latitude: number | null
+      longitude: number | null
+      is_admin: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2344,16 +2412,16 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    blocks_received<T extends User$blocks_receivedArgs<ExtArgs> = {}>(args?: Subset<T, User$blocks_receivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    blocks_made<T extends User$blocks_madeArgs<ExtArgs> = {}>(args?: Subset<T, User$blocks_madeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    calls_initiated<T extends User$calls_initiatedArgs<ExtArgs> = {}>(args?: Subset<T, User$calls_initiatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    calls_received<T extends User$calls_receivedArgs<ExtArgs> = {}>(args?: Subset<T, User$calls_receivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     likes_from<T extends User$likes_fromArgs<ExtArgs> = {}>(args?: Subset<T, User$likes_fromArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     likes_to<T extends User$likes_toArgs<ExtArgs> = {}>(args?: Subset<T, User$likes_toArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     matches_as_user1<T extends User$matches_as_user1Args<ExtArgs> = {}>(args?: Subset<T, User$matches_as_user1Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     matches_as_user2<T extends User$matches_as_user2Args<ExtArgs> = {}>(args?: Subset<T, User$matches_as_user2Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    calls_initiated<T extends User$calls_initiatedArgs<ExtArgs> = {}>(args?: Subset<T, User$calls_initiatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    calls_received<T extends User$calls_receivedArgs<ExtArgs> = {}>(args?: Subset<T, User$calls_receivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    reports_made<T extends User$reports_madeArgs<ExtArgs> = {}>(args?: Subset<T, User$reports_madeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reports_received<T extends User$reports_receivedArgs<ExtArgs> = {}>(args?: Subset<T, User$reports_receivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    blocks_made<T extends User$blocks_madeArgs<ExtArgs> = {}>(args?: Subset<T, User$blocks_madeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    blocks_received<T extends User$blocks_receivedArgs<ExtArgs> = {}>(args?: Subset<T, User$blocks_receivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reports_made<T extends User$reports_madeArgs<ExtArgs> = {}>(args?: Subset<T, User$reports_madeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2406,6 +2474,11 @@ export namespace Prisma {
     readonly created_at: FieldRef<"User", 'DateTime'>
     readonly updated_at: FieldRef<"User", 'DateTime'>
     readonly last_active_at: FieldRef<"User", 'DateTime'>
+    readonly last_seen_at: FieldRef<"User", 'DateTime'>
+    readonly status_message: FieldRef<"User", 'String'>
+    readonly latitude: FieldRef<"User", 'Float'>
+    readonly longitude: FieldRef<"User", 'Float'>
+    readonly is_admin: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -2794,6 +2867,102 @@ export namespace Prisma {
   }
 
   /**
+   * User.blocks_received
+   */
+  export type User$blocks_receivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Block
+     */
+    select?: BlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Block
+     */
+    omit?: BlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockInclude<ExtArgs> | null
+    where?: BlockWhereInput
+    orderBy?: BlockOrderByWithRelationInput | BlockOrderByWithRelationInput[]
+    cursor?: BlockWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BlockScalarFieldEnum | BlockScalarFieldEnum[]
+  }
+
+  /**
+   * User.blocks_made
+   */
+  export type User$blocks_madeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Block
+     */
+    select?: BlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Block
+     */
+    omit?: BlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockInclude<ExtArgs> | null
+    where?: BlockWhereInput
+    orderBy?: BlockOrderByWithRelationInput | BlockOrderByWithRelationInput[]
+    cursor?: BlockWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BlockScalarFieldEnum | BlockScalarFieldEnum[]
+  }
+
+  /**
+   * User.calls_initiated
+   */
+  export type User$calls_initiatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallInclude<ExtArgs> | null
+    where?: CallWhereInput
+    orderBy?: CallOrderByWithRelationInput | CallOrderByWithRelationInput[]
+    cursor?: CallWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CallScalarFieldEnum | CallScalarFieldEnum[]
+  }
+
+  /**
+   * User.calls_received
+   */
+  export type User$calls_receivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallInclude<ExtArgs> | null
+    where?: CallWhereInput
+    orderBy?: CallOrderByWithRelationInput | CallOrderByWithRelationInput[]
+    cursor?: CallWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CallScalarFieldEnum | CallScalarFieldEnum[]
+  }
+
+  /**
    * User.likes_from
    */
   export type User$likes_fromArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2890,78 +3059,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.calls_initiated
-   */
-  export type User$calls_initiatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Call
-     */
-    select?: CallSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Call
-     */
-    omit?: CallOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CallInclude<ExtArgs> | null
-    where?: CallWhereInput
-    orderBy?: CallOrderByWithRelationInput | CallOrderByWithRelationInput[]
-    cursor?: CallWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CallScalarFieldEnum | CallScalarFieldEnum[]
-  }
-
-  /**
-   * User.calls_received
-   */
-  export type User$calls_receivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Call
-     */
-    select?: CallSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Call
-     */
-    omit?: CallOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CallInclude<ExtArgs> | null
-    where?: CallWhereInput
-    orderBy?: CallOrderByWithRelationInput | CallOrderByWithRelationInput[]
-    cursor?: CallWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CallScalarFieldEnum | CallScalarFieldEnum[]
-  }
-
-  /**
-   * User.reports_made
-   */
-  export type User$reports_madeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Report
-     */
-    select?: ReportSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Report
-     */
-    omit?: ReportOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReportInclude<ExtArgs> | null
-    where?: ReportWhereInput
-    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
-    cursor?: ReportWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
-  }
-
-  /**
    * User.reports_received
    */
   export type User$reports_receivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2986,51 +3083,27 @@ export namespace Prisma {
   }
 
   /**
-   * User.blocks_made
+   * User.reports_made
    */
-  export type User$blocks_madeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$reports_madeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Block
+     * Select specific fields to fetch from the Report
      */
-    select?: BlockSelect<ExtArgs> | null
+    select?: ReportSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Block
+     * Omit specific fields from the Report
      */
-    omit?: BlockOmit<ExtArgs> | null
+    omit?: ReportOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BlockInclude<ExtArgs> | null
-    where?: BlockWhereInput
-    orderBy?: BlockOrderByWithRelationInput | BlockOrderByWithRelationInput[]
-    cursor?: BlockWhereUniqueInput
+    include?: ReportInclude<ExtArgs> | null
+    where?: ReportWhereInput
+    orderBy?: ReportOrderByWithRelationInput | ReportOrderByWithRelationInput[]
+    cursor?: ReportWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: BlockScalarFieldEnum | BlockScalarFieldEnum[]
-  }
-
-  /**
-   * User.blocks_received
-   */
-  export type User$blocks_receivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Block
-     */
-    select?: BlockSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Block
-     */
-    omit?: BlockOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: BlockInclude<ExtArgs> | null
-    where?: BlockWhereInput
-    orderBy?: BlockOrderByWithRelationInput | BlockOrderByWithRelationInput[]
-    cursor?: BlockWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: BlockScalarFieldEnum | BlockScalarFieldEnum[]
+    distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
   }
 
   /**
@@ -4422,9 +4495,9 @@ export namespace Prisma {
     default_video_call_duration_sec?: boolean
     last_interaction_at?: boolean
     match_inactivity_timeout_interval?: boolean
+    calls?: boolean | Match$callsArgs<ExtArgs>
     user1?: boolean | UserDefaultArgs<ExtArgs>
     user2?: boolean | UserDefaultArgs<ExtArgs>
-    calls?: boolean | Match$callsArgs<ExtArgs>
     _count?: boolean | MatchCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["match"]>
 
@@ -4476,9 +4549,9 @@ export namespace Prisma {
 
   export type MatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user1_id" | "user2_id" | "matched_at" | "is_active" | "closed_at" | "close_reason" | "default_voice_call_duration_sec" | "default_video_call_duration_sec" | "last_interaction_at" | "match_inactivity_timeout_interval", ExtArgs["result"]["match"]>
   export type MatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    calls?: boolean | Match$callsArgs<ExtArgs>
     user1?: boolean | UserDefaultArgs<ExtArgs>
     user2?: boolean | UserDefaultArgs<ExtArgs>
-    calls?: boolean | Match$callsArgs<ExtArgs>
     _count?: boolean | MatchCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MatchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4493,9 +4566,9 @@ export namespace Prisma {
   export type $MatchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Match"
     objects: {
+      calls: Prisma.$CallPayload<ExtArgs>[]
       user1: Prisma.$UserPayload<ExtArgs>
       user2: Prisma.$UserPayload<ExtArgs>
-      calls: Prisma.$CallPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4903,9 +4976,9 @@ export namespace Prisma {
    */
   export interface Prisma__MatchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    calls<T extends Match$callsArgs<ExtArgs> = {}>(args?: Subset<T, Match$callsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     user1<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     user2<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    calls<T extends Match$callsArgs<ExtArgs> = {}>(args?: Subset<T, Match$callsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5662,8 +5735,8 @@ export namespace Prisma {
     duration_seconds?: boolean
     end_reason?: boolean
     initiated_at?: boolean
-    match?: boolean | MatchDefaultArgs<ExtArgs>
     initiator_user?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | MatchDefaultArgs<ExtArgs>
     receiver_user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["call"]>
 
@@ -5681,8 +5754,8 @@ export namespace Prisma {
     duration_seconds?: boolean
     end_reason?: boolean
     initiated_at?: boolean
-    match?: boolean | MatchDefaultArgs<ExtArgs>
     initiator_user?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | MatchDefaultArgs<ExtArgs>
     receiver_user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["call"]>
 
@@ -5700,8 +5773,8 @@ export namespace Prisma {
     duration_seconds?: boolean
     end_reason?: boolean
     initiated_at?: boolean
-    match?: boolean | MatchDefaultArgs<ExtArgs>
     initiator_user?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | MatchDefaultArgs<ExtArgs>
     receiver_user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["call"]>
 
@@ -5723,26 +5796,26 @@ export namespace Prisma {
 
   export type CallOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "match_id" | "call_segment_uuid" | "previous_call_segment_uuid" | "initiator_user_id" | "receiver_user_id" | "call_type" | "status" | "start_time" | "end_time" | "duration_seconds" | "end_reason" | "initiated_at", ExtArgs["result"]["call"]>
   export type CallInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    match?: boolean | MatchDefaultArgs<ExtArgs>
     initiator_user?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | MatchDefaultArgs<ExtArgs>
     receiver_user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type CallIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    match?: boolean | MatchDefaultArgs<ExtArgs>
     initiator_user?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | MatchDefaultArgs<ExtArgs>
     receiver_user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type CallIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    match?: boolean | MatchDefaultArgs<ExtArgs>
     initiator_user?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | MatchDefaultArgs<ExtArgs>
     receiver_user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $CallPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Call"
     objects: {
-      match: Prisma.$MatchPayload<ExtArgs>
       initiator_user: Prisma.$UserPayload<ExtArgs>
+      match: Prisma.$MatchPayload<ExtArgs>
       receiver_user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -6153,8 +6226,8 @@ export namespace Prisma {
    */
   export interface Prisma__CallClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    match<T extends MatchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MatchDefaultArgs<ExtArgs>>): Prisma__MatchClient<$Result.GetResult<Prisma.$MatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     initiator_user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    match<T extends MatchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MatchDefaultArgs<ExtArgs>>): Prisma__MatchClient<$Result.GetResult<Prisma.$MatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     receiver_user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6627,54 +6700,40 @@ export namespace Prisma {
   export type ReportAvgAggregateOutputType = {
     id: number | null
     reporter_id: number | null
-    reported_id: number | null
-    match_id: number | null
+    reported_user_id: number | null
   }
 
   export type ReportSumAggregateOutputType = {
     id: number | null
     reporter_id: number | null
-    reported_id: number | null
-    match_id: number | null
+    reported_user_id: number | null
   }
 
   export type ReportMinAggregateOutputType = {
     id: number | null
     reporter_id: number | null
-    reported_id: number | null
-    match_id: number | null
-    call_segment_uuid: string | null
     reason: string | null
-    details: string | null
-    timestamp: Date | null
+    created_at: Date | null
+    reported_user_id: number | null
     status: string | null
-    admin_notes: string | null
   }
 
   export type ReportMaxAggregateOutputType = {
     id: number | null
     reporter_id: number | null
-    reported_id: number | null
-    match_id: number | null
-    call_segment_uuid: string | null
     reason: string | null
-    details: string | null
-    timestamp: Date | null
+    created_at: Date | null
+    reported_user_id: number | null
     status: string | null
-    admin_notes: string | null
   }
 
   export type ReportCountAggregateOutputType = {
     id: number
     reporter_id: number
-    reported_id: number
-    match_id: number
-    call_segment_uuid: number
     reason: number
-    details: number
-    timestamp: number
+    created_at: number
+    reported_user_id: number
     status: number
-    admin_notes: number
     _all: number
   }
 
@@ -6682,54 +6741,40 @@ export namespace Prisma {
   export type ReportAvgAggregateInputType = {
     id?: true
     reporter_id?: true
-    reported_id?: true
-    match_id?: true
+    reported_user_id?: true
   }
 
   export type ReportSumAggregateInputType = {
     id?: true
     reporter_id?: true
-    reported_id?: true
-    match_id?: true
+    reported_user_id?: true
   }
 
   export type ReportMinAggregateInputType = {
     id?: true
     reporter_id?: true
-    reported_id?: true
-    match_id?: true
-    call_segment_uuid?: true
     reason?: true
-    details?: true
-    timestamp?: true
+    created_at?: true
+    reported_user_id?: true
     status?: true
-    admin_notes?: true
   }
 
   export type ReportMaxAggregateInputType = {
     id?: true
     reporter_id?: true
-    reported_id?: true
-    match_id?: true
-    call_segment_uuid?: true
     reason?: true
-    details?: true
-    timestamp?: true
+    created_at?: true
+    reported_user_id?: true
     status?: true
-    admin_notes?: true
   }
 
   export type ReportCountAggregateInputType = {
     id?: true
     reporter_id?: true
-    reported_id?: true
-    match_id?: true
-    call_segment_uuid?: true
     reason?: true
-    details?: true
-    timestamp?: true
+    created_at?: true
+    reported_user_id?: true
     status?: true
-    admin_notes?: true
     _all?: true
   }
 
@@ -6822,14 +6867,10 @@ export namespace Prisma {
   export type ReportGroupByOutputType = {
     id: number
     reporter_id: number | null
-    reported_id: number
-    match_id: number | null
-    call_segment_uuid: string | null
     reason: string
-    details: string | null
-    timestamp: Date
+    created_at: Date
+    reported_user_id: number | null
     status: string
-    admin_notes: string | null
     _count: ReportCountAggregateOutputType | null
     _avg: ReportAvgAggregateOutputType | null
     _sum: ReportSumAggregateOutputType | null
@@ -6854,92 +6895,72 @@ export namespace Prisma {
   export type ReportSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     reporter_id?: boolean
-    reported_id?: boolean
-    match_id?: boolean
-    call_segment_uuid?: boolean
     reason?: boolean
-    details?: boolean
-    timestamp?: boolean
+    created_at?: boolean
+    reported_user_id?: boolean
     status?: boolean
-    admin_notes?: boolean
     reporter?: boolean | Report$reporterArgs<ExtArgs>
-    reported?: boolean | UserDefaultArgs<ExtArgs>
+    reported?: boolean | Report$reportedArgs<ExtArgs>
   }, ExtArgs["result"]["report"]>
 
   export type ReportSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     reporter_id?: boolean
-    reported_id?: boolean
-    match_id?: boolean
-    call_segment_uuid?: boolean
     reason?: boolean
-    details?: boolean
-    timestamp?: boolean
+    created_at?: boolean
+    reported_user_id?: boolean
     status?: boolean
-    admin_notes?: boolean
     reporter?: boolean | Report$reporterArgs<ExtArgs>
-    reported?: boolean | UserDefaultArgs<ExtArgs>
+    reported?: boolean | Report$reportedArgs<ExtArgs>
   }, ExtArgs["result"]["report"]>
 
   export type ReportSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     reporter_id?: boolean
-    reported_id?: boolean
-    match_id?: boolean
-    call_segment_uuid?: boolean
     reason?: boolean
-    details?: boolean
-    timestamp?: boolean
+    created_at?: boolean
+    reported_user_id?: boolean
     status?: boolean
-    admin_notes?: boolean
     reporter?: boolean | Report$reporterArgs<ExtArgs>
-    reported?: boolean | UserDefaultArgs<ExtArgs>
+    reported?: boolean | Report$reportedArgs<ExtArgs>
   }, ExtArgs["result"]["report"]>
 
   export type ReportSelectScalar = {
     id?: boolean
     reporter_id?: boolean
-    reported_id?: boolean
-    match_id?: boolean
-    call_segment_uuid?: boolean
     reason?: boolean
-    details?: boolean
-    timestamp?: boolean
+    created_at?: boolean
+    reported_user_id?: boolean
     status?: boolean
-    admin_notes?: boolean
   }
 
-  export type ReportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "reporter_id" | "reported_id" | "match_id" | "call_segment_uuid" | "reason" | "details" | "timestamp" | "status" | "admin_notes", ExtArgs["result"]["report"]>
+  export type ReportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "reporter_id" | "reason" | "created_at" | "reported_user_id" | "status", ExtArgs["result"]["report"]>
   export type ReportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reporter?: boolean | Report$reporterArgs<ExtArgs>
-    reported?: boolean | UserDefaultArgs<ExtArgs>
+    reported?: boolean | Report$reportedArgs<ExtArgs>
   }
   export type ReportIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reporter?: boolean | Report$reporterArgs<ExtArgs>
-    reported?: boolean | UserDefaultArgs<ExtArgs>
+    reported?: boolean | Report$reportedArgs<ExtArgs>
   }
   export type ReportIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reporter?: boolean | Report$reporterArgs<ExtArgs>
-    reported?: boolean | UserDefaultArgs<ExtArgs>
+    reported?: boolean | Report$reportedArgs<ExtArgs>
   }
 
   export type $ReportPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Report"
     objects: {
       reporter: Prisma.$UserPayload<ExtArgs> | null
-      reported: Prisma.$UserPayload<ExtArgs>
+      reported: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       reporter_id: number | null
-      reported_id: number
-      match_id: number | null
-      call_segment_uuid: string | null
       reason: string
-      details: string | null
-      timestamp: Date
+      created_at: Date
+      reported_user_id: number | null
       status: string
-      admin_notes: string | null
     }, ExtArgs["result"]["report"]>
     composites: {}
   }
@@ -7335,7 +7356,7 @@ export namespace Prisma {
   export interface Prisma__ReportClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     reporter<T extends Report$reporterArgs<ExtArgs> = {}>(args?: Subset<T, Report$reporterArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    reported<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    reported<T extends Report$reportedArgs<ExtArgs> = {}>(args?: Subset<T, Report$reportedArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7367,14 +7388,10 @@ export namespace Prisma {
   interface ReportFieldRefs {
     readonly id: FieldRef<"Report", 'Int'>
     readonly reporter_id: FieldRef<"Report", 'Int'>
-    readonly reported_id: FieldRef<"Report", 'Int'>
-    readonly match_id: FieldRef<"Report", 'Int'>
-    readonly call_segment_uuid: FieldRef<"Report", 'String'>
     readonly reason: FieldRef<"Report", 'String'>
-    readonly details: FieldRef<"Report", 'String'>
-    readonly timestamp: FieldRef<"Report", 'DateTime'>
+    readonly created_at: FieldRef<"Report", 'DateTime'>
+    readonly reported_user_id: FieldRef<"Report", 'Int'>
     readonly status: FieldRef<"Report", 'String'>
-    readonly admin_notes: FieldRef<"Report", 'String'>
   }
     
 
@@ -7790,6 +7807,25 @@ export namespace Prisma {
   }
 
   /**
+   * Report.reported
+   */
+  export type Report$reportedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * Report without action
    */
   export type ReportDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7836,21 +7872,21 @@ export namespace Prisma {
     id: number | null
     blocker_id: number | null
     blocked_id: number | null
-    timestamp: Date | null
+    created_at: Date | null
   }
 
   export type BlockMaxAggregateOutputType = {
     id: number | null
     blocker_id: number | null
     blocked_id: number | null
-    timestamp: Date | null
+    created_at: Date | null
   }
 
   export type BlockCountAggregateOutputType = {
     id: number
     blocker_id: number
     blocked_id: number
-    timestamp: number
+    created_at: number
     _all: number
   }
 
@@ -7871,21 +7907,21 @@ export namespace Prisma {
     id?: true
     blocker_id?: true
     blocked_id?: true
-    timestamp?: true
+    created_at?: true
   }
 
   export type BlockMaxAggregateInputType = {
     id?: true
     blocker_id?: true
     blocked_id?: true
-    timestamp?: true
+    created_at?: true
   }
 
   export type BlockCountAggregateInputType = {
     id?: true
     blocker_id?: true
     blocked_id?: true
-    timestamp?: true
+    created_at?: true
     _all?: true
   }
 
@@ -7979,7 +8015,7 @@ export namespace Prisma {
     id: number
     blocker_id: number
     blocked_id: number
-    timestamp: Date
+    created_at: Date
     _count: BlockCountAggregateOutputType | null
     _avg: BlockAvgAggregateOutputType | null
     _sum: BlockSumAggregateOutputType | null
@@ -8005,61 +8041,61 @@ export namespace Prisma {
     id?: boolean
     blocker_id?: boolean
     blocked_id?: boolean
-    timestamp?: boolean
-    blocker?: boolean | UserDefaultArgs<ExtArgs>
+    created_at?: boolean
     blocked?: boolean | UserDefaultArgs<ExtArgs>
+    blocker?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["block"]>
 
   export type BlockSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     blocker_id?: boolean
     blocked_id?: boolean
-    timestamp?: boolean
-    blocker?: boolean | UserDefaultArgs<ExtArgs>
+    created_at?: boolean
     blocked?: boolean | UserDefaultArgs<ExtArgs>
+    blocker?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["block"]>
 
   export type BlockSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     blocker_id?: boolean
     blocked_id?: boolean
-    timestamp?: boolean
-    blocker?: boolean | UserDefaultArgs<ExtArgs>
+    created_at?: boolean
     blocked?: boolean | UserDefaultArgs<ExtArgs>
+    blocker?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["block"]>
 
   export type BlockSelectScalar = {
     id?: boolean
     blocker_id?: boolean
     blocked_id?: boolean
-    timestamp?: boolean
+    created_at?: boolean
   }
 
-  export type BlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "blocker_id" | "blocked_id" | "timestamp", ExtArgs["result"]["block"]>
+  export type BlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "blocker_id" | "blocked_id" | "created_at", ExtArgs["result"]["block"]>
   export type BlockInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    blocker?: boolean | UserDefaultArgs<ExtArgs>
     blocked?: boolean | UserDefaultArgs<ExtArgs>
+    blocker?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type BlockIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    blocker?: boolean | UserDefaultArgs<ExtArgs>
     blocked?: boolean | UserDefaultArgs<ExtArgs>
+    blocker?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type BlockIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    blocker?: boolean | UserDefaultArgs<ExtArgs>
     blocked?: boolean | UserDefaultArgs<ExtArgs>
+    blocker?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $BlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Block"
     objects: {
-      blocker: Prisma.$UserPayload<ExtArgs>
       blocked: Prisma.$UserPayload<ExtArgs>
+      blocker: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       blocker_id: number
       blocked_id: number
-      timestamp: Date
+      created_at: Date
     }, ExtArgs["result"]["block"]>
     composites: {}
   }
@@ -8454,8 +8490,8 @@ export namespace Prisma {
    */
   export interface Prisma__BlockClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    blocker<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     blocked<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    blocker<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8488,7 +8524,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Block", 'Int'>
     readonly blocker_id: FieldRef<"Block", 'Int'>
     readonly blocked_id: FieldRef<"Block", 'Int'>
-    readonly timestamp: FieldRef<"Block", 'DateTime'>
+    readonly created_at: FieldRef<"Block", 'DateTime'>
   }
     
 
@@ -8940,7 +8976,12 @@ export namespace Prisma {
     consents: 'consents',
     created_at: 'created_at',
     updated_at: 'updated_at',
-    last_active_at: 'last_active_at'
+    last_active_at: 'last_active_at',
+    last_seen_at: 'last_seen_at',
+    status_message: 'status_message',
+    latitude: 'latitude',
+    longitude: 'longitude',
+    is_admin: 'is_admin'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -8996,14 +9037,10 @@ export namespace Prisma {
   export const ReportScalarFieldEnum: {
     id: 'id',
     reporter_id: 'reporter_id',
-    reported_id: 'reported_id',
-    match_id: 'match_id',
-    call_segment_uuid: 'call_segment_uuid',
     reason: 'reason',
-    details: 'details',
-    timestamp: 'timestamp',
-    status: 'status',
-    admin_notes: 'admin_notes'
+    created_at: 'created_at',
+    reported_user_id: 'reported_user_id',
+    status: 'status'
   };
 
   export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
@@ -9013,7 +9050,7 @@ export namespace Prisma {
     id: 'id',
     blocker_id: 'blocker_id',
     blocked_id: 'blocked_id',
-    timestamp: 'timestamp'
+    created_at: 'created_at'
   };
 
   export type BlockScalarFieldEnum = (typeof BlockScalarFieldEnum)[keyof typeof BlockScalarFieldEnum]
@@ -9136,20 +9173,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'BigInt'
-   */
-  export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
-    
-
-
-  /**
-   * Reference to a field of type 'BigInt[]'
-   */
-  export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -9160,6 +9183,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BigInt'
+   */
+  export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+  /**
+   * Reference to a field of type 'BigInt[]'
+   */
+  export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
   /**
    * Deep Input Types
@@ -9193,16 +9230,21 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"User"> | Date | string
     updated_at?: DateTimeFilter<"User"> | Date | string
     last_active_at?: DateTimeFilter<"User"> | Date | string
+    last_seen_at?: DateTimeNullableFilter<"User"> | Date | string | null
+    status_message?: StringNullableFilter<"User"> | string | null
+    latitude?: FloatNullableFilter<"User"> | number | null
+    longitude?: FloatNullableFilter<"User"> | number | null
+    is_admin?: BoolFilter<"User"> | boolean
+    blocks_received?: BlockListRelationFilter
+    blocks_made?: BlockListRelationFilter
+    calls_initiated?: CallListRelationFilter
+    calls_received?: CallListRelationFilter
     likes_from?: LikeListRelationFilter
     likes_to?: LikeListRelationFilter
     matches_as_user1?: MatchListRelationFilter
     matches_as_user2?: MatchListRelationFilter
-    calls_initiated?: CallListRelationFilter
-    calls_received?: CallListRelationFilter
-    reports_made?: ReportListRelationFilter
     reports_received?: ReportListRelationFilter
-    blocks_made?: BlockListRelationFilter
-    blocks_received?: BlockListRelationFilter
+    reports_made?: ReportListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -9229,16 +9271,21 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     last_active_at?: SortOrder
+    last_seen_at?: SortOrderInput | SortOrder
+    status_message?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    is_admin?: SortOrder
+    blocks_received?: BlockOrderByRelationAggregateInput
+    blocks_made?: BlockOrderByRelationAggregateInput
+    calls_initiated?: CallOrderByRelationAggregateInput
+    calls_received?: CallOrderByRelationAggregateInput
     likes_from?: LikeOrderByRelationAggregateInput
     likes_to?: LikeOrderByRelationAggregateInput
     matches_as_user1?: MatchOrderByRelationAggregateInput
     matches_as_user2?: MatchOrderByRelationAggregateInput
-    calls_initiated?: CallOrderByRelationAggregateInput
-    calls_received?: CallOrderByRelationAggregateInput
-    reports_made?: ReportOrderByRelationAggregateInput
     reports_received?: ReportOrderByRelationAggregateInput
-    blocks_made?: BlockOrderByRelationAggregateInput
-    blocks_received?: BlockOrderByRelationAggregateInput
+    reports_made?: ReportOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -9268,16 +9315,21 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"User"> | Date | string
     updated_at?: DateTimeFilter<"User"> | Date | string
     last_active_at?: DateTimeFilter<"User"> | Date | string
+    last_seen_at?: DateTimeNullableFilter<"User"> | Date | string | null
+    status_message?: StringNullableFilter<"User"> | string | null
+    latitude?: FloatNullableFilter<"User"> | number | null
+    longitude?: FloatNullableFilter<"User"> | number | null
+    is_admin?: BoolFilter<"User"> | boolean
+    blocks_received?: BlockListRelationFilter
+    blocks_made?: BlockListRelationFilter
+    calls_initiated?: CallListRelationFilter
+    calls_received?: CallListRelationFilter
     likes_from?: LikeListRelationFilter
     likes_to?: LikeListRelationFilter
     matches_as_user1?: MatchListRelationFilter
     matches_as_user2?: MatchListRelationFilter
-    calls_initiated?: CallListRelationFilter
-    calls_received?: CallListRelationFilter
-    reports_made?: ReportListRelationFilter
     reports_received?: ReportListRelationFilter
-    blocks_made?: BlockListRelationFilter
-    blocks_received?: BlockListRelationFilter
+    reports_made?: ReportListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -9304,6 +9356,11 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     last_active_at?: SortOrder
+    last_seen_at?: SortOrderInput | SortOrder
+    status_message?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    is_admin?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -9338,6 +9395,11 @@ export namespace Prisma {
     created_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
     last_active_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    last_seen_at?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    status_message?: StringNullableWithAggregatesFilter<"User"> | string | null
+    latitude?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    longitude?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    is_admin?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type LikeWhereInput = {
@@ -9416,9 +9478,9 @@ export namespace Prisma {
     default_video_call_duration_sec?: IntFilter<"Match"> | number
     last_interaction_at?: DateTimeFilter<"Match"> | Date | string
     match_inactivity_timeout_interval?: StringFilter<"Match"> | string
+    calls?: CallListRelationFilter
     user1?: XOR<UserScalarRelationFilter, UserWhereInput>
     user2?: XOR<UserScalarRelationFilter, UserWhereInput>
-    calls?: CallListRelationFilter
   }
 
   export type MatchOrderByWithRelationInput = {
@@ -9433,9 +9495,9 @@ export namespace Prisma {
     default_video_call_duration_sec?: SortOrder
     last_interaction_at?: SortOrder
     match_inactivity_timeout_interval?: SortOrder
+    calls?: CallOrderByRelationAggregateInput
     user1?: UserOrderByWithRelationInput
     user2?: UserOrderByWithRelationInput
-    calls?: CallOrderByRelationAggregateInput
   }
 
   export type MatchWhereUniqueInput = Prisma.AtLeast<{
@@ -9453,9 +9515,9 @@ export namespace Prisma {
     default_video_call_duration_sec?: IntFilter<"Match"> | number
     last_interaction_at?: DateTimeFilter<"Match"> | Date | string
     match_inactivity_timeout_interval?: StringFilter<"Match"> | string
+    calls?: CallListRelationFilter
     user1?: XOR<UserScalarRelationFilter, UserWhereInput>
     user2?: XOR<UserScalarRelationFilter, UserWhereInput>
-    calls?: CallListRelationFilter
   }, "id">
 
   export type MatchOrderByWithAggregationInput = {
@@ -9511,8 +9573,8 @@ export namespace Prisma {
     duration_seconds?: IntNullableFilter<"Call"> | number | null
     end_reason?: StringNullableFilter<"Call"> | string | null
     initiated_at?: DateTimeFilter<"Call"> | Date | string
-    match?: XOR<MatchScalarRelationFilter, MatchWhereInput>
     initiator_user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    match?: XOR<MatchScalarRelationFilter, MatchWhereInput>
     receiver_user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -9530,8 +9592,8 @@ export namespace Prisma {
     duration_seconds?: SortOrderInput | SortOrder
     end_reason?: SortOrderInput | SortOrder
     initiated_at?: SortOrder
-    match?: MatchOrderByWithRelationInput
     initiator_user?: UserOrderByWithRelationInput
+    match?: MatchOrderByWithRelationInput
     receiver_user?: UserOrderByWithRelationInput
   }
 
@@ -9552,8 +9614,8 @@ export namespace Prisma {
     duration_seconds?: IntNullableFilter<"Call"> | number | null
     end_reason?: StringNullableFilter<"Call"> | string | null
     initiated_at?: DateTimeFilter<"Call"> | Date | string
-    match?: XOR<MatchScalarRelationFilter, MatchWhereInput>
     initiator_user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    match?: XOR<MatchScalarRelationFilter, MatchWhereInput>
     receiver_user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "call_segment_uuid">
 
@@ -9603,29 +9665,21 @@ export namespace Prisma {
     NOT?: ReportWhereInput | ReportWhereInput[]
     id?: IntFilter<"Report"> | number
     reporter_id?: IntNullableFilter<"Report"> | number | null
-    reported_id?: IntFilter<"Report"> | number
-    match_id?: IntNullableFilter<"Report"> | number | null
-    call_segment_uuid?: UuidNullableFilter<"Report"> | string | null
     reason?: StringFilter<"Report"> | string
-    details?: StringNullableFilter<"Report"> | string | null
-    timestamp?: DateTimeFilter<"Report"> | Date | string
+    created_at?: DateTimeFilter<"Report"> | Date | string
+    reported_user_id?: IntNullableFilter<"Report"> | number | null
     status?: StringFilter<"Report"> | string
-    admin_notes?: StringNullableFilter<"Report"> | string | null
     reporter?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-    reported?: XOR<UserScalarRelationFilter, UserWhereInput>
+    reported?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type ReportOrderByWithRelationInput = {
     id?: SortOrder
     reporter_id?: SortOrderInput | SortOrder
-    reported_id?: SortOrder
-    match_id?: SortOrderInput | SortOrder
-    call_segment_uuid?: SortOrderInput | SortOrder
     reason?: SortOrder
-    details?: SortOrderInput | SortOrder
-    timestamp?: SortOrder
+    created_at?: SortOrder
+    reported_user_id?: SortOrderInput | SortOrder
     status?: SortOrder
-    admin_notes?: SortOrderInput | SortOrder
     reporter?: UserOrderByWithRelationInput
     reported?: UserOrderByWithRelationInput
   }
@@ -9636,29 +9690,21 @@ export namespace Prisma {
     OR?: ReportWhereInput[]
     NOT?: ReportWhereInput | ReportWhereInput[]
     reporter_id?: IntNullableFilter<"Report"> | number | null
-    reported_id?: IntFilter<"Report"> | number
-    match_id?: IntNullableFilter<"Report"> | number | null
-    call_segment_uuid?: UuidNullableFilter<"Report"> | string | null
     reason?: StringFilter<"Report"> | string
-    details?: StringNullableFilter<"Report"> | string | null
-    timestamp?: DateTimeFilter<"Report"> | Date | string
+    created_at?: DateTimeFilter<"Report"> | Date | string
+    reported_user_id?: IntNullableFilter<"Report"> | number | null
     status?: StringFilter<"Report"> | string
-    admin_notes?: StringNullableFilter<"Report"> | string | null
     reporter?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-    reported?: XOR<UserScalarRelationFilter, UserWhereInput>
+    reported?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
 
   export type ReportOrderByWithAggregationInput = {
     id?: SortOrder
     reporter_id?: SortOrderInput | SortOrder
-    reported_id?: SortOrder
-    match_id?: SortOrderInput | SortOrder
-    call_segment_uuid?: SortOrderInput | SortOrder
     reason?: SortOrder
-    details?: SortOrderInput | SortOrder
-    timestamp?: SortOrder
+    created_at?: SortOrder
+    reported_user_id?: SortOrderInput | SortOrder
     status?: SortOrder
-    admin_notes?: SortOrderInput | SortOrder
     _count?: ReportCountOrderByAggregateInput
     _avg?: ReportAvgOrderByAggregateInput
     _max?: ReportMaxOrderByAggregateInput
@@ -9672,14 +9718,10 @@ export namespace Prisma {
     NOT?: ReportScalarWhereWithAggregatesInput | ReportScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Report"> | number
     reporter_id?: IntNullableWithAggregatesFilter<"Report"> | number | null
-    reported_id?: IntWithAggregatesFilter<"Report"> | number
-    match_id?: IntNullableWithAggregatesFilter<"Report"> | number | null
-    call_segment_uuid?: UuidNullableWithAggregatesFilter<"Report"> | string | null
     reason?: StringWithAggregatesFilter<"Report"> | string
-    details?: StringNullableWithAggregatesFilter<"Report"> | string | null
-    timestamp?: DateTimeWithAggregatesFilter<"Report"> | Date | string
+    created_at?: DateTimeWithAggregatesFilter<"Report"> | Date | string
+    reported_user_id?: IntNullableWithAggregatesFilter<"Report"> | number | null
     status?: StringWithAggregatesFilter<"Report"> | string
-    admin_notes?: StringNullableWithAggregatesFilter<"Report"> | string | null
   }
 
   export type BlockWhereInput = {
@@ -9689,18 +9731,18 @@ export namespace Prisma {
     id?: IntFilter<"Block"> | number
     blocker_id?: IntFilter<"Block"> | number
     blocked_id?: IntFilter<"Block"> | number
-    timestamp?: DateTimeFilter<"Block"> | Date | string
-    blocker?: XOR<UserScalarRelationFilter, UserWhereInput>
+    created_at?: DateTimeFilter<"Block"> | Date | string
     blocked?: XOR<UserScalarRelationFilter, UserWhereInput>
+    blocker?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type BlockOrderByWithRelationInput = {
     id?: SortOrder
     blocker_id?: SortOrder
     blocked_id?: SortOrder
-    timestamp?: SortOrder
-    blocker?: UserOrderByWithRelationInput
+    created_at?: SortOrder
     blocked?: UserOrderByWithRelationInput
+    blocker?: UserOrderByWithRelationInput
   }
 
   export type BlockWhereUniqueInput = Prisma.AtLeast<{
@@ -9711,16 +9753,16 @@ export namespace Prisma {
     NOT?: BlockWhereInput | BlockWhereInput[]
     blocker_id?: IntFilter<"Block"> | number
     blocked_id?: IntFilter<"Block"> | number
-    timestamp?: DateTimeFilter<"Block"> | Date | string
-    blocker?: XOR<UserScalarRelationFilter, UserWhereInput>
+    created_at?: DateTimeFilter<"Block"> | Date | string
     blocked?: XOR<UserScalarRelationFilter, UserWhereInput>
+    blocker?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "blocker_id_blocked_id">
 
   export type BlockOrderByWithAggregationInput = {
     id?: SortOrder
     blocker_id?: SortOrder
     blocked_id?: SortOrder
-    timestamp?: SortOrder
+    created_at?: SortOrder
     _count?: BlockCountOrderByAggregateInput
     _avg?: BlockAvgOrderByAggregateInput
     _max?: BlockMaxOrderByAggregateInput
@@ -9735,7 +9777,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Block"> | number
     blocker_id?: IntWithAggregatesFilter<"Block"> | number
     blocked_id?: IntWithAggregatesFilter<"Block"> | number
-    timestamp?: DateTimeWithAggregatesFilter<"Block"> | Date | string
+    created_at?: DateTimeWithAggregatesFilter<"Block"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -9761,16 +9803,21 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
     likes_from?: LikeCreateNestedManyWithoutFrom_userInput
     likes_to?: LikeCreateNestedManyWithoutTo_userInput
     matches_as_user1?: MatchCreateNestedManyWithoutUser1Input
     matches_as_user2?: MatchCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportCreateNestedManyWithoutReporterInput
     reports_received?: ReportCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
+    reports_made?: ReportCreateNestedManyWithoutReporterInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -9797,16 +9844,21 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
     likes_from?: LikeUncheckedCreateNestedManyWithoutFrom_userInput
     likes_to?: LikeUncheckedCreateNestedManyWithoutTo_userInput
     matches_as_user1?: MatchUncheckedCreateNestedManyWithoutUser1Input
     matches_as_user2?: MatchUncheckedCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
     reports_received?: ReportUncheckedCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
+    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
   }
 
   export type UserUpdateInput = {
@@ -9832,16 +9884,21 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
     likes_from?: LikeUpdateManyWithoutFrom_userNestedInput
     likes_to?: LikeUpdateManyWithoutTo_userNestedInput
     matches_as_user1?: MatchUpdateManyWithoutUser1NestedInput
     matches_as_user2?: MatchUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUpdateManyWithoutReporterNestedInput
     reports_received?: ReportUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    reports_made?: ReportUpdateManyWithoutReporterNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -9868,16 +9925,21 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
     likes_from?: LikeUncheckedUpdateManyWithoutFrom_userNestedInput
     likes_to?: LikeUncheckedUpdateManyWithoutTo_userNestedInput
     matches_as_user1?: MatchUncheckedUpdateManyWithoutUser1NestedInput
     matches_as_user2?: MatchUncheckedUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     reports_received?: ReportUncheckedUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
+    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -9904,6 +9966,11 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -9929,6 +9996,11 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -9955,6 +10027,11 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type LikeCreateInput = {
@@ -10017,9 +10094,9 @@ export namespace Prisma {
     default_video_call_duration_sec?: number
     last_interaction_at?: Date | string
     match_inactivity_timeout_interval?: string
+    calls?: CallCreateNestedManyWithoutMatchInput
     user1: UserCreateNestedOneWithoutMatches_as_user1Input
     user2: UserCreateNestedOneWithoutMatches_as_user2Input
-    calls?: CallCreateNestedManyWithoutMatchInput
   }
 
   export type MatchUncheckedCreateInput = {
@@ -10046,9 +10123,9 @@ export namespace Prisma {
     default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
     last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
     match_inactivity_timeout_interval?: StringFieldUpdateOperationsInput | string
+    calls?: CallUpdateManyWithoutMatchNestedInput
     user1?: UserUpdateOneRequiredWithoutMatches_as_user1NestedInput
     user2?: UserUpdateOneRequiredWithoutMatches_as_user2NestedInput
-    calls?: CallUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateInput = {
@@ -10116,8 +10193,8 @@ export namespace Prisma {
     duration_seconds?: number | null
     end_reason?: string | null
     initiated_at?: Date | string
-    match: MatchCreateNestedOneWithoutCallsInput
     initiator_user: UserCreateNestedOneWithoutCalls_initiatedInput
+    match: MatchCreateNestedOneWithoutCallsInput
     receiver_user: UserCreateNestedOneWithoutCalls_receivedInput
   }
 
@@ -10148,8 +10225,8 @@ export namespace Prisma {
     duration_seconds?: NullableIntFieldUpdateOperationsInput | number | null
     end_reason?: NullableStringFieldUpdateOperationsInput | string | null
     initiated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    match?: MatchUpdateOneRequiredWithoutCallsNestedInput
     initiator_user?: UserUpdateOneRequiredWithoutCalls_initiatedNestedInput
+    match?: MatchUpdateOneRequiredWithoutCallsNestedInput
     receiver_user?: UserUpdateOneRequiredWithoutCalls_receivedNestedInput
   }
 
@@ -10215,133 +10292,105 @@ export namespace Prisma {
   }
 
   export type ReportCreateInput = {
-    match_id?: number | null
-    call_segment_uuid?: string | null
     reason: string
-    details?: string | null
-    timestamp?: Date | string
+    created_at?: Date | string
     status?: string
-    admin_notes?: string | null
     reporter?: UserCreateNestedOneWithoutReports_madeInput
-    reported: UserCreateNestedOneWithoutReports_receivedInput
+    reported?: UserCreateNestedOneWithoutReports_receivedInput
   }
 
   export type ReportUncheckedCreateInput = {
     id?: number
     reporter_id?: number | null
-    reported_id: number
-    match_id?: number | null
-    call_segment_uuid?: string | null
     reason: string
-    details?: string | null
-    timestamp?: Date | string
+    created_at?: Date | string
+    reported_user_id?: number | null
     status?: string
-    admin_notes?: string | null
   }
 
   export type ReportUpdateInput = {
-    match_id?: NullableIntFieldUpdateOperationsInput | number | null
-    call_segment_uuid?: NullableStringFieldUpdateOperationsInput | string | null
     reason?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
-    admin_notes?: NullableStringFieldUpdateOperationsInput | string | null
     reporter?: UserUpdateOneWithoutReports_madeNestedInput
-    reported?: UserUpdateOneRequiredWithoutReports_receivedNestedInput
+    reported?: UserUpdateOneWithoutReports_receivedNestedInput
   }
 
   export type ReportUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     reporter_id?: NullableIntFieldUpdateOperationsInput | number | null
-    reported_id?: IntFieldUpdateOperationsInput | number
-    match_id?: NullableIntFieldUpdateOperationsInput | number | null
-    call_segment_uuid?: NullableStringFieldUpdateOperationsInput | string | null
     reason?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    reported_user_id?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    admin_notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReportCreateManyInput = {
     id?: number
     reporter_id?: number | null
-    reported_id: number
-    match_id?: number | null
-    call_segment_uuid?: string | null
     reason: string
-    details?: string | null
-    timestamp?: Date | string
+    created_at?: Date | string
+    reported_user_id?: number | null
     status?: string
-    admin_notes?: string | null
   }
 
   export type ReportUpdateManyMutationInput = {
-    match_id?: NullableIntFieldUpdateOperationsInput | number | null
-    call_segment_uuid?: NullableStringFieldUpdateOperationsInput | string | null
     reason?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
-    admin_notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReportUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     reporter_id?: NullableIntFieldUpdateOperationsInput | number | null
-    reported_id?: IntFieldUpdateOperationsInput | number
-    match_id?: NullableIntFieldUpdateOperationsInput | number | null
-    call_segment_uuid?: NullableStringFieldUpdateOperationsInput | string | null
     reason?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    reported_user_id?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    admin_notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BlockCreateInput = {
-    timestamp?: Date | string
-    blocker: UserCreateNestedOneWithoutBlocks_madeInput
+    created_at?: Date | string
     blocked: UserCreateNestedOneWithoutBlocks_receivedInput
+    blocker: UserCreateNestedOneWithoutBlocks_madeInput
   }
 
   export type BlockUncheckedCreateInput = {
     id?: number
     blocker_id: number
     blocked_id: number
-    timestamp?: Date | string
+    created_at?: Date | string
   }
 
   export type BlockUpdateInput = {
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    blocker?: UserUpdateOneRequiredWithoutBlocks_madeNestedInput
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     blocked?: UserUpdateOneRequiredWithoutBlocks_receivedNestedInput
+    blocker?: UserUpdateOneRequiredWithoutBlocks_madeNestedInput
   }
 
   export type BlockUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     blocker_id?: IntFieldUpdateOperationsInput | number
     blocked_id?: IntFieldUpdateOperationsInput | number
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BlockCreateManyInput = {
     id?: number
     blocker_id: number
     blocked_id: number
-    timestamp?: Date | string
+    created_at?: Date | string
   }
 
   export type BlockUpdateManyMutationInput = {
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BlockUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     blocker_id?: IntFieldUpdateOperationsInput | number
     blocked_id?: IntFieldUpdateOperationsInput | number
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -10466,6 +10515,29 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type BlockListRelationFilter = {
+    every?: BlockWhereInput
+    some?: BlockWhereInput
+    none?: BlockWhereInput
+  }
+
+  export type CallListRelationFilter = {
+    every?: CallWhereInput
+    some?: CallWhereInput
+    none?: CallWhereInput
+  }
+
   export type LikeListRelationFilter = {
     every?: LikeWhereInput
     some?: LikeWhereInput
@@ -10478,27 +10550,23 @@ export namespace Prisma {
     none?: MatchWhereInput
   }
 
-  export type CallListRelationFilter = {
-    every?: CallWhereInput
-    some?: CallWhereInput
-    none?: CallWhereInput
-  }
-
   export type ReportListRelationFilter = {
     every?: ReportWhereInput
     some?: ReportWhereInput
     none?: ReportWhereInput
   }
 
-  export type BlockListRelationFilter = {
-    every?: BlockWhereInput
-    some?: BlockWhereInput
-    none?: BlockWhereInput
-  }
-
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type BlockOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CallOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type LikeOrderByRelationAggregateInput = {
@@ -10509,15 +10577,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type CallOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type ReportOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type BlockOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10545,6 +10605,11 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     last_active_at?: SortOrder
+    last_seen_at?: SortOrder
+    status_message?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    is_admin?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -10552,6 +10617,8 @@ export namespace Prisma {
     preferred_age_min?: SortOrder
     preferred_age_max?: SortOrder
     preferred_distance_km?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -10574,6 +10641,11 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     last_active_at?: SortOrder
+    last_seen_at?: SortOrder
+    status_message?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    is_admin?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -10596,6 +10668,11 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     last_active_at?: SortOrder
+    last_seen_at?: SortOrder
+    status_message?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    is_admin?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -10603,6 +10680,8 @@ export namespace Prisma {
     preferred_age_min?: SortOrder
     preferred_age_max?: SortOrder
     preferred_distance_km?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -10743,6 +10822,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedJsonFilter<$PrismaModel>
     _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -11034,54 +11129,40 @@ export namespace Prisma {
   export type ReportCountOrderByAggregateInput = {
     id?: SortOrder
     reporter_id?: SortOrder
-    reported_id?: SortOrder
-    match_id?: SortOrder
-    call_segment_uuid?: SortOrder
     reason?: SortOrder
-    details?: SortOrder
-    timestamp?: SortOrder
+    created_at?: SortOrder
+    reported_user_id?: SortOrder
     status?: SortOrder
-    admin_notes?: SortOrder
   }
 
   export type ReportAvgOrderByAggregateInput = {
     id?: SortOrder
     reporter_id?: SortOrder
-    reported_id?: SortOrder
-    match_id?: SortOrder
+    reported_user_id?: SortOrder
   }
 
   export type ReportMaxOrderByAggregateInput = {
     id?: SortOrder
     reporter_id?: SortOrder
-    reported_id?: SortOrder
-    match_id?: SortOrder
-    call_segment_uuid?: SortOrder
     reason?: SortOrder
-    details?: SortOrder
-    timestamp?: SortOrder
+    created_at?: SortOrder
+    reported_user_id?: SortOrder
     status?: SortOrder
-    admin_notes?: SortOrder
   }
 
   export type ReportMinOrderByAggregateInput = {
     id?: SortOrder
     reporter_id?: SortOrder
-    reported_id?: SortOrder
-    match_id?: SortOrder
-    call_segment_uuid?: SortOrder
     reason?: SortOrder
-    details?: SortOrder
-    timestamp?: SortOrder
+    created_at?: SortOrder
+    reported_user_id?: SortOrder
     status?: SortOrder
-    admin_notes?: SortOrder
   }
 
   export type ReportSumOrderByAggregateInput = {
     id?: SortOrder
     reporter_id?: SortOrder
-    reported_id?: SortOrder
-    match_id?: SortOrder
+    reported_user_id?: SortOrder
   }
 
   export type BlockBlocker_idBlocked_idCompoundUniqueInput = {
@@ -11093,7 +11174,7 @@ export namespace Prisma {
     id?: SortOrder
     blocker_id?: SortOrder
     blocked_id?: SortOrder
-    timestamp?: SortOrder
+    created_at?: SortOrder
   }
 
   export type BlockAvgOrderByAggregateInput = {
@@ -11106,14 +11187,14 @@ export namespace Prisma {
     id?: SortOrder
     blocker_id?: SortOrder
     blocked_id?: SortOrder
-    timestamp?: SortOrder
+    created_at?: SortOrder
   }
 
   export type BlockMinOrderByAggregateInput = {
     id?: SortOrder
     blocker_id?: SortOrder
     blocked_id?: SortOrder
-    timestamp?: SortOrder
+    created_at?: SortOrder
   }
 
   export type BlockSumOrderByAggregateInput = {
@@ -11128,6 +11209,34 @@ export namespace Prisma {
 
   export type UserCreaterelationship_typeInput = {
     set: string[]
+  }
+
+  export type BlockCreateNestedManyWithoutBlockedInput = {
+    create?: XOR<BlockCreateWithoutBlockedInput, BlockUncheckedCreateWithoutBlockedInput> | BlockCreateWithoutBlockedInput[] | BlockUncheckedCreateWithoutBlockedInput[]
+    connectOrCreate?: BlockCreateOrConnectWithoutBlockedInput | BlockCreateOrConnectWithoutBlockedInput[]
+    createMany?: BlockCreateManyBlockedInputEnvelope
+    connect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+  }
+
+  export type BlockCreateNestedManyWithoutBlockerInput = {
+    create?: XOR<BlockCreateWithoutBlockerInput, BlockUncheckedCreateWithoutBlockerInput> | BlockCreateWithoutBlockerInput[] | BlockUncheckedCreateWithoutBlockerInput[]
+    connectOrCreate?: BlockCreateOrConnectWithoutBlockerInput | BlockCreateOrConnectWithoutBlockerInput[]
+    createMany?: BlockCreateManyBlockerInputEnvelope
+    connect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+  }
+
+  export type CallCreateNestedManyWithoutInitiator_userInput = {
+    create?: XOR<CallCreateWithoutInitiator_userInput, CallUncheckedCreateWithoutInitiator_userInput> | CallCreateWithoutInitiator_userInput[] | CallUncheckedCreateWithoutInitiator_userInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutInitiator_userInput | CallCreateOrConnectWithoutInitiator_userInput[]
+    createMany?: CallCreateManyInitiator_userInputEnvelope
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+  }
+
+  export type CallCreateNestedManyWithoutReceiver_userInput = {
+    create?: XOR<CallCreateWithoutReceiver_userInput, CallUncheckedCreateWithoutReceiver_userInput> | CallCreateWithoutReceiver_userInput[] | CallUncheckedCreateWithoutReceiver_userInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutReceiver_userInput | CallCreateOrConnectWithoutReceiver_userInput[]
+    createMany?: CallCreateManyReceiver_userInputEnvelope
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
   }
 
   export type LikeCreateNestedManyWithoutFrom_userInput = {
@@ -11158,18 +11267,11 @@ export namespace Prisma {
     connect?: MatchWhereUniqueInput | MatchWhereUniqueInput[]
   }
 
-  export type CallCreateNestedManyWithoutInitiator_userInput = {
-    create?: XOR<CallCreateWithoutInitiator_userInput, CallUncheckedCreateWithoutInitiator_userInput> | CallCreateWithoutInitiator_userInput[] | CallUncheckedCreateWithoutInitiator_userInput[]
-    connectOrCreate?: CallCreateOrConnectWithoutInitiator_userInput | CallCreateOrConnectWithoutInitiator_userInput[]
-    createMany?: CallCreateManyInitiator_userInputEnvelope
-    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
-  }
-
-  export type CallCreateNestedManyWithoutReceiver_userInput = {
-    create?: XOR<CallCreateWithoutReceiver_userInput, CallUncheckedCreateWithoutReceiver_userInput> | CallCreateWithoutReceiver_userInput[] | CallUncheckedCreateWithoutReceiver_userInput[]
-    connectOrCreate?: CallCreateOrConnectWithoutReceiver_userInput | CallCreateOrConnectWithoutReceiver_userInput[]
-    createMany?: CallCreateManyReceiver_userInputEnvelope
-    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+  export type ReportCreateNestedManyWithoutReportedInput = {
+    create?: XOR<ReportCreateWithoutReportedInput, ReportUncheckedCreateWithoutReportedInput> | ReportCreateWithoutReportedInput[] | ReportUncheckedCreateWithoutReportedInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutReportedInput | ReportCreateOrConnectWithoutReportedInput[]
+    createMany?: ReportCreateManyReportedInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
   }
 
   export type ReportCreateNestedManyWithoutReporterInput = {
@@ -11179,25 +11281,32 @@ export namespace Prisma {
     connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
   }
 
-  export type ReportCreateNestedManyWithoutReportedInput = {
-    create?: XOR<ReportCreateWithoutReportedInput, ReportUncheckedCreateWithoutReportedInput> | ReportCreateWithoutReportedInput[] | ReportUncheckedCreateWithoutReportedInput[]
-    connectOrCreate?: ReportCreateOrConnectWithoutReportedInput | ReportCreateOrConnectWithoutReportedInput[]
-    createMany?: ReportCreateManyReportedInputEnvelope
-    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  export type BlockUncheckedCreateNestedManyWithoutBlockedInput = {
+    create?: XOR<BlockCreateWithoutBlockedInput, BlockUncheckedCreateWithoutBlockedInput> | BlockCreateWithoutBlockedInput[] | BlockUncheckedCreateWithoutBlockedInput[]
+    connectOrCreate?: BlockCreateOrConnectWithoutBlockedInput | BlockCreateOrConnectWithoutBlockedInput[]
+    createMany?: BlockCreateManyBlockedInputEnvelope
+    connect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
   }
 
-  export type BlockCreateNestedManyWithoutBlockerInput = {
+  export type BlockUncheckedCreateNestedManyWithoutBlockerInput = {
     create?: XOR<BlockCreateWithoutBlockerInput, BlockUncheckedCreateWithoutBlockerInput> | BlockCreateWithoutBlockerInput[] | BlockUncheckedCreateWithoutBlockerInput[]
     connectOrCreate?: BlockCreateOrConnectWithoutBlockerInput | BlockCreateOrConnectWithoutBlockerInput[]
     createMany?: BlockCreateManyBlockerInputEnvelope
     connect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
   }
 
-  export type BlockCreateNestedManyWithoutBlockedInput = {
-    create?: XOR<BlockCreateWithoutBlockedInput, BlockUncheckedCreateWithoutBlockedInput> | BlockCreateWithoutBlockedInput[] | BlockUncheckedCreateWithoutBlockedInput[]
-    connectOrCreate?: BlockCreateOrConnectWithoutBlockedInput | BlockCreateOrConnectWithoutBlockedInput[]
-    createMany?: BlockCreateManyBlockedInputEnvelope
-    connect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+  export type CallUncheckedCreateNestedManyWithoutInitiator_userInput = {
+    create?: XOR<CallCreateWithoutInitiator_userInput, CallUncheckedCreateWithoutInitiator_userInput> | CallCreateWithoutInitiator_userInput[] | CallUncheckedCreateWithoutInitiator_userInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutInitiator_userInput | CallCreateOrConnectWithoutInitiator_userInput[]
+    createMany?: CallCreateManyInitiator_userInputEnvelope
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+  }
+
+  export type CallUncheckedCreateNestedManyWithoutReceiver_userInput = {
+    create?: XOR<CallCreateWithoutReceiver_userInput, CallUncheckedCreateWithoutReceiver_userInput> | CallCreateWithoutReceiver_userInput[] | CallUncheckedCreateWithoutReceiver_userInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutReceiver_userInput | CallCreateOrConnectWithoutReceiver_userInput[]
+    createMany?: CallCreateManyReceiver_userInputEnvelope
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
   }
 
   export type LikeUncheckedCreateNestedManyWithoutFrom_userInput = {
@@ -11228,27 +11337,6 @@ export namespace Prisma {
     connect?: MatchWhereUniqueInput | MatchWhereUniqueInput[]
   }
 
-  export type CallUncheckedCreateNestedManyWithoutInitiator_userInput = {
-    create?: XOR<CallCreateWithoutInitiator_userInput, CallUncheckedCreateWithoutInitiator_userInput> | CallCreateWithoutInitiator_userInput[] | CallUncheckedCreateWithoutInitiator_userInput[]
-    connectOrCreate?: CallCreateOrConnectWithoutInitiator_userInput | CallCreateOrConnectWithoutInitiator_userInput[]
-    createMany?: CallCreateManyInitiator_userInputEnvelope
-    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
-  }
-
-  export type CallUncheckedCreateNestedManyWithoutReceiver_userInput = {
-    create?: XOR<CallCreateWithoutReceiver_userInput, CallUncheckedCreateWithoutReceiver_userInput> | CallCreateWithoutReceiver_userInput[] | CallUncheckedCreateWithoutReceiver_userInput[]
-    connectOrCreate?: CallCreateOrConnectWithoutReceiver_userInput | CallCreateOrConnectWithoutReceiver_userInput[]
-    createMany?: CallCreateManyReceiver_userInputEnvelope
-    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
-  }
-
-  export type ReportUncheckedCreateNestedManyWithoutReporterInput = {
-    create?: XOR<ReportCreateWithoutReporterInput, ReportUncheckedCreateWithoutReporterInput> | ReportCreateWithoutReporterInput[] | ReportUncheckedCreateWithoutReporterInput[]
-    connectOrCreate?: ReportCreateOrConnectWithoutReporterInput | ReportCreateOrConnectWithoutReporterInput[]
-    createMany?: ReportCreateManyReporterInputEnvelope
-    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-  }
-
   export type ReportUncheckedCreateNestedManyWithoutReportedInput = {
     create?: XOR<ReportCreateWithoutReportedInput, ReportUncheckedCreateWithoutReportedInput> | ReportCreateWithoutReportedInput[] | ReportUncheckedCreateWithoutReportedInput[]
     connectOrCreate?: ReportCreateOrConnectWithoutReportedInput | ReportCreateOrConnectWithoutReportedInput[]
@@ -11256,18 +11344,11 @@ export namespace Prisma {
     connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
   }
 
-  export type BlockUncheckedCreateNestedManyWithoutBlockerInput = {
-    create?: XOR<BlockCreateWithoutBlockerInput, BlockUncheckedCreateWithoutBlockerInput> | BlockCreateWithoutBlockerInput[] | BlockUncheckedCreateWithoutBlockerInput[]
-    connectOrCreate?: BlockCreateOrConnectWithoutBlockerInput | BlockCreateOrConnectWithoutBlockerInput[]
-    createMany?: BlockCreateManyBlockerInputEnvelope
-    connect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
-  }
-
-  export type BlockUncheckedCreateNestedManyWithoutBlockedInput = {
-    create?: XOR<BlockCreateWithoutBlockedInput, BlockUncheckedCreateWithoutBlockedInput> | BlockCreateWithoutBlockedInput[] | BlockUncheckedCreateWithoutBlockedInput[]
-    connectOrCreate?: BlockCreateOrConnectWithoutBlockedInput | BlockCreateOrConnectWithoutBlockedInput[]
-    createMany?: BlockCreateManyBlockedInputEnvelope
-    connect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+  export type ReportUncheckedCreateNestedManyWithoutReporterInput = {
+    create?: XOR<ReportCreateWithoutReporterInput, ReportUncheckedCreateWithoutReporterInput> | ReportCreateWithoutReporterInput[] | ReportUncheckedCreateWithoutReporterInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutReporterInput | ReportCreateOrConnectWithoutReporterInput[]
+    createMany?: ReportCreateManyReporterInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -11306,6 +11387,70 @@ export namespace Prisma {
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type BlockUpdateManyWithoutBlockedNestedInput = {
+    create?: XOR<BlockCreateWithoutBlockedInput, BlockUncheckedCreateWithoutBlockedInput> | BlockCreateWithoutBlockedInput[] | BlockUncheckedCreateWithoutBlockedInput[]
+    connectOrCreate?: BlockCreateOrConnectWithoutBlockedInput | BlockCreateOrConnectWithoutBlockedInput[]
+    upsert?: BlockUpsertWithWhereUniqueWithoutBlockedInput | BlockUpsertWithWhereUniqueWithoutBlockedInput[]
+    createMany?: BlockCreateManyBlockedInputEnvelope
+    set?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+    disconnect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+    delete?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+    connect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+    update?: BlockUpdateWithWhereUniqueWithoutBlockedInput | BlockUpdateWithWhereUniqueWithoutBlockedInput[]
+    updateMany?: BlockUpdateManyWithWhereWithoutBlockedInput | BlockUpdateManyWithWhereWithoutBlockedInput[]
+    deleteMany?: BlockScalarWhereInput | BlockScalarWhereInput[]
+  }
+
+  export type BlockUpdateManyWithoutBlockerNestedInput = {
+    create?: XOR<BlockCreateWithoutBlockerInput, BlockUncheckedCreateWithoutBlockerInput> | BlockCreateWithoutBlockerInput[] | BlockUncheckedCreateWithoutBlockerInput[]
+    connectOrCreate?: BlockCreateOrConnectWithoutBlockerInput | BlockCreateOrConnectWithoutBlockerInput[]
+    upsert?: BlockUpsertWithWhereUniqueWithoutBlockerInput | BlockUpsertWithWhereUniqueWithoutBlockerInput[]
+    createMany?: BlockCreateManyBlockerInputEnvelope
+    set?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+    disconnect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+    delete?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+    connect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+    update?: BlockUpdateWithWhereUniqueWithoutBlockerInput | BlockUpdateWithWhereUniqueWithoutBlockerInput[]
+    updateMany?: BlockUpdateManyWithWhereWithoutBlockerInput | BlockUpdateManyWithWhereWithoutBlockerInput[]
+    deleteMany?: BlockScalarWhereInput | BlockScalarWhereInput[]
+  }
+
+  export type CallUpdateManyWithoutInitiator_userNestedInput = {
+    create?: XOR<CallCreateWithoutInitiator_userInput, CallUncheckedCreateWithoutInitiator_userInput> | CallCreateWithoutInitiator_userInput[] | CallUncheckedCreateWithoutInitiator_userInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutInitiator_userInput | CallCreateOrConnectWithoutInitiator_userInput[]
+    upsert?: CallUpsertWithWhereUniqueWithoutInitiator_userInput | CallUpsertWithWhereUniqueWithoutInitiator_userInput[]
+    createMany?: CallCreateManyInitiator_userInputEnvelope
+    set?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    disconnect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    delete?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    update?: CallUpdateWithWhereUniqueWithoutInitiator_userInput | CallUpdateWithWhereUniqueWithoutInitiator_userInput[]
+    updateMany?: CallUpdateManyWithWhereWithoutInitiator_userInput | CallUpdateManyWithWhereWithoutInitiator_userInput[]
+    deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
+  }
+
+  export type CallUpdateManyWithoutReceiver_userNestedInput = {
+    create?: XOR<CallCreateWithoutReceiver_userInput, CallUncheckedCreateWithoutReceiver_userInput> | CallCreateWithoutReceiver_userInput[] | CallUncheckedCreateWithoutReceiver_userInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutReceiver_userInput | CallCreateOrConnectWithoutReceiver_userInput[]
+    upsert?: CallUpsertWithWhereUniqueWithoutReceiver_userInput | CallUpsertWithWhereUniqueWithoutReceiver_userInput[]
+    createMany?: CallCreateManyReceiver_userInputEnvelope
+    set?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    disconnect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    delete?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    update?: CallUpdateWithWhereUniqueWithoutReceiver_userInput | CallUpdateWithWhereUniqueWithoutReceiver_userInput[]
+    updateMany?: CallUpdateManyWithWhereWithoutReceiver_userInput | CallUpdateManyWithWhereWithoutReceiver_userInput[]
+    deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
   }
 
   export type LikeUpdateManyWithoutFrom_userNestedInput = {
@@ -11364,32 +11509,18 @@ export namespace Prisma {
     deleteMany?: MatchScalarWhereInput | MatchScalarWhereInput[]
   }
 
-  export type CallUpdateManyWithoutInitiator_userNestedInput = {
-    create?: XOR<CallCreateWithoutInitiator_userInput, CallUncheckedCreateWithoutInitiator_userInput> | CallCreateWithoutInitiator_userInput[] | CallUncheckedCreateWithoutInitiator_userInput[]
-    connectOrCreate?: CallCreateOrConnectWithoutInitiator_userInput | CallCreateOrConnectWithoutInitiator_userInput[]
-    upsert?: CallUpsertWithWhereUniqueWithoutInitiator_userInput | CallUpsertWithWhereUniqueWithoutInitiator_userInput[]
-    createMany?: CallCreateManyInitiator_userInputEnvelope
-    set?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    disconnect?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    delete?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    update?: CallUpdateWithWhereUniqueWithoutInitiator_userInput | CallUpdateWithWhereUniqueWithoutInitiator_userInput[]
-    updateMany?: CallUpdateManyWithWhereWithoutInitiator_userInput | CallUpdateManyWithWhereWithoutInitiator_userInput[]
-    deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
-  }
-
-  export type CallUpdateManyWithoutReceiver_userNestedInput = {
-    create?: XOR<CallCreateWithoutReceiver_userInput, CallUncheckedCreateWithoutReceiver_userInput> | CallCreateWithoutReceiver_userInput[] | CallUncheckedCreateWithoutReceiver_userInput[]
-    connectOrCreate?: CallCreateOrConnectWithoutReceiver_userInput | CallCreateOrConnectWithoutReceiver_userInput[]
-    upsert?: CallUpsertWithWhereUniqueWithoutReceiver_userInput | CallUpsertWithWhereUniqueWithoutReceiver_userInput[]
-    createMany?: CallCreateManyReceiver_userInputEnvelope
-    set?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    disconnect?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    delete?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    update?: CallUpdateWithWhereUniqueWithoutReceiver_userInput | CallUpdateWithWhereUniqueWithoutReceiver_userInput[]
-    updateMany?: CallUpdateManyWithWhereWithoutReceiver_userInput | CallUpdateManyWithWhereWithoutReceiver_userInput[]
-    deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
+  export type ReportUpdateManyWithoutReportedNestedInput = {
+    create?: XOR<ReportCreateWithoutReportedInput, ReportUncheckedCreateWithoutReportedInput> | ReportCreateWithoutReportedInput[] | ReportUncheckedCreateWithoutReportedInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutReportedInput | ReportCreateOrConnectWithoutReportedInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutReportedInput | ReportUpsertWithWhereUniqueWithoutReportedInput[]
+    createMany?: ReportCreateManyReportedInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutReportedInput | ReportUpdateWithWhereUniqueWithoutReportedInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutReportedInput | ReportUpdateManyWithWhereWithoutReportedInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
   }
 
   export type ReportUpdateManyWithoutReporterNestedInput = {
@@ -11406,21 +11537,21 @@ export namespace Prisma {
     deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
   }
 
-  export type ReportUpdateManyWithoutReportedNestedInput = {
-    create?: XOR<ReportCreateWithoutReportedInput, ReportUncheckedCreateWithoutReportedInput> | ReportCreateWithoutReportedInput[] | ReportUncheckedCreateWithoutReportedInput[]
-    connectOrCreate?: ReportCreateOrConnectWithoutReportedInput | ReportCreateOrConnectWithoutReportedInput[]
-    upsert?: ReportUpsertWithWhereUniqueWithoutReportedInput | ReportUpsertWithWhereUniqueWithoutReportedInput[]
-    createMany?: ReportCreateManyReportedInputEnvelope
-    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    update?: ReportUpdateWithWhereUniqueWithoutReportedInput | ReportUpdateWithWhereUniqueWithoutReportedInput[]
-    updateMany?: ReportUpdateManyWithWhereWithoutReportedInput | ReportUpdateManyWithWhereWithoutReportedInput[]
-    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  export type BlockUncheckedUpdateManyWithoutBlockedNestedInput = {
+    create?: XOR<BlockCreateWithoutBlockedInput, BlockUncheckedCreateWithoutBlockedInput> | BlockCreateWithoutBlockedInput[] | BlockUncheckedCreateWithoutBlockedInput[]
+    connectOrCreate?: BlockCreateOrConnectWithoutBlockedInput | BlockCreateOrConnectWithoutBlockedInput[]
+    upsert?: BlockUpsertWithWhereUniqueWithoutBlockedInput | BlockUpsertWithWhereUniqueWithoutBlockedInput[]
+    createMany?: BlockCreateManyBlockedInputEnvelope
+    set?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+    disconnect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+    delete?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+    connect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
+    update?: BlockUpdateWithWhereUniqueWithoutBlockedInput | BlockUpdateWithWhereUniqueWithoutBlockedInput[]
+    updateMany?: BlockUpdateManyWithWhereWithoutBlockedInput | BlockUpdateManyWithWhereWithoutBlockedInput[]
+    deleteMany?: BlockScalarWhereInput | BlockScalarWhereInput[]
   }
 
-  export type BlockUpdateManyWithoutBlockerNestedInput = {
+  export type BlockUncheckedUpdateManyWithoutBlockerNestedInput = {
     create?: XOR<BlockCreateWithoutBlockerInput, BlockUncheckedCreateWithoutBlockerInput> | BlockCreateWithoutBlockerInput[] | BlockUncheckedCreateWithoutBlockerInput[]
     connectOrCreate?: BlockCreateOrConnectWithoutBlockerInput | BlockCreateOrConnectWithoutBlockerInput[]
     upsert?: BlockUpsertWithWhereUniqueWithoutBlockerInput | BlockUpsertWithWhereUniqueWithoutBlockerInput[]
@@ -11434,18 +11565,32 @@ export namespace Prisma {
     deleteMany?: BlockScalarWhereInput | BlockScalarWhereInput[]
   }
 
-  export type BlockUpdateManyWithoutBlockedNestedInput = {
-    create?: XOR<BlockCreateWithoutBlockedInput, BlockUncheckedCreateWithoutBlockedInput> | BlockCreateWithoutBlockedInput[] | BlockUncheckedCreateWithoutBlockedInput[]
-    connectOrCreate?: BlockCreateOrConnectWithoutBlockedInput | BlockCreateOrConnectWithoutBlockedInput[]
-    upsert?: BlockUpsertWithWhereUniqueWithoutBlockedInput | BlockUpsertWithWhereUniqueWithoutBlockedInput[]
-    createMany?: BlockCreateManyBlockedInputEnvelope
-    set?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
-    disconnect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
-    delete?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
-    connect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
-    update?: BlockUpdateWithWhereUniqueWithoutBlockedInput | BlockUpdateWithWhereUniqueWithoutBlockedInput[]
-    updateMany?: BlockUpdateManyWithWhereWithoutBlockedInput | BlockUpdateManyWithWhereWithoutBlockedInput[]
-    deleteMany?: BlockScalarWhereInput | BlockScalarWhereInput[]
+  export type CallUncheckedUpdateManyWithoutInitiator_userNestedInput = {
+    create?: XOR<CallCreateWithoutInitiator_userInput, CallUncheckedCreateWithoutInitiator_userInput> | CallCreateWithoutInitiator_userInput[] | CallUncheckedCreateWithoutInitiator_userInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutInitiator_userInput | CallCreateOrConnectWithoutInitiator_userInput[]
+    upsert?: CallUpsertWithWhereUniqueWithoutInitiator_userInput | CallUpsertWithWhereUniqueWithoutInitiator_userInput[]
+    createMany?: CallCreateManyInitiator_userInputEnvelope
+    set?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    disconnect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    delete?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    update?: CallUpdateWithWhereUniqueWithoutInitiator_userInput | CallUpdateWithWhereUniqueWithoutInitiator_userInput[]
+    updateMany?: CallUpdateManyWithWhereWithoutInitiator_userInput | CallUpdateManyWithWhereWithoutInitiator_userInput[]
+    deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
+  }
+
+  export type CallUncheckedUpdateManyWithoutReceiver_userNestedInput = {
+    create?: XOR<CallCreateWithoutReceiver_userInput, CallUncheckedCreateWithoutReceiver_userInput> | CallCreateWithoutReceiver_userInput[] | CallUncheckedCreateWithoutReceiver_userInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutReceiver_userInput | CallCreateOrConnectWithoutReceiver_userInput[]
+    upsert?: CallUpsertWithWhereUniqueWithoutReceiver_userInput | CallUpsertWithWhereUniqueWithoutReceiver_userInput[]
+    createMany?: CallCreateManyReceiver_userInputEnvelope
+    set?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    disconnect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    delete?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    update?: CallUpdateWithWhereUniqueWithoutReceiver_userInput | CallUpdateWithWhereUniqueWithoutReceiver_userInput[]
+    updateMany?: CallUpdateManyWithWhereWithoutReceiver_userInput | CallUpdateManyWithWhereWithoutReceiver_userInput[]
+    deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
   }
 
   export type LikeUncheckedUpdateManyWithoutFrom_userNestedInput = {
@@ -11504,48 +11649,6 @@ export namespace Prisma {
     deleteMany?: MatchScalarWhereInput | MatchScalarWhereInput[]
   }
 
-  export type CallUncheckedUpdateManyWithoutInitiator_userNestedInput = {
-    create?: XOR<CallCreateWithoutInitiator_userInput, CallUncheckedCreateWithoutInitiator_userInput> | CallCreateWithoutInitiator_userInput[] | CallUncheckedCreateWithoutInitiator_userInput[]
-    connectOrCreate?: CallCreateOrConnectWithoutInitiator_userInput | CallCreateOrConnectWithoutInitiator_userInput[]
-    upsert?: CallUpsertWithWhereUniqueWithoutInitiator_userInput | CallUpsertWithWhereUniqueWithoutInitiator_userInput[]
-    createMany?: CallCreateManyInitiator_userInputEnvelope
-    set?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    disconnect?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    delete?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    update?: CallUpdateWithWhereUniqueWithoutInitiator_userInput | CallUpdateWithWhereUniqueWithoutInitiator_userInput[]
-    updateMany?: CallUpdateManyWithWhereWithoutInitiator_userInput | CallUpdateManyWithWhereWithoutInitiator_userInput[]
-    deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
-  }
-
-  export type CallUncheckedUpdateManyWithoutReceiver_userNestedInput = {
-    create?: XOR<CallCreateWithoutReceiver_userInput, CallUncheckedCreateWithoutReceiver_userInput> | CallCreateWithoutReceiver_userInput[] | CallUncheckedCreateWithoutReceiver_userInput[]
-    connectOrCreate?: CallCreateOrConnectWithoutReceiver_userInput | CallCreateOrConnectWithoutReceiver_userInput[]
-    upsert?: CallUpsertWithWhereUniqueWithoutReceiver_userInput | CallUpsertWithWhereUniqueWithoutReceiver_userInput[]
-    createMany?: CallCreateManyReceiver_userInputEnvelope
-    set?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    disconnect?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    delete?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    update?: CallUpdateWithWhereUniqueWithoutReceiver_userInput | CallUpdateWithWhereUniqueWithoutReceiver_userInput[]
-    updateMany?: CallUpdateManyWithWhereWithoutReceiver_userInput | CallUpdateManyWithWhereWithoutReceiver_userInput[]
-    deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
-  }
-
-  export type ReportUncheckedUpdateManyWithoutReporterNestedInput = {
-    create?: XOR<ReportCreateWithoutReporterInput, ReportUncheckedCreateWithoutReporterInput> | ReportCreateWithoutReporterInput[] | ReportUncheckedCreateWithoutReporterInput[]
-    connectOrCreate?: ReportCreateOrConnectWithoutReporterInput | ReportCreateOrConnectWithoutReporterInput[]
-    upsert?: ReportUpsertWithWhereUniqueWithoutReporterInput | ReportUpsertWithWhereUniqueWithoutReporterInput[]
-    createMany?: ReportCreateManyReporterInputEnvelope
-    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    update?: ReportUpdateWithWhereUniqueWithoutReporterInput | ReportUpdateWithWhereUniqueWithoutReporterInput[]
-    updateMany?: ReportUpdateManyWithWhereWithoutReporterInput | ReportUpdateManyWithWhereWithoutReporterInput[]
-    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
-  }
-
   export type ReportUncheckedUpdateManyWithoutReportedNestedInput = {
     create?: XOR<ReportCreateWithoutReportedInput, ReportUncheckedCreateWithoutReportedInput> | ReportCreateWithoutReportedInput[] | ReportUncheckedCreateWithoutReportedInput[]
     connectOrCreate?: ReportCreateOrConnectWithoutReportedInput | ReportCreateOrConnectWithoutReportedInput[]
@@ -11560,32 +11663,18 @@ export namespace Prisma {
     deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
   }
 
-  export type BlockUncheckedUpdateManyWithoutBlockerNestedInput = {
-    create?: XOR<BlockCreateWithoutBlockerInput, BlockUncheckedCreateWithoutBlockerInput> | BlockCreateWithoutBlockerInput[] | BlockUncheckedCreateWithoutBlockerInput[]
-    connectOrCreate?: BlockCreateOrConnectWithoutBlockerInput | BlockCreateOrConnectWithoutBlockerInput[]
-    upsert?: BlockUpsertWithWhereUniqueWithoutBlockerInput | BlockUpsertWithWhereUniqueWithoutBlockerInput[]
-    createMany?: BlockCreateManyBlockerInputEnvelope
-    set?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
-    disconnect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
-    delete?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
-    connect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
-    update?: BlockUpdateWithWhereUniqueWithoutBlockerInput | BlockUpdateWithWhereUniqueWithoutBlockerInput[]
-    updateMany?: BlockUpdateManyWithWhereWithoutBlockerInput | BlockUpdateManyWithWhereWithoutBlockerInput[]
-    deleteMany?: BlockScalarWhereInput | BlockScalarWhereInput[]
-  }
-
-  export type BlockUncheckedUpdateManyWithoutBlockedNestedInput = {
-    create?: XOR<BlockCreateWithoutBlockedInput, BlockUncheckedCreateWithoutBlockedInput> | BlockCreateWithoutBlockedInput[] | BlockUncheckedCreateWithoutBlockedInput[]
-    connectOrCreate?: BlockCreateOrConnectWithoutBlockedInput | BlockCreateOrConnectWithoutBlockedInput[]
-    upsert?: BlockUpsertWithWhereUniqueWithoutBlockedInput | BlockUpsertWithWhereUniqueWithoutBlockedInput[]
-    createMany?: BlockCreateManyBlockedInputEnvelope
-    set?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
-    disconnect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
-    delete?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
-    connect?: BlockWhereUniqueInput | BlockWhereUniqueInput[]
-    update?: BlockUpdateWithWhereUniqueWithoutBlockedInput | BlockUpdateWithWhereUniqueWithoutBlockedInput[]
-    updateMany?: BlockUpdateManyWithWhereWithoutBlockedInput | BlockUpdateManyWithWhereWithoutBlockedInput[]
-    deleteMany?: BlockScalarWhereInput | BlockScalarWhereInput[]
+  export type ReportUncheckedUpdateManyWithoutReporterNestedInput = {
+    create?: XOR<ReportCreateWithoutReporterInput, ReportUncheckedCreateWithoutReporterInput> | ReportCreateWithoutReporterInput[] | ReportUncheckedCreateWithoutReporterInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutReporterInput | ReportCreateOrConnectWithoutReporterInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutReporterInput | ReportUpsertWithWhereUniqueWithoutReporterInput[]
+    createMany?: ReportCreateManyReporterInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutReporterInput | ReportUpdateWithWhereUniqueWithoutReporterInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutReporterInput | ReportUpdateManyWithWhereWithoutReporterInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutLikes_fromInput = {
@@ -11616,6 +11705,13 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLikes_toInput, UserUpdateWithoutLikes_toInput>, UserUncheckedUpdateWithoutLikes_toInput>
   }
 
+  export type CallCreateNestedManyWithoutMatchInput = {
+    create?: XOR<CallCreateWithoutMatchInput, CallUncheckedCreateWithoutMatchInput> | CallCreateWithoutMatchInput[] | CallUncheckedCreateWithoutMatchInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutMatchInput | CallCreateOrConnectWithoutMatchInput[]
+    createMany?: CallCreateManyMatchInputEnvelope
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutMatches_as_user1Input = {
     create?: XOR<UserCreateWithoutMatches_as_user1Input, UserUncheckedCreateWithoutMatches_as_user1Input>
     connectOrCreate?: UserCreateOrConnectWithoutMatches_as_user1Input
@@ -11628,18 +11724,25 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type CallCreateNestedManyWithoutMatchInput = {
+  export type CallUncheckedCreateNestedManyWithoutMatchInput = {
     create?: XOR<CallCreateWithoutMatchInput, CallUncheckedCreateWithoutMatchInput> | CallCreateWithoutMatchInput[] | CallUncheckedCreateWithoutMatchInput[]
     connectOrCreate?: CallCreateOrConnectWithoutMatchInput | CallCreateOrConnectWithoutMatchInput[]
     createMany?: CallCreateManyMatchInputEnvelope
     connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
   }
 
-  export type CallUncheckedCreateNestedManyWithoutMatchInput = {
+  export type CallUpdateManyWithoutMatchNestedInput = {
     create?: XOR<CallCreateWithoutMatchInput, CallUncheckedCreateWithoutMatchInput> | CallCreateWithoutMatchInput[] | CallUncheckedCreateWithoutMatchInput[]
     connectOrCreate?: CallCreateOrConnectWithoutMatchInput | CallCreateOrConnectWithoutMatchInput[]
+    upsert?: CallUpsertWithWhereUniqueWithoutMatchInput | CallUpsertWithWhereUniqueWithoutMatchInput[]
     createMany?: CallCreateManyMatchInputEnvelope
+    set?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    disconnect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    delete?: CallWhereUniqueInput | CallWhereUniqueInput[]
     connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    update?: CallUpdateWithWhereUniqueWithoutMatchInput | CallUpdateWithWhereUniqueWithoutMatchInput[]
+    updateMany?: CallUpdateManyWithWhereWithoutMatchInput | CallUpdateManyWithWhereWithoutMatchInput[]
+    deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
   }
 
   export type UserUpdateOneRequiredWithoutMatches_as_user1NestedInput = {
@@ -11658,20 +11761,6 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMatches_as_user2Input, UserUpdateWithoutMatches_as_user2Input>, UserUncheckedUpdateWithoutMatches_as_user2Input>
   }
 
-  export type CallUpdateManyWithoutMatchNestedInput = {
-    create?: XOR<CallCreateWithoutMatchInput, CallUncheckedCreateWithoutMatchInput> | CallCreateWithoutMatchInput[] | CallUncheckedCreateWithoutMatchInput[]
-    connectOrCreate?: CallCreateOrConnectWithoutMatchInput | CallCreateOrConnectWithoutMatchInput[]
-    upsert?: CallUpsertWithWhereUniqueWithoutMatchInput | CallUpsertWithWhereUniqueWithoutMatchInput[]
-    createMany?: CallCreateManyMatchInputEnvelope
-    set?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    disconnect?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    delete?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
-    update?: CallUpdateWithWhereUniqueWithoutMatchInput | CallUpdateWithWhereUniqueWithoutMatchInput[]
-    updateMany?: CallUpdateManyWithWhereWithoutMatchInput | CallUpdateManyWithWhereWithoutMatchInput[]
-    deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
-  }
-
   export type CallUncheckedUpdateManyWithoutMatchNestedInput = {
     create?: XOR<CallCreateWithoutMatchInput, CallUncheckedCreateWithoutMatchInput> | CallCreateWithoutMatchInput[] | CallUncheckedCreateWithoutMatchInput[]
     connectOrCreate?: CallCreateOrConnectWithoutMatchInput | CallCreateOrConnectWithoutMatchInput[]
@@ -11686,16 +11775,16 @@ export namespace Prisma {
     deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
   }
 
-  export type MatchCreateNestedOneWithoutCallsInput = {
-    create?: XOR<MatchCreateWithoutCallsInput, MatchUncheckedCreateWithoutCallsInput>
-    connectOrCreate?: MatchCreateOrConnectWithoutCallsInput
-    connect?: MatchWhereUniqueInput
-  }
-
   export type UserCreateNestedOneWithoutCalls_initiatedInput = {
     create?: XOR<UserCreateWithoutCalls_initiatedInput, UserUncheckedCreateWithoutCalls_initiatedInput>
     connectOrCreate?: UserCreateOrConnectWithoutCalls_initiatedInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type MatchCreateNestedOneWithoutCallsInput = {
+    create?: XOR<MatchCreateWithoutCallsInput, MatchUncheckedCreateWithoutCallsInput>
+    connectOrCreate?: MatchCreateOrConnectWithoutCallsInput
+    connect?: MatchWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutCalls_receivedInput = {
@@ -11720,20 +11809,20 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type MatchUpdateOneRequiredWithoutCallsNestedInput = {
-    create?: XOR<MatchCreateWithoutCallsInput, MatchUncheckedCreateWithoutCallsInput>
-    connectOrCreate?: MatchCreateOrConnectWithoutCallsInput
-    upsert?: MatchUpsertWithoutCallsInput
-    connect?: MatchWhereUniqueInput
-    update?: XOR<XOR<MatchUpdateToOneWithWhereWithoutCallsInput, MatchUpdateWithoutCallsInput>, MatchUncheckedUpdateWithoutCallsInput>
-  }
-
   export type UserUpdateOneRequiredWithoutCalls_initiatedNestedInput = {
     create?: XOR<UserCreateWithoutCalls_initiatedInput, UserUncheckedCreateWithoutCalls_initiatedInput>
     connectOrCreate?: UserCreateOrConnectWithoutCalls_initiatedInput
     upsert?: UserUpsertWithoutCalls_initiatedInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCalls_initiatedInput, UserUpdateWithoutCalls_initiatedInput>, UserUncheckedUpdateWithoutCalls_initiatedInput>
+  }
+
+  export type MatchUpdateOneRequiredWithoutCallsNestedInput = {
+    create?: XOR<MatchCreateWithoutCallsInput, MatchUncheckedCreateWithoutCallsInput>
+    connectOrCreate?: MatchCreateOrConnectWithoutCallsInput
+    upsert?: MatchUpsertWithoutCallsInput
+    connect?: MatchWhereUniqueInput
+    update?: XOR<XOR<MatchUpdateToOneWithWhereWithoutCallsInput, MatchUpdateWithoutCallsInput>, MatchUncheckedUpdateWithoutCallsInput>
   }
 
   export type UserUpdateOneRequiredWithoutCalls_receivedNestedInput = {
@@ -11766,18 +11855,14 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReports_madeInput, UserUpdateWithoutReports_madeInput>, UserUncheckedUpdateWithoutReports_madeInput>
   }
 
-  export type UserUpdateOneRequiredWithoutReports_receivedNestedInput = {
+  export type UserUpdateOneWithoutReports_receivedNestedInput = {
     create?: XOR<UserCreateWithoutReports_receivedInput, UserUncheckedCreateWithoutReports_receivedInput>
     connectOrCreate?: UserCreateOrConnectWithoutReports_receivedInput
     upsert?: UserUpsertWithoutReports_receivedInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReports_receivedInput, UserUpdateWithoutReports_receivedInput>, UserUncheckedUpdateWithoutReports_receivedInput>
-  }
-
-  export type UserCreateNestedOneWithoutBlocks_madeInput = {
-    create?: XOR<UserCreateWithoutBlocks_madeInput, UserUncheckedCreateWithoutBlocks_madeInput>
-    connectOrCreate?: UserCreateOrConnectWithoutBlocks_madeInput
-    connect?: UserWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutBlocks_receivedInput = {
@@ -11786,12 +11871,10 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutBlocks_madeNestedInput = {
+  export type UserCreateNestedOneWithoutBlocks_madeInput = {
     create?: XOR<UserCreateWithoutBlocks_madeInput, UserUncheckedCreateWithoutBlocks_madeInput>
     connectOrCreate?: UserCreateOrConnectWithoutBlocks_madeInput
-    upsert?: UserUpsertWithoutBlocks_madeInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBlocks_madeInput, UserUpdateWithoutBlocks_madeInput>, UserUncheckedUpdateWithoutBlocks_madeInput>
   }
 
   export type UserUpdateOneRequiredWithoutBlocks_receivedNestedInput = {
@@ -11800,6 +11883,14 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutBlocks_receivedInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBlocks_receivedInput, UserUpdateWithoutBlocks_receivedInput>, UserUncheckedUpdateWithoutBlocks_receivedInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutBlocks_madeNestedInput = {
+    create?: XOR<UserCreateWithoutBlocks_madeInput, UserUncheckedCreateWithoutBlocks_madeInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBlocks_madeInput
+    upsert?: UserUpsertWithoutBlocks_madeInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBlocks_madeInput, UserUpdateWithoutBlocks_madeInput>, UserUncheckedUpdateWithoutBlocks_madeInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -11866,6 +11957,17 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -12022,6 +12124,22 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
   export type NestedBigIntFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
@@ -12115,15 +12233,126 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  export type BlockCreateWithoutBlockedInput = {
+    created_at?: Date | string
+    blocker: UserCreateNestedOneWithoutBlocks_madeInput
+  }
+
+  export type BlockUncheckedCreateWithoutBlockedInput = {
+    id?: number
+    blocker_id: number
+    created_at?: Date | string
+  }
+
+  export type BlockCreateOrConnectWithoutBlockedInput = {
+    where: BlockWhereUniqueInput
+    create: XOR<BlockCreateWithoutBlockedInput, BlockUncheckedCreateWithoutBlockedInput>
+  }
+
+  export type BlockCreateManyBlockedInputEnvelope = {
+    data: BlockCreateManyBlockedInput | BlockCreateManyBlockedInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BlockCreateWithoutBlockerInput = {
+    created_at?: Date | string
+    blocked: UserCreateNestedOneWithoutBlocks_receivedInput
+  }
+
+  export type BlockUncheckedCreateWithoutBlockerInput = {
+    id?: number
+    blocked_id: number
+    created_at?: Date | string
+  }
+
+  export type BlockCreateOrConnectWithoutBlockerInput = {
+    where: BlockWhereUniqueInput
+    create: XOR<BlockCreateWithoutBlockerInput, BlockUncheckedCreateWithoutBlockerInput>
+  }
+
+  export type BlockCreateManyBlockerInputEnvelope = {
+    data: BlockCreateManyBlockerInput | BlockCreateManyBlockerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CallCreateWithoutInitiator_userInput = {
+    id?: bigint | number
+    call_segment_uuid?: string
+    previous_call_segment_uuid?: string | null
+    call_type: string
+    status: string
+    start_time?: Date | string | null
+    end_time?: Date | string | null
+    duration_seconds?: number | null
+    end_reason?: string | null
+    initiated_at?: Date | string
+    match: MatchCreateNestedOneWithoutCallsInput
+    receiver_user: UserCreateNestedOneWithoutCalls_receivedInput
+  }
+
+  export type CallUncheckedCreateWithoutInitiator_userInput = {
+    id?: bigint | number
+    match_id: number
+    call_segment_uuid?: string
+    previous_call_segment_uuid?: string | null
+    receiver_user_id: number
+    call_type: string
+    status: string
+    start_time?: Date | string | null
+    end_time?: Date | string | null
+    duration_seconds?: number | null
+    end_reason?: string | null
+    initiated_at?: Date | string
+  }
+
+  export type CallCreateOrConnectWithoutInitiator_userInput = {
+    where: CallWhereUniqueInput
+    create: XOR<CallCreateWithoutInitiator_userInput, CallUncheckedCreateWithoutInitiator_userInput>
+  }
+
+  export type CallCreateManyInitiator_userInputEnvelope = {
+    data: CallCreateManyInitiator_userInput | CallCreateManyInitiator_userInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CallCreateWithoutReceiver_userInput = {
+    id?: bigint | number
+    call_segment_uuid?: string
+    previous_call_segment_uuid?: string | null
+    call_type: string
+    status: string
+    start_time?: Date | string | null
+    end_time?: Date | string | null
+    duration_seconds?: number | null
+    end_reason?: string | null
+    initiated_at?: Date | string
+    initiator_user: UserCreateNestedOneWithoutCalls_initiatedInput
+    match: MatchCreateNestedOneWithoutCallsInput
+  }
+
+  export type CallUncheckedCreateWithoutReceiver_userInput = {
+    id?: bigint | number
+    match_id: number
+    call_segment_uuid?: string
+    previous_call_segment_uuid?: string | null
+    initiator_user_id: number
+    call_type: string
+    status: string
+    start_time?: Date | string | null
+    end_time?: Date | string | null
+    duration_seconds?: number | null
+    end_reason?: string | null
+    initiated_at?: Date | string
+  }
+
+  export type CallCreateOrConnectWithoutReceiver_userInput = {
+    where: CallWhereUniqueInput
+    create: XOR<CallCreateWithoutReceiver_userInput, CallUncheckedCreateWithoutReceiver_userInput>
+  }
+
+  export type CallCreateManyReceiver_userInputEnvelope = {
+    data: CallCreateManyReceiver_userInput | CallCreateManyReceiver_userInput[]
+    skipDuplicates?: boolean
   }
 
   export type LikeCreateWithoutFrom_userInput = {
@@ -12181,8 +12410,8 @@ export namespace Prisma {
     default_video_call_duration_sec?: number
     last_interaction_at?: Date | string
     match_inactivity_timeout_interval?: string
-    user2: UserCreateNestedOneWithoutMatches_as_user2Input
     calls?: CallCreateNestedManyWithoutMatchInput
+    user2: UserCreateNestedOneWithoutMatches_as_user2Input
   }
 
   export type MatchUncheckedCreateWithoutUser1Input = {
@@ -12218,8 +12447,8 @@ export namespace Prisma {
     default_video_call_duration_sec?: number
     last_interaction_at?: Date | string
     match_inactivity_timeout_interval?: string
-    user1: UserCreateNestedOneWithoutMatches_as_user1Input
     calls?: CallCreateNestedManyWithoutMatchInput
+    user1: UserCreateNestedOneWithoutMatches_as_user1Input
   }
 
   export type MatchUncheckedCreateWithoutUser2Input = {
@@ -12246,140 +12475,19 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type CallCreateWithoutInitiator_userInput = {
-    id?: bigint | number
-    call_segment_uuid?: string
-    previous_call_segment_uuid?: string | null
-    call_type: string
-    status: string
-    start_time?: Date | string | null
-    end_time?: Date | string | null
-    duration_seconds?: number | null
-    end_reason?: string | null
-    initiated_at?: Date | string
-    match: MatchCreateNestedOneWithoutCallsInput
-    receiver_user: UserCreateNestedOneWithoutCalls_receivedInput
-  }
-
-  export type CallUncheckedCreateWithoutInitiator_userInput = {
-    id?: bigint | number
-    match_id: number
-    call_segment_uuid?: string
-    previous_call_segment_uuid?: string | null
-    receiver_user_id: number
-    call_type: string
-    status: string
-    start_time?: Date | string | null
-    end_time?: Date | string | null
-    duration_seconds?: number | null
-    end_reason?: string | null
-    initiated_at?: Date | string
-  }
-
-  export type CallCreateOrConnectWithoutInitiator_userInput = {
-    where: CallWhereUniqueInput
-    create: XOR<CallCreateWithoutInitiator_userInput, CallUncheckedCreateWithoutInitiator_userInput>
-  }
-
-  export type CallCreateManyInitiator_userInputEnvelope = {
-    data: CallCreateManyInitiator_userInput | CallCreateManyInitiator_userInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type CallCreateWithoutReceiver_userInput = {
-    id?: bigint | number
-    call_segment_uuid?: string
-    previous_call_segment_uuid?: string | null
-    call_type: string
-    status: string
-    start_time?: Date | string | null
-    end_time?: Date | string | null
-    duration_seconds?: number | null
-    end_reason?: string | null
-    initiated_at?: Date | string
-    match: MatchCreateNestedOneWithoutCallsInput
-    initiator_user: UserCreateNestedOneWithoutCalls_initiatedInput
-  }
-
-  export type CallUncheckedCreateWithoutReceiver_userInput = {
-    id?: bigint | number
-    match_id: number
-    call_segment_uuid?: string
-    previous_call_segment_uuid?: string | null
-    initiator_user_id: number
-    call_type: string
-    status: string
-    start_time?: Date | string | null
-    end_time?: Date | string | null
-    duration_seconds?: number | null
-    end_reason?: string | null
-    initiated_at?: Date | string
-  }
-
-  export type CallCreateOrConnectWithoutReceiver_userInput = {
-    where: CallWhereUniqueInput
-    create: XOR<CallCreateWithoutReceiver_userInput, CallUncheckedCreateWithoutReceiver_userInput>
-  }
-
-  export type CallCreateManyReceiver_userInputEnvelope = {
-    data: CallCreateManyReceiver_userInput | CallCreateManyReceiver_userInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ReportCreateWithoutReporterInput = {
-    match_id?: number | null
-    call_segment_uuid?: string | null
-    reason: string
-    details?: string | null
-    timestamp?: Date | string
-    status?: string
-    admin_notes?: string | null
-    reported: UserCreateNestedOneWithoutReports_receivedInput
-  }
-
-  export type ReportUncheckedCreateWithoutReporterInput = {
-    id?: number
-    reported_id: number
-    match_id?: number | null
-    call_segment_uuid?: string | null
-    reason: string
-    details?: string | null
-    timestamp?: Date | string
-    status?: string
-    admin_notes?: string | null
-  }
-
-  export type ReportCreateOrConnectWithoutReporterInput = {
-    where: ReportWhereUniqueInput
-    create: XOR<ReportCreateWithoutReporterInput, ReportUncheckedCreateWithoutReporterInput>
-  }
-
-  export type ReportCreateManyReporterInputEnvelope = {
-    data: ReportCreateManyReporterInput | ReportCreateManyReporterInput[]
-    skipDuplicates?: boolean
-  }
-
   export type ReportCreateWithoutReportedInput = {
-    match_id?: number | null
-    call_segment_uuid?: string | null
     reason: string
-    details?: string | null
-    timestamp?: Date | string
+    created_at?: Date | string
     status?: string
-    admin_notes?: string | null
     reporter?: UserCreateNestedOneWithoutReports_madeInput
   }
 
   export type ReportUncheckedCreateWithoutReportedInput = {
     id?: number
     reporter_id?: number | null
-    match_id?: number | null
-    call_segment_uuid?: string | null
     reason: string
-    details?: string | null
-    timestamp?: Date | string
+    created_at?: Date | string
     status?: string
-    admin_notes?: string | null
   }
 
   export type ReportCreateOrConnectWithoutReportedInput = {
@@ -12392,46 +12500,122 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type BlockCreateWithoutBlockerInput = {
-    timestamp?: Date | string
-    blocked: UserCreateNestedOneWithoutBlocks_receivedInput
+  export type ReportCreateWithoutReporterInput = {
+    reason: string
+    created_at?: Date | string
+    status?: string
+    reported?: UserCreateNestedOneWithoutReports_receivedInput
   }
 
-  export type BlockUncheckedCreateWithoutBlockerInput = {
+  export type ReportUncheckedCreateWithoutReporterInput = {
     id?: number
-    blocked_id: number
-    timestamp?: Date | string
+    reason: string
+    created_at?: Date | string
+    reported_user_id?: number | null
+    status?: string
   }
 
-  export type BlockCreateOrConnectWithoutBlockerInput = {
-    where: BlockWhereUniqueInput
-    create: XOR<BlockCreateWithoutBlockerInput, BlockUncheckedCreateWithoutBlockerInput>
+  export type ReportCreateOrConnectWithoutReporterInput = {
+    where: ReportWhereUniqueInput
+    create: XOR<ReportCreateWithoutReporterInput, ReportUncheckedCreateWithoutReporterInput>
   }
 
-  export type BlockCreateManyBlockerInputEnvelope = {
-    data: BlockCreateManyBlockerInput | BlockCreateManyBlockerInput[]
+  export type ReportCreateManyReporterInputEnvelope = {
+    data: ReportCreateManyReporterInput | ReportCreateManyReporterInput[]
     skipDuplicates?: boolean
   }
 
-  export type BlockCreateWithoutBlockedInput = {
-    timestamp?: Date | string
-    blocker: UserCreateNestedOneWithoutBlocks_madeInput
-  }
-
-  export type BlockUncheckedCreateWithoutBlockedInput = {
-    id?: number
-    blocker_id: number
-    timestamp?: Date | string
-  }
-
-  export type BlockCreateOrConnectWithoutBlockedInput = {
+  export type BlockUpsertWithWhereUniqueWithoutBlockedInput = {
     where: BlockWhereUniqueInput
+    update: XOR<BlockUpdateWithoutBlockedInput, BlockUncheckedUpdateWithoutBlockedInput>
     create: XOR<BlockCreateWithoutBlockedInput, BlockUncheckedCreateWithoutBlockedInput>
   }
 
-  export type BlockCreateManyBlockedInputEnvelope = {
-    data: BlockCreateManyBlockedInput | BlockCreateManyBlockedInput[]
-    skipDuplicates?: boolean
+  export type BlockUpdateWithWhereUniqueWithoutBlockedInput = {
+    where: BlockWhereUniqueInput
+    data: XOR<BlockUpdateWithoutBlockedInput, BlockUncheckedUpdateWithoutBlockedInput>
+  }
+
+  export type BlockUpdateManyWithWhereWithoutBlockedInput = {
+    where: BlockScalarWhereInput
+    data: XOR<BlockUpdateManyMutationInput, BlockUncheckedUpdateManyWithoutBlockedInput>
+  }
+
+  export type BlockScalarWhereInput = {
+    AND?: BlockScalarWhereInput | BlockScalarWhereInput[]
+    OR?: BlockScalarWhereInput[]
+    NOT?: BlockScalarWhereInput | BlockScalarWhereInput[]
+    id?: IntFilter<"Block"> | number
+    blocker_id?: IntFilter<"Block"> | number
+    blocked_id?: IntFilter<"Block"> | number
+    created_at?: DateTimeFilter<"Block"> | Date | string
+  }
+
+  export type BlockUpsertWithWhereUniqueWithoutBlockerInput = {
+    where: BlockWhereUniqueInput
+    update: XOR<BlockUpdateWithoutBlockerInput, BlockUncheckedUpdateWithoutBlockerInput>
+    create: XOR<BlockCreateWithoutBlockerInput, BlockUncheckedCreateWithoutBlockerInput>
+  }
+
+  export type BlockUpdateWithWhereUniqueWithoutBlockerInput = {
+    where: BlockWhereUniqueInput
+    data: XOR<BlockUpdateWithoutBlockerInput, BlockUncheckedUpdateWithoutBlockerInput>
+  }
+
+  export type BlockUpdateManyWithWhereWithoutBlockerInput = {
+    where: BlockScalarWhereInput
+    data: XOR<BlockUpdateManyMutationInput, BlockUncheckedUpdateManyWithoutBlockerInput>
+  }
+
+  export type CallUpsertWithWhereUniqueWithoutInitiator_userInput = {
+    where: CallWhereUniqueInput
+    update: XOR<CallUpdateWithoutInitiator_userInput, CallUncheckedUpdateWithoutInitiator_userInput>
+    create: XOR<CallCreateWithoutInitiator_userInput, CallUncheckedCreateWithoutInitiator_userInput>
+  }
+
+  export type CallUpdateWithWhereUniqueWithoutInitiator_userInput = {
+    where: CallWhereUniqueInput
+    data: XOR<CallUpdateWithoutInitiator_userInput, CallUncheckedUpdateWithoutInitiator_userInput>
+  }
+
+  export type CallUpdateManyWithWhereWithoutInitiator_userInput = {
+    where: CallScalarWhereInput
+    data: XOR<CallUpdateManyMutationInput, CallUncheckedUpdateManyWithoutInitiator_userInput>
+  }
+
+  export type CallScalarWhereInput = {
+    AND?: CallScalarWhereInput | CallScalarWhereInput[]
+    OR?: CallScalarWhereInput[]
+    NOT?: CallScalarWhereInput | CallScalarWhereInput[]
+    id?: BigIntFilter<"Call"> | bigint | number
+    match_id?: IntFilter<"Call"> | number
+    call_segment_uuid?: UuidFilter<"Call"> | string
+    previous_call_segment_uuid?: UuidNullableFilter<"Call"> | string | null
+    initiator_user_id?: IntFilter<"Call"> | number
+    receiver_user_id?: IntFilter<"Call"> | number
+    call_type?: StringFilter<"Call"> | string
+    status?: StringFilter<"Call"> | string
+    start_time?: DateTimeNullableFilter<"Call"> | Date | string | null
+    end_time?: DateTimeNullableFilter<"Call"> | Date | string | null
+    duration_seconds?: IntNullableFilter<"Call"> | number | null
+    end_reason?: StringNullableFilter<"Call"> | string | null
+    initiated_at?: DateTimeFilter<"Call"> | Date | string
+  }
+
+  export type CallUpsertWithWhereUniqueWithoutReceiver_userInput = {
+    where: CallWhereUniqueInput
+    update: XOR<CallUpdateWithoutReceiver_userInput, CallUncheckedUpdateWithoutReceiver_userInput>
+    create: XOR<CallCreateWithoutReceiver_userInput, CallUncheckedCreateWithoutReceiver_userInput>
+  }
+
+  export type CallUpdateWithWhereUniqueWithoutReceiver_userInput = {
+    where: CallWhereUniqueInput
+    data: XOR<CallUpdateWithoutReceiver_userInput, CallUncheckedUpdateWithoutReceiver_userInput>
+  }
+
+  export type CallUpdateManyWithWhereWithoutReceiver_userInput = {
+    where: CallScalarWhereInput
+    data: XOR<CallUpdateManyMutationInput, CallUncheckedUpdateManyWithoutReceiver_userInput>
   }
 
   export type LikeUpsertWithWhereUniqueWithoutFrom_userInput = {
@@ -12526,89 +12710,6 @@ export namespace Prisma {
     data: XOR<MatchUpdateManyMutationInput, MatchUncheckedUpdateManyWithoutUser2Input>
   }
 
-  export type CallUpsertWithWhereUniqueWithoutInitiator_userInput = {
-    where: CallWhereUniqueInput
-    update: XOR<CallUpdateWithoutInitiator_userInput, CallUncheckedUpdateWithoutInitiator_userInput>
-    create: XOR<CallCreateWithoutInitiator_userInput, CallUncheckedCreateWithoutInitiator_userInput>
-  }
-
-  export type CallUpdateWithWhereUniqueWithoutInitiator_userInput = {
-    where: CallWhereUniqueInput
-    data: XOR<CallUpdateWithoutInitiator_userInput, CallUncheckedUpdateWithoutInitiator_userInput>
-  }
-
-  export type CallUpdateManyWithWhereWithoutInitiator_userInput = {
-    where: CallScalarWhereInput
-    data: XOR<CallUpdateManyMutationInput, CallUncheckedUpdateManyWithoutInitiator_userInput>
-  }
-
-  export type CallScalarWhereInput = {
-    AND?: CallScalarWhereInput | CallScalarWhereInput[]
-    OR?: CallScalarWhereInput[]
-    NOT?: CallScalarWhereInput | CallScalarWhereInput[]
-    id?: BigIntFilter<"Call"> | bigint | number
-    match_id?: IntFilter<"Call"> | number
-    call_segment_uuid?: UuidFilter<"Call"> | string
-    previous_call_segment_uuid?: UuidNullableFilter<"Call"> | string | null
-    initiator_user_id?: IntFilter<"Call"> | number
-    receiver_user_id?: IntFilter<"Call"> | number
-    call_type?: StringFilter<"Call"> | string
-    status?: StringFilter<"Call"> | string
-    start_time?: DateTimeNullableFilter<"Call"> | Date | string | null
-    end_time?: DateTimeNullableFilter<"Call"> | Date | string | null
-    duration_seconds?: IntNullableFilter<"Call"> | number | null
-    end_reason?: StringNullableFilter<"Call"> | string | null
-    initiated_at?: DateTimeFilter<"Call"> | Date | string
-  }
-
-  export type CallUpsertWithWhereUniqueWithoutReceiver_userInput = {
-    where: CallWhereUniqueInput
-    update: XOR<CallUpdateWithoutReceiver_userInput, CallUncheckedUpdateWithoutReceiver_userInput>
-    create: XOR<CallCreateWithoutReceiver_userInput, CallUncheckedCreateWithoutReceiver_userInput>
-  }
-
-  export type CallUpdateWithWhereUniqueWithoutReceiver_userInput = {
-    where: CallWhereUniqueInput
-    data: XOR<CallUpdateWithoutReceiver_userInput, CallUncheckedUpdateWithoutReceiver_userInput>
-  }
-
-  export type CallUpdateManyWithWhereWithoutReceiver_userInput = {
-    where: CallScalarWhereInput
-    data: XOR<CallUpdateManyMutationInput, CallUncheckedUpdateManyWithoutReceiver_userInput>
-  }
-
-  export type ReportUpsertWithWhereUniqueWithoutReporterInput = {
-    where: ReportWhereUniqueInput
-    update: XOR<ReportUpdateWithoutReporterInput, ReportUncheckedUpdateWithoutReporterInput>
-    create: XOR<ReportCreateWithoutReporterInput, ReportUncheckedCreateWithoutReporterInput>
-  }
-
-  export type ReportUpdateWithWhereUniqueWithoutReporterInput = {
-    where: ReportWhereUniqueInput
-    data: XOR<ReportUpdateWithoutReporterInput, ReportUncheckedUpdateWithoutReporterInput>
-  }
-
-  export type ReportUpdateManyWithWhereWithoutReporterInput = {
-    where: ReportScalarWhereInput
-    data: XOR<ReportUpdateManyMutationInput, ReportUncheckedUpdateManyWithoutReporterInput>
-  }
-
-  export type ReportScalarWhereInput = {
-    AND?: ReportScalarWhereInput | ReportScalarWhereInput[]
-    OR?: ReportScalarWhereInput[]
-    NOT?: ReportScalarWhereInput | ReportScalarWhereInput[]
-    id?: IntFilter<"Report"> | number
-    reporter_id?: IntNullableFilter<"Report"> | number | null
-    reported_id?: IntFilter<"Report"> | number
-    match_id?: IntNullableFilter<"Report"> | number | null
-    call_segment_uuid?: UuidNullableFilter<"Report"> | string | null
-    reason?: StringFilter<"Report"> | string
-    details?: StringNullableFilter<"Report"> | string | null
-    timestamp?: DateTimeFilter<"Report"> | Date | string
-    status?: StringFilter<"Report"> | string
-    admin_notes?: StringNullableFilter<"Report"> | string | null
-  }
-
   export type ReportUpsertWithWhereUniqueWithoutReportedInput = {
     where: ReportWhereUniqueInput
     update: XOR<ReportUpdateWithoutReportedInput, ReportUncheckedUpdateWithoutReportedInput>
@@ -12625,46 +12726,32 @@ export namespace Prisma {
     data: XOR<ReportUpdateManyMutationInput, ReportUncheckedUpdateManyWithoutReportedInput>
   }
 
-  export type BlockUpsertWithWhereUniqueWithoutBlockerInput = {
-    where: BlockWhereUniqueInput
-    update: XOR<BlockUpdateWithoutBlockerInput, BlockUncheckedUpdateWithoutBlockerInput>
-    create: XOR<BlockCreateWithoutBlockerInput, BlockUncheckedCreateWithoutBlockerInput>
+  export type ReportScalarWhereInput = {
+    AND?: ReportScalarWhereInput | ReportScalarWhereInput[]
+    OR?: ReportScalarWhereInput[]
+    NOT?: ReportScalarWhereInput | ReportScalarWhereInput[]
+    id?: IntFilter<"Report"> | number
+    reporter_id?: IntNullableFilter<"Report"> | number | null
+    reason?: StringFilter<"Report"> | string
+    created_at?: DateTimeFilter<"Report"> | Date | string
+    reported_user_id?: IntNullableFilter<"Report"> | number | null
+    status?: StringFilter<"Report"> | string
   }
 
-  export type BlockUpdateWithWhereUniqueWithoutBlockerInput = {
-    where: BlockWhereUniqueInput
-    data: XOR<BlockUpdateWithoutBlockerInput, BlockUncheckedUpdateWithoutBlockerInput>
+  export type ReportUpsertWithWhereUniqueWithoutReporterInput = {
+    where: ReportWhereUniqueInput
+    update: XOR<ReportUpdateWithoutReporterInput, ReportUncheckedUpdateWithoutReporterInput>
+    create: XOR<ReportCreateWithoutReporterInput, ReportUncheckedCreateWithoutReporterInput>
   }
 
-  export type BlockUpdateManyWithWhereWithoutBlockerInput = {
-    where: BlockScalarWhereInput
-    data: XOR<BlockUpdateManyMutationInput, BlockUncheckedUpdateManyWithoutBlockerInput>
+  export type ReportUpdateWithWhereUniqueWithoutReporterInput = {
+    where: ReportWhereUniqueInput
+    data: XOR<ReportUpdateWithoutReporterInput, ReportUncheckedUpdateWithoutReporterInput>
   }
 
-  export type BlockScalarWhereInput = {
-    AND?: BlockScalarWhereInput | BlockScalarWhereInput[]
-    OR?: BlockScalarWhereInput[]
-    NOT?: BlockScalarWhereInput | BlockScalarWhereInput[]
-    id?: IntFilter<"Block"> | number
-    blocker_id?: IntFilter<"Block"> | number
-    blocked_id?: IntFilter<"Block"> | number
-    timestamp?: DateTimeFilter<"Block"> | Date | string
-  }
-
-  export type BlockUpsertWithWhereUniqueWithoutBlockedInput = {
-    where: BlockWhereUniqueInput
-    update: XOR<BlockUpdateWithoutBlockedInput, BlockUncheckedUpdateWithoutBlockedInput>
-    create: XOR<BlockCreateWithoutBlockedInput, BlockUncheckedCreateWithoutBlockedInput>
-  }
-
-  export type BlockUpdateWithWhereUniqueWithoutBlockedInput = {
-    where: BlockWhereUniqueInput
-    data: XOR<BlockUpdateWithoutBlockedInput, BlockUncheckedUpdateWithoutBlockedInput>
-  }
-
-  export type BlockUpdateManyWithWhereWithoutBlockedInput = {
-    where: BlockScalarWhereInput
-    data: XOR<BlockUpdateManyMutationInput, BlockUncheckedUpdateManyWithoutBlockedInput>
+  export type ReportUpdateManyWithWhereWithoutReporterInput = {
+    where: ReportScalarWhereInput
+    data: XOR<ReportUpdateManyMutationInput, ReportUncheckedUpdateManyWithoutReporterInput>
   }
 
   export type UserCreateWithoutLikes_fromInput = {
@@ -12690,15 +12777,20 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
     likes_to?: LikeCreateNestedManyWithoutTo_userInput
     matches_as_user1?: MatchCreateNestedManyWithoutUser1Input
     matches_as_user2?: MatchCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportCreateNestedManyWithoutReporterInput
     reports_received?: ReportCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
+    reports_made?: ReportCreateNestedManyWithoutReporterInput
   }
 
   export type UserUncheckedCreateWithoutLikes_fromInput = {
@@ -12725,15 +12817,20 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
     likes_to?: LikeUncheckedCreateNestedManyWithoutTo_userInput
     matches_as_user1?: MatchUncheckedCreateNestedManyWithoutUser1Input
     matches_as_user2?: MatchUncheckedCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
     reports_received?: ReportUncheckedCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
+    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
   }
 
   export type UserCreateOrConnectWithoutLikes_fromInput = {
@@ -12764,15 +12861,20 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
     likes_from?: LikeCreateNestedManyWithoutFrom_userInput
     matches_as_user1?: MatchCreateNestedManyWithoutUser1Input
     matches_as_user2?: MatchCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportCreateNestedManyWithoutReporterInput
     reports_received?: ReportCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
+    reports_made?: ReportCreateNestedManyWithoutReporterInput
   }
 
   export type UserUncheckedCreateWithoutLikes_toInput = {
@@ -12799,15 +12901,20 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
     likes_from?: LikeUncheckedCreateNestedManyWithoutFrom_userInput
     matches_as_user1?: MatchUncheckedCreateNestedManyWithoutUser1Input
     matches_as_user2?: MatchUncheckedCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
     reports_received?: ReportUncheckedCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
+    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
   }
 
   export type UserCreateOrConnectWithoutLikes_toInput = {
@@ -12849,15 +12956,20 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
     likes_to?: LikeUpdateManyWithoutTo_userNestedInput
     matches_as_user1?: MatchUpdateManyWithoutUser1NestedInput
     matches_as_user2?: MatchUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUpdateManyWithoutReporterNestedInput
     reports_received?: ReportUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    reports_made?: ReportUpdateManyWithoutReporterNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLikes_fromInput = {
@@ -12884,15 +12996,20 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
     likes_to?: LikeUncheckedUpdateManyWithoutTo_userNestedInput
     matches_as_user1?: MatchUncheckedUpdateManyWithoutUser1NestedInput
     matches_as_user2?: MatchUncheckedUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     reports_received?: ReportUncheckedUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
+    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
   }
 
   export type UserUpsertWithoutLikes_toInput = {
@@ -12929,15 +13046,20 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
     likes_from?: LikeUpdateManyWithoutFrom_userNestedInput
     matches_as_user1?: MatchUpdateManyWithoutUser1NestedInput
     matches_as_user2?: MatchUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUpdateManyWithoutReporterNestedInput
     reports_received?: ReportUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    reports_made?: ReportUpdateManyWithoutReporterNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLikes_toInput = {
@@ -12964,163 +13086,20 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
     likes_from?: LikeUncheckedUpdateManyWithoutFrom_userNestedInput
     matches_as_user1?: MatchUncheckedUpdateManyWithoutUser1NestedInput
     matches_as_user2?: MatchUncheckedUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     reports_received?: ReportUncheckedUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
-  }
-
-  export type UserCreateWithoutMatches_as_user1Input = {
-    email: string
-    password_hash: string
-    display_name: string
-    birth_date: Date | string
-    gender?: string | null
-    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
-    relationship_type?: UserCreaterelationship_typeInput | string[]
-    city?: string | null
-    bio?: string | null
-    profile_image_url?: string | null
-    additional_photos?: NullableJsonNullValueInput | InputJsonValue
-    preferred_age_min?: number
-    preferred_age_max?: number
-    preferred_distance_km?: number
-    is_active?: boolean
-    is_paid?: boolean
-    paid_until?: Date | string | null
-    verified_email?: boolean
-    consents?: JsonNullValueInput | InputJsonValue
-    created_at?: Date | string
-    updated_at?: Date | string
-    last_active_at?: Date | string
-    likes_from?: LikeCreateNestedManyWithoutFrom_userInput
-    likes_to?: LikeCreateNestedManyWithoutTo_userInput
-    matches_as_user2?: MatchCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportCreateNestedManyWithoutReporterInput
-    reports_received?: ReportCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
-  }
-
-  export type UserUncheckedCreateWithoutMatches_as_user1Input = {
-    id?: number
-    email: string
-    password_hash: string
-    display_name: string
-    birth_date: Date | string
-    gender?: string | null
-    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
-    relationship_type?: UserCreaterelationship_typeInput | string[]
-    city?: string | null
-    bio?: string | null
-    profile_image_url?: string | null
-    additional_photos?: NullableJsonNullValueInput | InputJsonValue
-    preferred_age_min?: number
-    preferred_age_max?: number
-    preferred_distance_km?: number
-    is_active?: boolean
-    is_paid?: boolean
-    paid_until?: Date | string | null
-    verified_email?: boolean
-    consents?: JsonNullValueInput | InputJsonValue
-    created_at?: Date | string
-    updated_at?: Date | string
-    last_active_at?: Date | string
-    likes_from?: LikeUncheckedCreateNestedManyWithoutFrom_userInput
-    likes_to?: LikeUncheckedCreateNestedManyWithoutTo_userInput
-    matches_as_user2?: MatchUncheckedCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
-    reports_received?: ReportUncheckedCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
-  }
-
-  export type UserCreateOrConnectWithoutMatches_as_user1Input = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutMatches_as_user1Input, UserUncheckedCreateWithoutMatches_as_user1Input>
-  }
-
-  export type UserCreateWithoutMatches_as_user2Input = {
-    email: string
-    password_hash: string
-    display_name: string
-    birth_date: Date | string
-    gender?: string | null
-    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
-    relationship_type?: UserCreaterelationship_typeInput | string[]
-    city?: string | null
-    bio?: string | null
-    profile_image_url?: string | null
-    additional_photos?: NullableJsonNullValueInput | InputJsonValue
-    preferred_age_min?: number
-    preferred_age_max?: number
-    preferred_distance_km?: number
-    is_active?: boolean
-    is_paid?: boolean
-    paid_until?: Date | string | null
-    verified_email?: boolean
-    consents?: JsonNullValueInput | InputJsonValue
-    created_at?: Date | string
-    updated_at?: Date | string
-    last_active_at?: Date | string
-    likes_from?: LikeCreateNestedManyWithoutFrom_userInput
-    likes_to?: LikeCreateNestedManyWithoutTo_userInput
-    matches_as_user1?: MatchCreateNestedManyWithoutUser1Input
-    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportCreateNestedManyWithoutReporterInput
-    reports_received?: ReportCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
-  }
-
-  export type UserUncheckedCreateWithoutMatches_as_user2Input = {
-    id?: number
-    email: string
-    password_hash: string
-    display_name: string
-    birth_date: Date | string
-    gender?: string | null
-    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
-    relationship_type?: UserCreaterelationship_typeInput | string[]
-    city?: string | null
-    bio?: string | null
-    profile_image_url?: string | null
-    additional_photos?: NullableJsonNullValueInput | InputJsonValue
-    preferred_age_min?: number
-    preferred_age_max?: number
-    preferred_distance_km?: number
-    is_active?: boolean
-    is_paid?: boolean
-    paid_until?: Date | string | null
-    verified_email?: boolean
-    consents?: JsonNullValueInput | InputJsonValue
-    created_at?: Date | string
-    updated_at?: Date | string
-    last_active_at?: Date | string
-    likes_from?: LikeUncheckedCreateNestedManyWithoutFrom_userInput
-    likes_to?: LikeUncheckedCreateNestedManyWithoutTo_userInput
-    matches_as_user1?: MatchUncheckedCreateNestedManyWithoutUser1Input
-    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
-    reports_received?: ReportUncheckedCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
-  }
-
-  export type UserCreateOrConnectWithoutMatches_as_user2Input = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutMatches_as_user2Input, UserUncheckedCreateWithoutMatches_as_user2Input>
+    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
   }
 
   export type CallCreateWithoutMatchInput = {
@@ -13163,6 +13142,190 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserCreateWithoutMatches_as_user1Input = {
+    email: string
+    password_hash: string
+    display_name: string
+    birth_date: Date | string
+    gender?: string | null
+    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
+    relationship_type?: UserCreaterelationship_typeInput | string[]
+    city?: string | null
+    bio?: string | null
+    profile_image_url?: string | null
+    additional_photos?: NullableJsonNullValueInput | InputJsonValue
+    preferred_age_min?: number
+    preferred_age_max?: number
+    preferred_distance_km?: number
+    is_active?: boolean
+    is_paid?: boolean
+    paid_until?: Date | string | null
+    verified_email?: boolean
+    consents?: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
+    likes_from?: LikeCreateNestedManyWithoutFrom_userInput
+    likes_to?: LikeCreateNestedManyWithoutTo_userInput
+    matches_as_user2?: MatchCreateNestedManyWithoutUser2Input
+    reports_received?: ReportCreateNestedManyWithoutReportedInput
+    reports_made?: ReportCreateNestedManyWithoutReporterInput
+  }
+
+  export type UserUncheckedCreateWithoutMatches_as_user1Input = {
+    id?: number
+    email: string
+    password_hash: string
+    display_name: string
+    birth_date: Date | string
+    gender?: string | null
+    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
+    relationship_type?: UserCreaterelationship_typeInput | string[]
+    city?: string | null
+    bio?: string | null
+    profile_image_url?: string | null
+    additional_photos?: NullableJsonNullValueInput | InputJsonValue
+    preferred_age_min?: number
+    preferred_age_max?: number
+    preferred_distance_km?: number
+    is_active?: boolean
+    is_paid?: boolean
+    paid_until?: Date | string | null
+    verified_email?: boolean
+    consents?: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
+    likes_from?: LikeUncheckedCreateNestedManyWithoutFrom_userInput
+    likes_to?: LikeUncheckedCreateNestedManyWithoutTo_userInput
+    matches_as_user2?: MatchUncheckedCreateNestedManyWithoutUser2Input
+    reports_received?: ReportUncheckedCreateNestedManyWithoutReportedInput
+    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
+  }
+
+  export type UserCreateOrConnectWithoutMatches_as_user1Input = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMatches_as_user1Input, UserUncheckedCreateWithoutMatches_as_user1Input>
+  }
+
+  export type UserCreateWithoutMatches_as_user2Input = {
+    email: string
+    password_hash: string
+    display_name: string
+    birth_date: Date | string
+    gender?: string | null
+    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
+    relationship_type?: UserCreaterelationship_typeInput | string[]
+    city?: string | null
+    bio?: string | null
+    profile_image_url?: string | null
+    additional_photos?: NullableJsonNullValueInput | InputJsonValue
+    preferred_age_min?: number
+    preferred_age_max?: number
+    preferred_distance_km?: number
+    is_active?: boolean
+    is_paid?: boolean
+    paid_until?: Date | string | null
+    verified_email?: boolean
+    consents?: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
+    likes_from?: LikeCreateNestedManyWithoutFrom_userInput
+    likes_to?: LikeCreateNestedManyWithoutTo_userInput
+    matches_as_user1?: MatchCreateNestedManyWithoutUser1Input
+    reports_received?: ReportCreateNestedManyWithoutReportedInput
+    reports_made?: ReportCreateNestedManyWithoutReporterInput
+  }
+
+  export type UserUncheckedCreateWithoutMatches_as_user2Input = {
+    id?: number
+    email: string
+    password_hash: string
+    display_name: string
+    birth_date: Date | string
+    gender?: string | null
+    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
+    relationship_type?: UserCreaterelationship_typeInput | string[]
+    city?: string | null
+    bio?: string | null
+    profile_image_url?: string | null
+    additional_photos?: NullableJsonNullValueInput | InputJsonValue
+    preferred_age_min?: number
+    preferred_age_max?: number
+    preferred_distance_km?: number
+    is_active?: boolean
+    is_paid?: boolean
+    paid_until?: Date | string | null
+    verified_email?: boolean
+    consents?: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
+    likes_from?: LikeUncheckedCreateNestedManyWithoutFrom_userInput
+    likes_to?: LikeUncheckedCreateNestedManyWithoutTo_userInput
+    matches_as_user1?: MatchUncheckedCreateNestedManyWithoutUser1Input
+    reports_received?: ReportUncheckedCreateNestedManyWithoutReportedInput
+    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
+  }
+
+  export type UserCreateOrConnectWithoutMatches_as_user2Input = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMatches_as_user2Input, UserUncheckedCreateWithoutMatches_as_user2Input>
+  }
+
+  export type CallUpsertWithWhereUniqueWithoutMatchInput = {
+    where: CallWhereUniqueInput
+    update: XOR<CallUpdateWithoutMatchInput, CallUncheckedUpdateWithoutMatchInput>
+    create: XOR<CallCreateWithoutMatchInput, CallUncheckedCreateWithoutMatchInput>
+  }
+
+  export type CallUpdateWithWhereUniqueWithoutMatchInput = {
+    where: CallWhereUniqueInput
+    data: XOR<CallUpdateWithoutMatchInput, CallUncheckedUpdateWithoutMatchInput>
+  }
+
+  export type CallUpdateManyWithWhereWithoutMatchInput = {
+    where: CallScalarWhereInput
+    data: XOR<CallUpdateManyMutationInput, CallUncheckedUpdateManyWithoutMatchInput>
+  }
+
   export type UserUpsertWithoutMatches_as_user1Input = {
     update: XOR<UserUpdateWithoutMatches_as_user1Input, UserUncheckedUpdateWithoutMatches_as_user1Input>
     create: XOR<UserCreateWithoutMatches_as_user1Input, UserUncheckedCreateWithoutMatches_as_user1Input>
@@ -13197,15 +13360,20 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
     likes_from?: LikeUpdateManyWithoutFrom_userNestedInput
     likes_to?: LikeUpdateManyWithoutTo_userNestedInput
     matches_as_user2?: MatchUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUpdateManyWithoutReporterNestedInput
     reports_received?: ReportUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    reports_made?: ReportUpdateManyWithoutReporterNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMatches_as_user1Input = {
@@ -13232,15 +13400,20 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
     likes_from?: LikeUncheckedUpdateManyWithoutFrom_userNestedInput
     likes_to?: LikeUncheckedUpdateManyWithoutTo_userNestedInput
     matches_as_user2?: MatchUncheckedUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     reports_received?: ReportUncheckedUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
+    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
   }
 
   export type UserUpsertWithoutMatches_as_user2Input = {
@@ -13277,15 +13450,20 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
     likes_from?: LikeUpdateManyWithoutFrom_userNestedInput
     likes_to?: LikeUpdateManyWithoutTo_userNestedInput
     matches_as_user1?: MatchUpdateManyWithoutUser1NestedInput
-    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUpdateManyWithoutReporterNestedInput
     reports_received?: ReportUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    reports_made?: ReportUpdateManyWithoutReporterNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMatches_as_user2Input = {
@@ -13312,31 +13490,104 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
     likes_from?: LikeUncheckedUpdateManyWithoutFrom_userNestedInput
     likes_to?: LikeUncheckedUpdateManyWithoutTo_userNestedInput
     matches_as_user1?: MatchUncheckedUpdateManyWithoutUser1NestedInput
-    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     reports_received?: ReportUncheckedUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
+    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
   }
 
-  export type CallUpsertWithWhereUniqueWithoutMatchInput = {
-    where: CallWhereUniqueInput
-    update: XOR<CallUpdateWithoutMatchInput, CallUncheckedUpdateWithoutMatchInput>
-    create: XOR<CallCreateWithoutMatchInput, CallUncheckedCreateWithoutMatchInput>
+  export type UserCreateWithoutCalls_initiatedInput = {
+    email: string
+    password_hash: string
+    display_name: string
+    birth_date: Date | string
+    gender?: string | null
+    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
+    relationship_type?: UserCreaterelationship_typeInput | string[]
+    city?: string | null
+    bio?: string | null
+    profile_image_url?: string | null
+    additional_photos?: NullableJsonNullValueInput | InputJsonValue
+    preferred_age_min?: number
+    preferred_age_max?: number
+    preferred_distance_km?: number
+    is_active?: boolean
+    is_paid?: boolean
+    paid_until?: Date | string | null
+    verified_email?: boolean
+    consents?: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
+    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
+    likes_from?: LikeCreateNestedManyWithoutFrom_userInput
+    likes_to?: LikeCreateNestedManyWithoutTo_userInput
+    matches_as_user1?: MatchCreateNestedManyWithoutUser1Input
+    matches_as_user2?: MatchCreateNestedManyWithoutUser2Input
+    reports_received?: ReportCreateNestedManyWithoutReportedInput
+    reports_made?: ReportCreateNestedManyWithoutReporterInput
   }
 
-  export type CallUpdateWithWhereUniqueWithoutMatchInput = {
-    where: CallWhereUniqueInput
-    data: XOR<CallUpdateWithoutMatchInput, CallUncheckedUpdateWithoutMatchInput>
+  export type UserUncheckedCreateWithoutCalls_initiatedInput = {
+    id?: number
+    email: string
+    password_hash: string
+    display_name: string
+    birth_date: Date | string
+    gender?: string | null
+    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
+    relationship_type?: UserCreaterelationship_typeInput | string[]
+    city?: string | null
+    bio?: string | null
+    profile_image_url?: string | null
+    additional_photos?: NullableJsonNullValueInput | InputJsonValue
+    preferred_age_min?: number
+    preferred_age_max?: number
+    preferred_distance_km?: number
+    is_active?: boolean
+    is_paid?: boolean
+    paid_until?: Date | string | null
+    verified_email?: boolean
+    consents?: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
+    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
+    likes_from?: LikeUncheckedCreateNestedManyWithoutFrom_userInput
+    likes_to?: LikeUncheckedCreateNestedManyWithoutTo_userInput
+    matches_as_user1?: MatchUncheckedCreateNestedManyWithoutUser1Input
+    matches_as_user2?: MatchUncheckedCreateNestedManyWithoutUser2Input
+    reports_received?: ReportUncheckedCreateNestedManyWithoutReportedInput
+    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
   }
 
-  export type CallUpdateManyWithWhereWithoutMatchInput = {
-    where: CallScalarWhereInput
-    data: XOR<CallUpdateManyMutationInput, CallUncheckedUpdateManyWithoutMatchInput>
+  export type UserCreateOrConnectWithoutCalls_initiatedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCalls_initiatedInput, UserUncheckedCreateWithoutCalls_initiatedInput>
   }
 
   export type MatchCreateWithoutCallsInput = {
@@ -13371,80 +13622,6 @@ export namespace Prisma {
     create: XOR<MatchCreateWithoutCallsInput, MatchUncheckedCreateWithoutCallsInput>
   }
 
-  export type UserCreateWithoutCalls_initiatedInput = {
-    email: string
-    password_hash: string
-    display_name: string
-    birth_date: Date | string
-    gender?: string | null
-    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
-    relationship_type?: UserCreaterelationship_typeInput | string[]
-    city?: string | null
-    bio?: string | null
-    profile_image_url?: string | null
-    additional_photos?: NullableJsonNullValueInput | InputJsonValue
-    preferred_age_min?: number
-    preferred_age_max?: number
-    preferred_distance_km?: number
-    is_active?: boolean
-    is_paid?: boolean
-    paid_until?: Date | string | null
-    verified_email?: boolean
-    consents?: JsonNullValueInput | InputJsonValue
-    created_at?: Date | string
-    updated_at?: Date | string
-    last_active_at?: Date | string
-    likes_from?: LikeCreateNestedManyWithoutFrom_userInput
-    likes_to?: LikeCreateNestedManyWithoutTo_userInput
-    matches_as_user1?: MatchCreateNestedManyWithoutUser1Input
-    matches_as_user2?: MatchCreateNestedManyWithoutUser2Input
-    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportCreateNestedManyWithoutReporterInput
-    reports_received?: ReportCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
-  }
-
-  export type UserUncheckedCreateWithoutCalls_initiatedInput = {
-    id?: number
-    email: string
-    password_hash: string
-    display_name: string
-    birth_date: Date | string
-    gender?: string | null
-    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
-    relationship_type?: UserCreaterelationship_typeInput | string[]
-    city?: string | null
-    bio?: string | null
-    profile_image_url?: string | null
-    additional_photos?: NullableJsonNullValueInput | InputJsonValue
-    preferred_age_min?: number
-    preferred_age_max?: number
-    preferred_distance_km?: number
-    is_active?: boolean
-    is_paid?: boolean
-    paid_until?: Date | string | null
-    verified_email?: boolean
-    consents?: JsonNullValueInput | InputJsonValue
-    created_at?: Date | string
-    updated_at?: Date | string
-    last_active_at?: Date | string
-    likes_from?: LikeUncheckedCreateNestedManyWithoutFrom_userInput
-    likes_to?: LikeUncheckedCreateNestedManyWithoutTo_userInput
-    matches_as_user1?: MatchUncheckedCreateNestedManyWithoutUser1Input
-    matches_as_user2?: MatchUncheckedCreateNestedManyWithoutUser2Input
-    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
-    reports_received?: ReportUncheckedCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
-  }
-
-  export type UserCreateOrConnectWithoutCalls_initiatedInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutCalls_initiatedInput, UserUncheckedCreateWithoutCalls_initiatedInput>
-  }
-
   export type UserCreateWithoutCalls_receivedInput = {
     email: string
     password_hash: string
@@ -13468,15 +13645,20 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
     likes_from?: LikeCreateNestedManyWithoutFrom_userInput
     likes_to?: LikeCreateNestedManyWithoutTo_userInput
     matches_as_user1?: MatchCreateNestedManyWithoutUser1Input
     matches_as_user2?: MatchCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
-    reports_made?: ReportCreateNestedManyWithoutReporterInput
     reports_received?: ReportCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
+    reports_made?: ReportCreateNestedManyWithoutReporterInput
   }
 
   export type UserUncheckedCreateWithoutCalls_receivedInput = {
@@ -13503,20 +13685,115 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
     likes_from?: LikeUncheckedCreateNestedManyWithoutFrom_userInput
     likes_to?: LikeUncheckedCreateNestedManyWithoutTo_userInput
     matches_as_user1?: MatchUncheckedCreateNestedManyWithoutUser1Input
     matches_as_user2?: MatchUncheckedCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
-    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
     reports_received?: ReportUncheckedCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
+    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
   }
 
   export type UserCreateOrConnectWithoutCalls_receivedInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutCalls_receivedInput, UserUncheckedCreateWithoutCalls_receivedInput>
+  }
+
+  export type UserUpsertWithoutCalls_initiatedInput = {
+    update: XOR<UserUpdateWithoutCalls_initiatedInput, UserUncheckedUpdateWithoutCalls_initiatedInput>
+    create: XOR<UserCreateWithoutCalls_initiatedInput, UserUncheckedCreateWithoutCalls_initiatedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCalls_initiatedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCalls_initiatedInput, UserUncheckedUpdateWithoutCalls_initiatedInput>
+  }
+
+  export type UserUpdateWithoutCalls_initiatedInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    password_hash?: StringFieldUpdateOperationsInput | string
+    display_name?: StringFieldUpdateOperationsInput | string
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    looking_for_gender?: UserUpdatelooking_for_genderInput | string[]
+    relationship_type?: UserUpdaterelationship_typeInput | string[]
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    additional_photos?: NullableJsonNullValueInput | InputJsonValue
+    preferred_age_min?: IntFieldUpdateOperationsInput | number
+    preferred_age_max?: IntFieldUpdateOperationsInput | number
+    preferred_distance_km?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    is_paid?: BoolFieldUpdateOperationsInput | boolean
+    paid_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verified_email?: BoolFieldUpdateOperationsInput | boolean
+    consents?: JsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
+    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
+    likes_from?: LikeUpdateManyWithoutFrom_userNestedInput
+    likes_to?: LikeUpdateManyWithoutTo_userNestedInput
+    matches_as_user1?: MatchUpdateManyWithoutUser1NestedInput
+    matches_as_user2?: MatchUpdateManyWithoutUser2NestedInput
+    reports_received?: ReportUpdateManyWithoutReportedNestedInput
+    reports_made?: ReportUpdateManyWithoutReporterNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCalls_initiatedInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    password_hash?: StringFieldUpdateOperationsInput | string
+    display_name?: StringFieldUpdateOperationsInput | string
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    looking_for_gender?: UserUpdatelooking_for_genderInput | string[]
+    relationship_type?: UserUpdaterelationship_typeInput | string[]
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    additional_photos?: NullableJsonNullValueInput | InputJsonValue
+    preferred_age_min?: IntFieldUpdateOperationsInput | number
+    preferred_age_max?: IntFieldUpdateOperationsInput | number
+    preferred_distance_km?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    is_paid?: BoolFieldUpdateOperationsInput | boolean
+    paid_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verified_email?: BoolFieldUpdateOperationsInput | boolean
+    consents?: JsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
+    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
+    likes_from?: LikeUncheckedUpdateManyWithoutFrom_userNestedInput
+    likes_to?: LikeUncheckedUpdateManyWithoutTo_userNestedInput
+    matches_as_user1?: MatchUncheckedUpdateManyWithoutUser1NestedInput
+    matches_as_user2?: MatchUncheckedUpdateManyWithoutUser2NestedInput
+    reports_received?: ReportUncheckedUpdateManyWithoutReportedNestedInput
+    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
   }
 
   export type MatchUpsertWithoutCallsInput = {
@@ -13557,86 +13834,6 @@ export namespace Prisma {
     match_inactivity_timeout_interval?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UserUpsertWithoutCalls_initiatedInput = {
-    update: XOR<UserUpdateWithoutCalls_initiatedInput, UserUncheckedUpdateWithoutCalls_initiatedInput>
-    create: XOR<UserCreateWithoutCalls_initiatedInput, UserUncheckedCreateWithoutCalls_initiatedInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutCalls_initiatedInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutCalls_initiatedInput, UserUncheckedUpdateWithoutCalls_initiatedInput>
-  }
-
-  export type UserUpdateWithoutCalls_initiatedInput = {
-    email?: StringFieldUpdateOperationsInput | string
-    password_hash?: StringFieldUpdateOperationsInput | string
-    display_name?: StringFieldUpdateOperationsInput | string
-    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    looking_for_gender?: UserUpdatelooking_for_genderInput | string[]
-    relationship_type?: UserUpdaterelationship_typeInput | string[]
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    additional_photos?: NullableJsonNullValueInput | InputJsonValue
-    preferred_age_min?: IntFieldUpdateOperationsInput | number
-    preferred_age_max?: IntFieldUpdateOperationsInput | number
-    preferred_distance_km?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_paid?: BoolFieldUpdateOperationsInput | boolean
-    paid_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    verified_email?: BoolFieldUpdateOperationsInput | boolean
-    consents?: JsonNullValueInput | InputJsonValue
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    likes_from?: LikeUpdateManyWithoutFrom_userNestedInput
-    likes_to?: LikeUpdateManyWithoutTo_userNestedInput
-    matches_as_user1?: MatchUpdateManyWithoutUser1NestedInput
-    matches_as_user2?: MatchUpdateManyWithoutUser2NestedInput
-    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUpdateManyWithoutReporterNestedInput
-    reports_received?: ReportUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutCalls_initiatedInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    email?: StringFieldUpdateOperationsInput | string
-    password_hash?: StringFieldUpdateOperationsInput | string
-    display_name?: StringFieldUpdateOperationsInput | string
-    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    looking_for_gender?: UserUpdatelooking_for_genderInput | string[]
-    relationship_type?: UserUpdaterelationship_typeInput | string[]
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    additional_photos?: NullableJsonNullValueInput | InputJsonValue
-    preferred_age_min?: IntFieldUpdateOperationsInput | number
-    preferred_age_max?: IntFieldUpdateOperationsInput | number
-    preferred_distance_km?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_paid?: BoolFieldUpdateOperationsInput | boolean
-    paid_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    verified_email?: BoolFieldUpdateOperationsInput | boolean
-    consents?: JsonNullValueInput | InputJsonValue
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    likes_from?: LikeUncheckedUpdateManyWithoutFrom_userNestedInput
-    likes_to?: LikeUncheckedUpdateManyWithoutTo_userNestedInput
-    matches_as_user1?: MatchUncheckedUpdateManyWithoutUser1NestedInput
-    matches_as_user2?: MatchUncheckedUpdateManyWithoutUser2NestedInput
-    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
-    reports_received?: ReportUncheckedUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
-  }
-
   export type UserUpsertWithoutCalls_receivedInput = {
     update: XOR<UserUpdateWithoutCalls_receivedInput, UserUncheckedUpdateWithoutCalls_receivedInput>
     create: XOR<UserCreateWithoutCalls_receivedInput, UserUncheckedCreateWithoutCalls_receivedInput>
@@ -13671,15 +13868,20 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
     likes_from?: LikeUpdateManyWithoutFrom_userNestedInput
     likes_to?: LikeUpdateManyWithoutTo_userNestedInput
     matches_as_user1?: MatchUpdateManyWithoutUser1NestedInput
     matches_as_user2?: MatchUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
-    reports_made?: ReportUpdateManyWithoutReporterNestedInput
     reports_received?: ReportUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    reports_made?: ReportUpdateManyWithoutReporterNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCalls_receivedInput = {
@@ -13706,15 +13908,20 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
     likes_from?: LikeUncheckedUpdateManyWithoutFrom_userNestedInput
     likes_to?: LikeUncheckedUpdateManyWithoutTo_userNestedInput
     matches_as_user1?: MatchUncheckedUpdateManyWithoutUser1NestedInput
     matches_as_user2?: MatchUncheckedUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
-    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     reports_received?: ReportUncheckedUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
+    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
   }
 
   export type UserCreateWithoutReports_madeInput = {
@@ -13740,15 +13947,20 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
     likes_from?: LikeCreateNestedManyWithoutFrom_userInput
     likes_to?: LikeCreateNestedManyWithoutTo_userInput
     matches_as_user1?: MatchCreateNestedManyWithoutUser1Input
     matches_as_user2?: MatchCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
     reports_received?: ReportCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUncheckedCreateWithoutReports_madeInput = {
@@ -13775,15 +13987,20 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
     likes_from?: LikeUncheckedCreateNestedManyWithoutFrom_userInput
     likes_to?: LikeUncheckedCreateNestedManyWithoutTo_userInput
     matches_as_user1?: MatchUncheckedCreateNestedManyWithoutUser1Input
     matches_as_user2?: MatchUncheckedCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
     reports_received?: ReportUncheckedCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
   }
 
   export type UserCreateOrConnectWithoutReports_madeInput = {
@@ -13814,15 +14031,20 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
     likes_from?: LikeCreateNestedManyWithoutFrom_userInput
     likes_to?: LikeCreateNestedManyWithoutTo_userInput
     matches_as_user1?: MatchCreateNestedManyWithoutUser1Input
     matches_as_user2?: MatchCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
     reports_made?: ReportCreateNestedManyWithoutReporterInput
-    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUncheckedCreateWithoutReports_receivedInput = {
@@ -13849,15 +14071,20 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
+    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
     likes_from?: LikeUncheckedCreateNestedManyWithoutFrom_userInput
     likes_to?: LikeUncheckedCreateNestedManyWithoutTo_userInput
     matches_as_user1?: MatchUncheckedCreateNestedManyWithoutUser1Input
     matches_as_user2?: MatchUncheckedCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
     reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
-    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
-    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
   }
 
   export type UserCreateOrConnectWithoutReports_receivedInput = {
@@ -13899,15 +14126,20 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
     likes_from?: LikeUpdateManyWithoutFrom_userNestedInput
     likes_to?: LikeUpdateManyWithoutTo_userNestedInput
     matches_as_user1?: MatchUpdateManyWithoutUser1NestedInput
     matches_as_user2?: MatchUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
     reports_received?: ReportUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReports_madeInput = {
@@ -13934,15 +14166,20 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
     likes_from?: LikeUncheckedUpdateManyWithoutFrom_userNestedInput
     likes_to?: LikeUncheckedUpdateManyWithoutTo_userNestedInput
     matches_as_user1?: MatchUncheckedUpdateManyWithoutUser1NestedInput
     matches_as_user2?: MatchUncheckedUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
     reports_received?: ReportUncheckedUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUpsertWithoutReports_receivedInput = {
@@ -13979,15 +14216,20 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
     likes_from?: LikeUpdateManyWithoutFrom_userNestedInput
     likes_to?: LikeUpdateManyWithoutTo_userNestedInput
     matches_as_user1?: MatchUpdateManyWithoutUser1NestedInput
     matches_as_user2?: MatchUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
     reports_made?: ReportUpdateManyWithoutReporterNestedInput
-    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReports_receivedInput = {
@@ -14014,89 +14256,20 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
+    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
     likes_from?: LikeUncheckedUpdateManyWithoutFrom_userNestedInput
     likes_to?: LikeUncheckedUpdateManyWithoutTo_userNestedInput
     matches_as_user1?: MatchUncheckedUpdateManyWithoutUser1NestedInput
     matches_as_user2?: MatchUncheckedUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
     reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
-    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
-    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
-  }
-
-  export type UserCreateWithoutBlocks_madeInput = {
-    email: string
-    password_hash: string
-    display_name: string
-    birth_date: Date | string
-    gender?: string | null
-    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
-    relationship_type?: UserCreaterelationship_typeInput | string[]
-    city?: string | null
-    bio?: string | null
-    profile_image_url?: string | null
-    additional_photos?: NullableJsonNullValueInput | InputJsonValue
-    preferred_age_min?: number
-    preferred_age_max?: number
-    preferred_distance_km?: number
-    is_active?: boolean
-    is_paid?: boolean
-    paid_until?: Date | string | null
-    verified_email?: boolean
-    consents?: JsonNullValueInput | InputJsonValue
-    created_at?: Date | string
-    updated_at?: Date | string
-    last_active_at?: Date | string
-    likes_from?: LikeCreateNestedManyWithoutFrom_userInput
-    likes_to?: LikeCreateNestedManyWithoutTo_userInput
-    matches_as_user1?: MatchCreateNestedManyWithoutUser1Input
-    matches_as_user2?: MatchCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportCreateNestedManyWithoutReporterInput
-    reports_received?: ReportCreateNestedManyWithoutReportedInput
-    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
-  }
-
-  export type UserUncheckedCreateWithoutBlocks_madeInput = {
-    id?: number
-    email: string
-    password_hash: string
-    display_name: string
-    birth_date: Date | string
-    gender?: string | null
-    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
-    relationship_type?: UserCreaterelationship_typeInput | string[]
-    city?: string | null
-    bio?: string | null
-    profile_image_url?: string | null
-    additional_photos?: NullableJsonNullValueInput | InputJsonValue
-    preferred_age_min?: number
-    preferred_age_max?: number
-    preferred_distance_km?: number
-    is_active?: boolean
-    is_paid?: boolean
-    paid_until?: Date | string | null
-    verified_email?: boolean
-    consents?: JsonNullValueInput | InputJsonValue
-    created_at?: Date | string
-    updated_at?: Date | string
-    last_active_at?: Date | string
-    likes_from?: LikeUncheckedCreateNestedManyWithoutFrom_userInput
-    likes_to?: LikeUncheckedCreateNestedManyWithoutTo_userInput
-    matches_as_user1?: MatchUncheckedCreateNestedManyWithoutUser1Input
-    matches_as_user2?: MatchUncheckedCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
-    reports_received?: ReportUncheckedCreateNestedManyWithoutReportedInput
-    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
-  }
-
-  export type UserCreateOrConnectWithoutBlocks_madeInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutBlocks_madeInput, UserUncheckedCreateWithoutBlocks_madeInput>
   }
 
   export type UserCreateWithoutBlocks_receivedInput = {
@@ -14122,15 +14295,20 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
     likes_from?: LikeCreateNestedManyWithoutFrom_userInput
     likes_to?: LikeCreateNestedManyWithoutTo_userInput
     matches_as_user1?: MatchCreateNestedManyWithoutUser1Input
     matches_as_user2?: MatchCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportCreateNestedManyWithoutReporterInput
     reports_received?: ReportCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockCreateNestedManyWithoutBlockerInput
+    reports_made?: ReportCreateNestedManyWithoutReporterInput
   }
 
   export type UserUncheckedCreateWithoutBlocks_receivedInput = {
@@ -14157,15 +14335,20 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
+    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
     likes_from?: LikeUncheckedCreateNestedManyWithoutFrom_userInput
     likes_to?: LikeUncheckedCreateNestedManyWithoutTo_userInput
     matches_as_user1?: MatchUncheckedCreateNestedManyWithoutUser1Input
     matches_as_user2?: MatchUncheckedCreateNestedManyWithoutUser2Input
-    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
-    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
-    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
     reports_received?: ReportUncheckedCreateNestedManyWithoutReportedInput
-    blocks_made?: BlockUncheckedCreateNestedManyWithoutBlockerInput
+    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
   }
 
   export type UserCreateOrConnectWithoutBlocks_receivedInput = {
@@ -14173,84 +14356,88 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutBlocks_receivedInput, UserUncheckedCreateWithoutBlocks_receivedInput>
   }
 
-  export type UserUpsertWithoutBlocks_madeInput = {
-    update: XOR<UserUpdateWithoutBlocks_madeInput, UserUncheckedUpdateWithoutBlocks_madeInput>
+  export type UserCreateWithoutBlocks_madeInput = {
+    email: string
+    password_hash: string
+    display_name: string
+    birth_date: Date | string
+    gender?: string | null
+    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
+    relationship_type?: UserCreaterelationship_typeInput | string[]
+    city?: string | null
+    bio?: string | null
+    profile_image_url?: string | null
+    additional_photos?: NullableJsonNullValueInput | InputJsonValue
+    preferred_age_min?: number
+    preferred_age_max?: number
+    preferred_distance_km?: number
+    is_active?: boolean
+    is_paid?: boolean
+    paid_until?: Date | string | null
+    verified_email?: boolean
+    consents?: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockCreateNestedManyWithoutBlockedInput
+    calls_initiated?: CallCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallCreateNestedManyWithoutReceiver_userInput
+    likes_from?: LikeCreateNestedManyWithoutFrom_userInput
+    likes_to?: LikeCreateNestedManyWithoutTo_userInput
+    matches_as_user1?: MatchCreateNestedManyWithoutUser1Input
+    matches_as_user2?: MatchCreateNestedManyWithoutUser2Input
+    reports_received?: ReportCreateNestedManyWithoutReportedInput
+    reports_made?: ReportCreateNestedManyWithoutReporterInput
+  }
+
+  export type UserUncheckedCreateWithoutBlocks_madeInput = {
+    id?: number
+    email: string
+    password_hash: string
+    display_name: string
+    birth_date: Date | string
+    gender?: string | null
+    looking_for_gender?: UserCreatelooking_for_genderInput | string[]
+    relationship_type?: UserCreaterelationship_typeInput | string[]
+    city?: string | null
+    bio?: string | null
+    profile_image_url?: string | null
+    additional_photos?: NullableJsonNullValueInput | InputJsonValue
+    preferred_age_min?: number
+    preferred_age_max?: number
+    preferred_distance_km?: number
+    is_active?: boolean
+    is_paid?: boolean
+    paid_until?: Date | string | null
+    verified_email?: boolean
+    consents?: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    last_active_at?: Date | string
+    last_seen_at?: Date | string | null
+    status_message?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    is_admin?: boolean
+    blocks_received?: BlockUncheckedCreateNestedManyWithoutBlockedInput
+    calls_initiated?: CallUncheckedCreateNestedManyWithoutInitiator_userInput
+    calls_received?: CallUncheckedCreateNestedManyWithoutReceiver_userInput
+    likes_from?: LikeUncheckedCreateNestedManyWithoutFrom_userInput
+    likes_to?: LikeUncheckedCreateNestedManyWithoutTo_userInput
+    matches_as_user1?: MatchUncheckedCreateNestedManyWithoutUser1Input
+    matches_as_user2?: MatchUncheckedCreateNestedManyWithoutUser2Input
+    reports_received?: ReportUncheckedCreateNestedManyWithoutReportedInput
+    reports_made?: ReportUncheckedCreateNestedManyWithoutReporterInput
+  }
+
+  export type UserCreateOrConnectWithoutBlocks_madeInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutBlocks_madeInput, UserUncheckedCreateWithoutBlocks_madeInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutBlocks_madeInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutBlocks_madeInput, UserUncheckedUpdateWithoutBlocks_madeInput>
-  }
-
-  export type UserUpdateWithoutBlocks_madeInput = {
-    email?: StringFieldUpdateOperationsInput | string
-    password_hash?: StringFieldUpdateOperationsInput | string
-    display_name?: StringFieldUpdateOperationsInput | string
-    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    looking_for_gender?: UserUpdatelooking_for_genderInput | string[]
-    relationship_type?: UserUpdaterelationship_typeInput | string[]
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    additional_photos?: NullableJsonNullValueInput | InputJsonValue
-    preferred_age_min?: IntFieldUpdateOperationsInput | number
-    preferred_age_max?: IntFieldUpdateOperationsInput | number
-    preferred_distance_km?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_paid?: BoolFieldUpdateOperationsInput | boolean
-    paid_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    verified_email?: BoolFieldUpdateOperationsInput | boolean
-    consents?: JsonNullValueInput | InputJsonValue
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    likes_from?: LikeUpdateManyWithoutFrom_userNestedInput
-    likes_to?: LikeUpdateManyWithoutTo_userNestedInput
-    matches_as_user1?: MatchUpdateManyWithoutUser1NestedInput
-    matches_as_user2?: MatchUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUpdateManyWithoutReporterNestedInput
-    reports_received?: ReportUpdateManyWithoutReportedNestedInput
-    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutBlocks_madeInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    email?: StringFieldUpdateOperationsInput | string
-    password_hash?: StringFieldUpdateOperationsInput | string
-    display_name?: StringFieldUpdateOperationsInput | string
-    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    looking_for_gender?: UserUpdatelooking_for_genderInput | string[]
-    relationship_type?: UserUpdaterelationship_typeInput | string[]
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    additional_photos?: NullableJsonNullValueInput | InputJsonValue
-    preferred_age_min?: IntFieldUpdateOperationsInput | number
-    preferred_age_max?: IntFieldUpdateOperationsInput | number
-    preferred_distance_km?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_paid?: BoolFieldUpdateOperationsInput | boolean
-    paid_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    verified_email?: BoolFieldUpdateOperationsInput | boolean
-    consents?: JsonNullValueInput | InputJsonValue
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    likes_from?: LikeUncheckedUpdateManyWithoutFrom_userNestedInput
-    likes_to?: LikeUncheckedUpdateManyWithoutTo_userNestedInput
-    matches_as_user1?: MatchUncheckedUpdateManyWithoutUser1NestedInput
-    matches_as_user2?: MatchUncheckedUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
-    reports_received?: ReportUncheckedUpdateManyWithoutReportedNestedInput
-    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUpsertWithoutBlocks_receivedInput = {
@@ -14287,15 +14474,20 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
     likes_from?: LikeUpdateManyWithoutFrom_userNestedInput
     likes_to?: LikeUpdateManyWithoutTo_userNestedInput
     matches_as_user1?: MatchUpdateManyWithoutUser1NestedInput
     matches_as_user2?: MatchUpdateManyWithoutUser2NestedInput
-    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
-    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUpdateManyWithoutReporterNestedInput
     reports_received?: ReportUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUpdateManyWithoutBlockerNestedInput
+    reports_made?: ReportUpdateManyWithoutReporterNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBlocks_receivedInput = {
@@ -14322,15 +14514,152 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
+    calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
     likes_from?: LikeUncheckedUpdateManyWithoutFrom_userNestedInput
     likes_to?: LikeUncheckedUpdateManyWithoutTo_userNestedInput
     matches_as_user1?: MatchUncheckedUpdateManyWithoutUser1NestedInput
     matches_as_user2?: MatchUncheckedUpdateManyWithoutUser2NestedInput
+    reports_received?: ReportUncheckedUpdateManyWithoutReportedNestedInput
+    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+  }
+
+  export type UserUpsertWithoutBlocks_madeInput = {
+    update: XOR<UserUpdateWithoutBlocks_madeInput, UserUncheckedUpdateWithoutBlocks_madeInput>
+    create: XOR<UserCreateWithoutBlocks_madeInput, UserUncheckedCreateWithoutBlocks_madeInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBlocks_madeInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBlocks_madeInput, UserUncheckedUpdateWithoutBlocks_madeInput>
+  }
+
+  export type UserUpdateWithoutBlocks_madeInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    password_hash?: StringFieldUpdateOperationsInput | string
+    display_name?: StringFieldUpdateOperationsInput | string
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    looking_for_gender?: UserUpdatelooking_for_genderInput | string[]
+    relationship_type?: UserUpdaterelationship_typeInput | string[]
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    additional_photos?: NullableJsonNullValueInput | InputJsonValue
+    preferred_age_min?: IntFieldUpdateOperationsInput | number
+    preferred_age_max?: IntFieldUpdateOperationsInput | number
+    preferred_distance_km?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    is_paid?: BoolFieldUpdateOperationsInput | boolean
+    paid_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verified_email?: BoolFieldUpdateOperationsInput | boolean
+    consents?: JsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUpdateManyWithoutBlockedNestedInput
+    calls_initiated?: CallUpdateManyWithoutInitiator_userNestedInput
+    calls_received?: CallUpdateManyWithoutReceiver_userNestedInput
+    likes_from?: LikeUpdateManyWithoutFrom_userNestedInput
+    likes_to?: LikeUpdateManyWithoutTo_userNestedInput
+    matches_as_user1?: MatchUpdateManyWithoutUser1NestedInput
+    matches_as_user2?: MatchUpdateManyWithoutUser2NestedInput
+    reports_received?: ReportUpdateManyWithoutReportedNestedInput
+    reports_made?: ReportUpdateManyWithoutReporterNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBlocks_madeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    password_hash?: StringFieldUpdateOperationsInput | string
+    display_name?: StringFieldUpdateOperationsInput | string
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    looking_for_gender?: UserUpdatelooking_for_genderInput | string[]
+    relationship_type?: UserUpdaterelationship_typeInput | string[]
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    additional_photos?: NullableJsonNullValueInput | InputJsonValue
+    preferred_age_min?: IntFieldUpdateOperationsInput | number
+    preferred_age_max?: IntFieldUpdateOperationsInput | number
+    preferred_distance_km?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    is_paid?: BoolFieldUpdateOperationsInput | boolean
+    paid_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verified_email?: BoolFieldUpdateOperationsInput | boolean
+    consents?: JsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_active_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_seen_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_message?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    is_admin?: BoolFieldUpdateOperationsInput | boolean
+    blocks_received?: BlockUncheckedUpdateManyWithoutBlockedNestedInput
     calls_initiated?: CallUncheckedUpdateManyWithoutInitiator_userNestedInput
     calls_received?: CallUncheckedUpdateManyWithoutReceiver_userNestedInput
-    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    likes_from?: LikeUncheckedUpdateManyWithoutFrom_userNestedInput
+    likes_to?: LikeUncheckedUpdateManyWithoutTo_userNestedInput
+    matches_as_user1?: MatchUncheckedUpdateManyWithoutUser1NestedInput
+    matches_as_user2?: MatchUncheckedUpdateManyWithoutUser2NestedInput
     reports_received?: ReportUncheckedUpdateManyWithoutReportedNestedInput
-    blocks_made?: BlockUncheckedUpdateManyWithoutBlockerNestedInput
+    reports_made?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+  }
+
+  export type BlockCreateManyBlockedInput = {
+    id?: number
+    blocker_id: number
+    created_at?: Date | string
+  }
+
+  export type BlockCreateManyBlockerInput = {
+    id?: number
+    blocked_id: number
+    created_at?: Date | string
+  }
+
+  export type CallCreateManyInitiator_userInput = {
+    id?: bigint | number
+    match_id: number
+    call_segment_uuid?: string
+    previous_call_segment_uuid?: string | null
+    receiver_user_id: number
+    call_type: string
+    status: string
+    start_time?: Date | string | null
+    end_time?: Date | string | null
+    duration_seconds?: number | null
+    end_reason?: string | null
+    initiated_at?: Date | string
+  }
+
+  export type CallCreateManyReceiver_userInput = {
+    id?: bigint | number
+    match_id: number
+    call_segment_uuid?: string
+    previous_call_segment_uuid?: string | null
+    initiator_user_id: number
+    call_type: string
+    status: string
+    start_time?: Date | string | null
+    end_time?: Date | string | null
+    duration_seconds?: number | null
+    end_reason?: string | null
+    initiated_at?: Date | string
   }
 
   export type LikeCreateManyFrom_userInput = {
@@ -14373,190 +14702,54 @@ export namespace Prisma {
     match_inactivity_timeout_interval?: string
   }
 
-  export type CallCreateManyInitiator_userInput = {
-    id?: bigint | number
-    match_id: number
-    call_segment_uuid?: string
-    previous_call_segment_uuid?: string | null
-    receiver_user_id: number
-    call_type: string
-    status: string
-    start_time?: Date | string | null
-    end_time?: Date | string | null
-    duration_seconds?: number | null
-    end_reason?: string | null
-    initiated_at?: Date | string
-  }
-
-  export type CallCreateManyReceiver_userInput = {
-    id?: bigint | number
-    match_id: number
-    call_segment_uuid?: string
-    previous_call_segment_uuid?: string | null
-    initiator_user_id: number
-    call_type: string
-    status: string
-    start_time?: Date | string | null
-    end_time?: Date | string | null
-    duration_seconds?: number | null
-    end_reason?: string | null
-    initiated_at?: Date | string
+  export type ReportCreateManyReportedInput = {
+    id?: number
+    reporter_id?: number | null
+    reason: string
+    created_at?: Date | string
+    status?: string
   }
 
   export type ReportCreateManyReporterInput = {
     id?: number
-    reported_id: number
-    match_id?: number | null
-    call_segment_uuid?: string | null
     reason: string
-    details?: string | null
-    timestamp?: Date | string
+    created_at?: Date | string
+    reported_user_id?: number | null
     status?: string
-    admin_notes?: string | null
   }
 
-  export type ReportCreateManyReportedInput = {
-    id?: number
-    reporter_id?: number | null
-    match_id?: number | null
-    call_segment_uuid?: string | null
-    reason: string
-    details?: string | null
-    timestamp?: Date | string
-    status?: string
-    admin_notes?: string | null
+  export type BlockUpdateWithoutBlockedInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocker?: UserUpdateOneRequiredWithoutBlocks_madeNestedInput
   }
 
-  export type BlockCreateManyBlockerInput = {
-    id?: number
-    blocked_id: number
-    timestamp?: Date | string
-  }
-
-  export type BlockCreateManyBlockedInput = {
-    id?: number
-    blocker_id: number
-    timestamp?: Date | string
-  }
-
-  export type LikeUpdateWithoutFrom_userInput = {
-    is_like?: BoolFieldUpdateOperationsInput | boolean
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    to_user?: UserUpdateOneRequiredWithoutLikes_toNestedInput
-  }
-
-  export type LikeUncheckedUpdateWithoutFrom_userInput = {
+  export type BlockUncheckedUpdateWithoutBlockedInput = {
     id?: IntFieldUpdateOperationsInput | number
-    to_user_id?: IntFieldUpdateOperationsInput | number
-    is_like?: BoolFieldUpdateOperationsInput | boolean
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocker_id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type LikeUncheckedUpdateManyWithoutFrom_userInput = {
+  export type BlockUncheckedUpdateManyWithoutBlockedInput = {
     id?: IntFieldUpdateOperationsInput | number
-    to_user_id?: IntFieldUpdateOperationsInput | number
-    is_like?: BoolFieldUpdateOperationsInput | boolean
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocker_id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type LikeUpdateWithoutTo_userInput = {
-    is_like?: BoolFieldUpdateOperationsInput | boolean
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    from_user?: UserUpdateOneRequiredWithoutLikes_fromNestedInput
+  export type BlockUpdateWithoutBlockerInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocked?: UserUpdateOneRequiredWithoutBlocks_receivedNestedInput
   }
 
-  export type LikeUncheckedUpdateWithoutTo_userInput = {
+  export type BlockUncheckedUpdateWithoutBlockerInput = {
     id?: IntFieldUpdateOperationsInput | number
-    from_user_id?: IntFieldUpdateOperationsInput | number
-    is_like?: BoolFieldUpdateOperationsInput | boolean
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocked_id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type LikeUncheckedUpdateManyWithoutTo_userInput = {
+  export type BlockUncheckedUpdateManyWithoutBlockerInput = {
     id?: IntFieldUpdateOperationsInput | number
-    from_user_id?: IntFieldUpdateOperationsInput | number
-    is_like?: BoolFieldUpdateOperationsInput | boolean
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type MatchUpdateWithoutUser1Input = {
-    matched_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    close_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
-    default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
-    last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    match_inactivity_timeout_interval?: StringFieldUpdateOperationsInput | string
-    user2?: UserUpdateOneRequiredWithoutMatches_as_user2NestedInput
-    calls?: CallUpdateManyWithoutMatchNestedInput
-  }
-
-  export type MatchUncheckedUpdateWithoutUser1Input = {
-    id?: IntFieldUpdateOperationsInput | number
-    user2_id?: IntFieldUpdateOperationsInput | number
-    matched_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    close_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
-    default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
-    last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    match_inactivity_timeout_interval?: StringFieldUpdateOperationsInput | string
-    calls?: CallUncheckedUpdateManyWithoutMatchNestedInput
-  }
-
-  export type MatchUncheckedUpdateManyWithoutUser1Input = {
-    id?: IntFieldUpdateOperationsInput | number
-    user2_id?: IntFieldUpdateOperationsInput | number
-    matched_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    close_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
-    default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
-    last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    match_inactivity_timeout_interval?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type MatchUpdateWithoutUser2Input = {
-    matched_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    close_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
-    default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
-    last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    match_inactivity_timeout_interval?: StringFieldUpdateOperationsInput | string
-    user1?: UserUpdateOneRequiredWithoutMatches_as_user1NestedInput
-    calls?: CallUpdateManyWithoutMatchNestedInput
-  }
-
-  export type MatchUncheckedUpdateWithoutUser2Input = {
-    id?: IntFieldUpdateOperationsInput | number
-    user1_id?: IntFieldUpdateOperationsInput | number
-    matched_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    close_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
-    default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
-    last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    match_inactivity_timeout_interval?: StringFieldUpdateOperationsInput | string
-    calls?: CallUncheckedUpdateManyWithoutMatchNestedInput
-  }
-
-  export type MatchUncheckedUpdateManyWithoutUser2Input = {
-    id?: IntFieldUpdateOperationsInput | number
-    user1_id?: IntFieldUpdateOperationsInput | number
-    matched_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    close_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
-    default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
-    last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    match_inactivity_timeout_interval?: StringFieldUpdateOperationsInput | string
+    blocked_id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CallUpdateWithoutInitiator_userInput = {
@@ -14615,8 +14808,8 @@ export namespace Prisma {
     duration_seconds?: NullableIntFieldUpdateOperationsInput | number | null
     end_reason?: NullableStringFieldUpdateOperationsInput | string | null
     initiated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    match?: MatchUpdateOneRequiredWithoutCallsNestedInput
     initiator_user?: UserUpdateOneRequiredWithoutCalls_initiatedNestedInput
+    match?: MatchUpdateOneRequiredWithoutCallsNestedInput
   }
 
   export type CallUncheckedUpdateWithoutReceiver_userInput = {
@@ -14649,108 +14842,170 @@ export namespace Prisma {
     initiated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ReportUpdateWithoutReporterInput = {
-    match_id?: NullableIntFieldUpdateOperationsInput | number | null
-    call_segment_uuid?: NullableStringFieldUpdateOperationsInput | string | null
-    reason?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
+  export type LikeUpdateWithoutFrom_userInput = {
+    is_like?: BoolFieldUpdateOperationsInput | boolean
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
-    admin_notes?: NullableStringFieldUpdateOperationsInput | string | null
-    reported?: UserUpdateOneRequiredWithoutReports_receivedNestedInput
+    to_user?: UserUpdateOneRequiredWithoutLikes_toNestedInput
   }
 
-  export type ReportUncheckedUpdateWithoutReporterInput = {
+  export type LikeUncheckedUpdateWithoutFrom_userInput = {
     id?: IntFieldUpdateOperationsInput | number
-    reported_id?: IntFieldUpdateOperationsInput | number
-    match_id?: NullableIntFieldUpdateOperationsInput | number | null
-    call_segment_uuid?: NullableStringFieldUpdateOperationsInput | string | null
-    reason?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
+    to_user_id?: IntFieldUpdateOperationsInput | number
+    is_like?: BoolFieldUpdateOperationsInput | boolean
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
-    admin_notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type ReportUncheckedUpdateManyWithoutReporterInput = {
+  export type LikeUncheckedUpdateManyWithoutFrom_userInput = {
     id?: IntFieldUpdateOperationsInput | number
-    reported_id?: IntFieldUpdateOperationsInput | number
-    match_id?: NullableIntFieldUpdateOperationsInput | number | null
-    call_segment_uuid?: NullableStringFieldUpdateOperationsInput | string | null
-    reason?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
+    to_user_id?: IntFieldUpdateOperationsInput | number
+    is_like?: BoolFieldUpdateOperationsInput | boolean
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
-    admin_notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type LikeUpdateWithoutTo_userInput = {
+    is_like?: BoolFieldUpdateOperationsInput | boolean
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    from_user?: UserUpdateOneRequiredWithoutLikes_fromNestedInput
+  }
+
+  export type LikeUncheckedUpdateWithoutTo_userInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    from_user_id?: IntFieldUpdateOperationsInput | number
+    is_like?: BoolFieldUpdateOperationsInput | boolean
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LikeUncheckedUpdateManyWithoutTo_userInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    from_user_id?: IntFieldUpdateOperationsInput | number
+    is_like?: BoolFieldUpdateOperationsInput | boolean
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MatchUpdateWithoutUser1Input = {
+    matched_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
+    default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
+    last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    match_inactivity_timeout_interval?: StringFieldUpdateOperationsInput | string
+    calls?: CallUpdateManyWithoutMatchNestedInput
+    user2?: UserUpdateOneRequiredWithoutMatches_as_user2NestedInput
+  }
+
+  export type MatchUncheckedUpdateWithoutUser1Input = {
+    id?: IntFieldUpdateOperationsInput | number
+    user2_id?: IntFieldUpdateOperationsInput | number
+    matched_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
+    default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
+    last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    match_inactivity_timeout_interval?: StringFieldUpdateOperationsInput | string
+    calls?: CallUncheckedUpdateManyWithoutMatchNestedInput
+  }
+
+  export type MatchUncheckedUpdateManyWithoutUser1Input = {
+    id?: IntFieldUpdateOperationsInput | number
+    user2_id?: IntFieldUpdateOperationsInput | number
+    matched_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
+    default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
+    last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    match_inactivity_timeout_interval?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MatchUpdateWithoutUser2Input = {
+    matched_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
+    default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
+    last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    match_inactivity_timeout_interval?: StringFieldUpdateOperationsInput | string
+    calls?: CallUpdateManyWithoutMatchNestedInput
+    user1?: UserUpdateOneRequiredWithoutMatches_as_user1NestedInput
+  }
+
+  export type MatchUncheckedUpdateWithoutUser2Input = {
+    id?: IntFieldUpdateOperationsInput | number
+    user1_id?: IntFieldUpdateOperationsInput | number
+    matched_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
+    default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
+    last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    match_inactivity_timeout_interval?: StringFieldUpdateOperationsInput | string
+    calls?: CallUncheckedUpdateManyWithoutMatchNestedInput
+  }
+
+  export type MatchUncheckedUpdateManyWithoutUser2Input = {
+    id?: IntFieldUpdateOperationsInput | number
+    user1_id?: IntFieldUpdateOperationsInput | number
+    matched_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
+    default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
+    last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    match_inactivity_timeout_interval?: StringFieldUpdateOperationsInput | string
   }
 
   export type ReportUpdateWithoutReportedInput = {
-    match_id?: NullableIntFieldUpdateOperationsInput | number | null
-    call_segment_uuid?: NullableStringFieldUpdateOperationsInput | string | null
     reason?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
-    admin_notes?: NullableStringFieldUpdateOperationsInput | string | null
     reporter?: UserUpdateOneWithoutReports_madeNestedInput
   }
 
   export type ReportUncheckedUpdateWithoutReportedInput = {
     id?: IntFieldUpdateOperationsInput | number
     reporter_id?: NullableIntFieldUpdateOperationsInput | number | null
-    match_id?: NullableIntFieldUpdateOperationsInput | number | null
-    call_segment_uuid?: NullableStringFieldUpdateOperationsInput | string | null
     reason?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
-    admin_notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReportUncheckedUpdateManyWithoutReportedInput = {
     id?: IntFieldUpdateOperationsInput | number
     reporter_id?: NullableIntFieldUpdateOperationsInput | number | null
-    match_id?: NullableIntFieldUpdateOperationsInput | number | null
-    call_segment_uuid?: NullableStringFieldUpdateOperationsInput | string | null
     reason?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
-    admin_notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type BlockUpdateWithoutBlockerInput = {
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    blocked?: UserUpdateOneRequiredWithoutBlocks_receivedNestedInput
+  export type ReportUpdateWithoutReporterInput = {
+    reason?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    reported?: UserUpdateOneWithoutReports_receivedNestedInput
   }
 
-  export type BlockUncheckedUpdateWithoutBlockerInput = {
+  export type ReportUncheckedUpdateWithoutReporterInput = {
     id?: IntFieldUpdateOperationsInput | number
-    blocked_id?: IntFieldUpdateOperationsInput | number
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    reason?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    reported_user_id?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
   }
 
-  export type BlockUncheckedUpdateManyWithoutBlockerInput = {
+  export type ReportUncheckedUpdateManyWithoutReporterInput = {
     id?: IntFieldUpdateOperationsInput | number
-    blocked_id?: IntFieldUpdateOperationsInput | number
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BlockUpdateWithoutBlockedInput = {
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    blocker?: UserUpdateOneRequiredWithoutBlocks_madeNestedInput
-  }
-
-  export type BlockUncheckedUpdateWithoutBlockedInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    blocker_id?: IntFieldUpdateOperationsInput | number
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BlockUncheckedUpdateManyWithoutBlockedInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    blocker_id?: IntFieldUpdateOperationsInput | number
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    reason?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    reported_user_id?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
   }
 
   export type CallCreateManyMatchInput = {

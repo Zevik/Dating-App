@@ -140,7 +140,12 @@ exports.Prisma.UserScalarFieldEnum = {
   consents: 'consents',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  last_active_at: 'last_active_at'
+  last_active_at: 'last_active_at',
+  last_seen_at: 'last_seen_at',
+  status_message: 'status_message',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  is_admin: 'is_admin'
 };
 
 exports.Prisma.LikeScalarFieldEnum = {
@@ -184,21 +189,17 @@ exports.Prisma.CallScalarFieldEnum = {
 exports.Prisma.ReportScalarFieldEnum = {
   id: 'id',
   reporter_id: 'reporter_id',
-  reported_id: 'reported_id',
-  match_id: 'match_id',
-  call_segment_uuid: 'call_segment_uuid',
   reason: 'reason',
-  details: 'details',
-  timestamp: 'timestamp',
-  status: 'status',
-  admin_notes: 'admin_notes'
+  created_at: 'created_at',
+  reported_user_id: 'reported_user_id',
+  status: 'status'
 };
 
 exports.Prisma.BlockScalarFieldEnum = {
   id: 'id',
   blocker_id: 'blocker_id',
   blocked_id: 'blocked_id',
-  timestamp: 'timestamp'
+  created_at: 'created_at'
 };
 
 exports.Prisma.SortOrder = {

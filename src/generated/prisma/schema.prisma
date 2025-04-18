@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -16,18 +10,17 @@ datasource db {
 
 model User {
   id                    Int       @id @default(autoincrement())
-  email                 String    @unique @db.Text
-  password_hash         String    @db.Text
-  display_name          String    @db.Text
+  email                 String    @unique
+  password_hash         String
+  display_name          String
   birth_date            DateTime  @db.Date
-  gender                String?   @db.Text // Consider using an enum if the list is fixed
-  looking_for_gender    String[]  @db.Text // Array of genders
-  relationship_type     String[]  @db.Text // Array of relationship types
-  city                  String?   @db.Text
-  //location                 Unsupported("geography(Point, 4326)")? // Requires PostGIS extension
-  bio                   String?   @db.Text
-  profile_image_url     String?   @db.Text
-  additional_photos     Json?     @db.JsonB // Array of URLs
+  gender                String?
+  looking_for_gender    String[]
+  relationship_type     String[]
+  city                  String?
+  bio                   String?
+  profile_image_url     String?
+  additional_photos     Json?
   preferred_age_min     Int       @default(18)
   preferred_age_max     Int       @default(99)
   preferred_distance_km Int       @default(50)
@@ -35,40 +28,43 @@ model User {
   is_paid               Boolean   @default(false)
   paid_until            DateTime? @db.Timestamptz(3)
   verified_email        Boolean   @default(false)
-  consents              Json      @default("{}") @db.JsonB // e.g., {"location": bool, "ai_profile": bool, ...}
+  consents              Json      @default("{}")
   created_at            DateTime  @default(now()) @db.Timestamptz(3)
   updated_at            DateTime  @default(now()) @updatedAt @db.Timestamptz(3)
   last_active_at        DateTime  @default(now()) @db.Timestamptz(3)
-
-  likes_from       Like[]   @relation("LikesFrom")
-  likes_to         Like[]   @relation("LikesTo")
-  matches_as_user1 Match[]  @relation("MatchesUser1")
-  matches_as_user2 Match[]  @relation("MatchesUser2")
-  calls_initiated  Call[]   @relation("CallsInitiated")
-  calls_received   Call[]   @relation("CallsReceived")
-  reports_made     Report[] @relation("ReportsMade")
-  reports_received Report[] @relation("ReportsReceived")
-  blocks_made      Block[]  @relation("BlocksMade")
-  blocks_received  Block[]  @relation("BlocksReceived")
+  last_seen_at          DateTime? @default(now()) @db.Timestamptz(3)
+  status_message        String?   @default("")
+  latitude              Float?
+  longitude             Float?
+  is_admin              Boolean   @default(false)
+  blocks_received       Block[]   @relation("Blocked")
+  blocks_made           Block[]   @relation("Blocker")
+  calls_initiated       Call[]    @relation("CallsInitiated")
+  calls_received        Call[]    @relation("CallsReceived")
+  likes_from            Like[]    @relation("LikesFrom")
+  likes_to              Like[]    @relation("LikesTo")
+  matches_as_user1      Match[]   @relation("MatchesUser1")
+  matches_as_user2      Match[]   @relation("MatchesUser2")
+  reports_received      Report[]  @relation("ReportsReceived")
+  reports_made          Report[]  @relation("ReportsMade")
 
   @@index([email])
-  // @@index([location], type: Gist) // Requires PostGIS
   @@index([last_active_at])
-  @@map("users") // Map to PostgreSQL table name 'users'
+  @@index([last_seen_at])
+  @@map("users")
 }
 
 model Like {
   id           Int      @id @default(autoincrement())
   from_user_id Int
   to_user_id   Int
-  is_like      Boolean // true=Like, false=Dislike
+  is_like      Boolean
   timestamp    DateTime @default(now()) @db.Timestamptz(3)
-
-  from_user User @relation("LikesFrom", fields: [from_user_id], references: [id], onDelete: Cascade)
-  to_user   User @relation("LikesTo", fields: [to_user_id], references: [id], onDelete: Cascade)
+  from_user    User     @relation("LikesFrom", fields: [from_user_id], references: [id], onDelete: Cascade)
+  to_user      User     @relation("LikesTo", fields: [to_user_id], references: [id], onDelete: Cascade)
 
   @@unique([from_user_id, to_user_id])
-  @@index([to_user_id, from_user_id, is_like]) // For quick match checking
+  @@index([to_user_id, from_user_id, is_like])
   @@map("likes")
 }
 
@@ -79,42 +75,38 @@ model Match {
   matched_at                        DateTime  @default(now()) @db.Timestamptz(3)
   is_active                         Boolean   @default(true)
   closed_at                         DateTime? @db.Timestamptz(3)
-  close_reason                      String?   @db.Text // e.g., 'user1_ended', 'timeout', 'blocked'
+  close_reason                      String?
   default_voice_call_duration_sec   Int       @default(300)
   default_video_call_duration_sec   Int       @default(300)
-  last_interaction_at               DateTime  @default(now()) @db.Timestamptz(3) // Updated on match creation and call/attempt end
-  match_inactivity_timeout_interval String    @default("14 days") @db.Text // Prisma doesn't directly support INTERVAL, store as text or seconds
-
-  user1 User   @relation("MatchesUser1", fields: [user1_id], references: [id], onDelete: Cascade)
-  user2 User   @relation("MatchesUser2", fields: [user2_id], references: [id], onDelete: Cascade)
-  calls Call[]
+  last_interaction_at               DateTime  @default(now()) @db.Timestamptz(3)
+  match_inactivity_timeout_interval String    @default("14 days")
+  calls                             Call[]
+  user1                             User      @relation("MatchesUser1", fields: [user1_id], references: [id], onDelete: Cascade)
+  user2                             User      @relation("MatchesUser2", fields: [user2_id], references: [id], onDelete: Cascade)
 
   @@index([user1_id, is_active])
   @@index([user2_id, is_active])
-  @@index([is_active, last_interaction_at]) // For timeout job
-  // @@check(user1_id < user2_id) // Prisma doesn't support CHECK constraints directly on model level like this
+  @@index([is_active, last_interaction_at])
   @@map("matches")
 }
 
 model Call {
   id                         BigInt    @id @default(autoincrement())
   match_id                   Int
-  call_segment_uuid          String    @unique @default(uuid()) @db.Uuid // Prisma recommends String for UUID
-  previous_call_segment_uuid String?   @db.Uuid // References another Call segment's UUID
+  call_segment_uuid          String    @unique @default(uuid()) @db.Uuid
+  previous_call_segment_uuid String?   @db.Uuid
   initiator_user_id          Int
   receiver_user_id           Int
-  call_type                  String    @db.Text // 'voice' or 'video'
-  status                     String    @db.Text // 'initiated', 'answered', 'ended', etc.
+  call_type                  String
+  status                     String
   start_time                 DateTime? @db.Timestamptz(3)
   end_time                   DateTime? @db.Timestamptz(3)
   duration_seconds           Int?
-  end_reason                 String?   @db.Text // 'initiator_ended', 'timeout_reached', etc.
+  end_reason                 String?
   initiated_at               DateTime  @default(now()) @db.Timestamptz(3)
-
-  match          Match @relation(fields: [match_id], references: [id], onDelete: Cascade)
-  initiator_user User  @relation("CallsInitiated", fields: [initiator_user_id], references: [id], onDelete: Cascade)
-  receiver_user  User  @relation("CallsReceived", fields: [receiver_user_id], references: [id], onDelete: Cascade)
-  // Self-relation for previous call segment might need careful handling or separate relation table if complex logic needed
+  initiator_user             User      @relation("CallsInitiated", fields: [initiator_user_id], references: [id], onDelete: Cascade)
+  match                      Match     @relation(fields: [match_id], references: [id], onDelete: Cascade)
+  receiver_user              User      @relation("CallsReceived", fields: [receiver_user_id], references: [id], onDelete: Cascade)
 
   @@index([match_id, initiated_at(sort: Desc)])
   @@index([initiator_user_id])
@@ -124,24 +116,18 @@ model Call {
 }
 
 model Report {
-  id                Int      @id @default(autoincrement())
-  reporter_id       Int? // Nullable if reporter deletes account
-  reported_id       Int
-  match_id          Int? // Nullable if match is deleted/unrelated
-  call_segment_uuid String?  @db.Uuid // Nullable, link to specific call segment
-  reason            String   @db.Text // Category
-  details           String?  @db.Text
-  timestamp         DateTime @default(now()) @db.Timestamptz(3)
-  status            String   @default("Open") @db.Text // 'Open', 'Investigating', 'Closed-ActionTaken', etc.
-  admin_notes       String?  @db.Text
+  id               Int      @id @default(autoincrement())
+  reporter_id      Int?
+  reason           String   @db.Text
+  created_at       DateTime @default(now()) @db.Timestamptz(3)
+  reported_user_id Int?
+  status           String   @default("pending") @db.Text // pending, reviewed, resolved, rejected
 
   reporter User? @relation("ReportsMade", fields: [reporter_id], references: [id], onDelete: SetNull)
-  reported User  @relation("ReportsReceived", fields: [reported_id], references: [id], onDelete: Cascade)
-  // We might need relations to Match and Call models here, but Prisma relations on nullable fields can be tricky
+  reported User? @relation("ReportsReceived", fields: [reported_user_id], references: [id], onDelete: SetNull)
 
-  @@index([reported_id])
-  @@index([status])
-  @@index([timestamp])
+  @@index([reported_user_id])
+  @@index([reporter_id])
   @@map("reports")
 }
 
@@ -149,18 +135,11 @@ model Block {
   id         Int      @id @default(autoincrement())
   blocker_id Int
   blocked_id Int
-  timestamp  DateTime @default(now()) @db.Timestamptz(3)
-
-  blocker User @relation("BlocksMade", fields: [blocker_id], references: [id], onDelete: Cascade)
-  blocked User @relation("BlocksReceived", fields: [blocked_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now()) @db.Timestamptz(3)
+  blocked    User     @relation("Blocked", fields: [blocked_id], references: [id], onDelete: Cascade)
+  blocker    User     @relation("Blocker", fields: [blocker_id], references: [id], onDelete: Cascade)
 
   @@unique([blocker_id, blocked_id])
   @@index([blocked_id])
   @@map("blocks")
 }
-
-// Note: PostGIS specific features like Geography type and GIST index are commented out
-// as they require enabling the PostGIS extension in your PostgreSQL database.
-// Prisma represents unsupported types as `Unsupported("...")`.
-// Interval type is not directly supported, stored as String or Int seconds.
-// Check constraints like user1_id < user2_id are not directly translatable to Prisma schema model level.
