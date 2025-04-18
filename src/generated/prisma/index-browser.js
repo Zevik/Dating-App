@@ -164,6 +164,7 @@ exports.Prisma.MatchScalarFieldEnum = {
   is_active: 'is_active',
   closed_at: 'closed_at',
   close_reason: 'close_reason',
+  call_started_at: 'call_started_at',
   default_voice_call_duration_sec: 'default_voice_call_duration_sec',
   default_video_call_duration_sec: 'default_video_call_duration_sec',
   last_interaction_at: 'last_interaction_at',

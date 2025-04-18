@@ -44,4 +44,35 @@ router.get('/active', authenticate, async (req, res, next) => {
   }
 });
 
+// POST /api/v1/match/:id/start-call - Start a call for a specific match
+router.post('/:id/start-call', authenticate, async (req, res, next) => {
+  try {
+    const matchId = Number(req.params.id);
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const match = await prisma.match.findUnique({ where: { id: matchId } });
+
+    if (!match || (match.user1_id !== userId && match.user2_id !== userId)) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+
+    if (match.call_started_at) {
+      return res.status(400).json({ error: "Call already started" });
+    }
+
+    const updated = await prisma.match.update({
+      where: { id: matchId },
+      data: { call_started_at: new Date() },
+    });
+
+    res.json({ success: true, match: updated });
+  } catch (e) {
+    next(e);
+  }
+});
+
 export default router; 

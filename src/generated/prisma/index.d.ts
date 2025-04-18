@@ -4269,6 +4269,7 @@ export namespace Prisma {
     is_active: boolean | null
     closed_at: Date | null
     close_reason: string | null
+    call_started_at: Date | null
     default_voice_call_duration_sec: number | null
     default_video_call_duration_sec: number | null
     last_interaction_at: Date | null
@@ -4283,6 +4284,7 @@ export namespace Prisma {
     is_active: boolean | null
     closed_at: Date | null
     close_reason: string | null
+    call_started_at: Date | null
     default_voice_call_duration_sec: number | null
     default_video_call_duration_sec: number | null
     last_interaction_at: Date | null
@@ -4297,6 +4299,7 @@ export namespace Prisma {
     is_active: number
     closed_at: number
     close_reason: number
+    call_started_at: number
     default_voice_call_duration_sec: number
     default_video_call_duration_sec: number
     last_interaction_at: number
@@ -4329,6 +4332,7 @@ export namespace Prisma {
     is_active?: true
     closed_at?: true
     close_reason?: true
+    call_started_at?: true
     default_voice_call_duration_sec?: true
     default_video_call_duration_sec?: true
     last_interaction_at?: true
@@ -4343,6 +4347,7 @@ export namespace Prisma {
     is_active?: true
     closed_at?: true
     close_reason?: true
+    call_started_at?: true
     default_voice_call_duration_sec?: true
     default_video_call_duration_sec?: true
     last_interaction_at?: true
@@ -4357,6 +4362,7 @@ export namespace Prisma {
     is_active?: true
     closed_at?: true
     close_reason?: true
+    call_started_at?: true
     default_voice_call_duration_sec?: true
     default_video_call_duration_sec?: true
     last_interaction_at?: true
@@ -4458,6 +4464,7 @@ export namespace Prisma {
     is_active: boolean
     closed_at: Date | null
     close_reason: string | null
+    call_started_at: Date | null
     default_voice_call_duration_sec: number
     default_video_call_duration_sec: number
     last_interaction_at: Date
@@ -4491,6 +4498,7 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: boolean
     close_reason?: boolean
+    call_started_at?: boolean
     default_voice_call_duration_sec?: boolean
     default_video_call_duration_sec?: boolean
     last_interaction_at?: boolean
@@ -4509,6 +4517,7 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: boolean
     close_reason?: boolean
+    call_started_at?: boolean
     default_voice_call_duration_sec?: boolean
     default_video_call_duration_sec?: boolean
     last_interaction_at?: boolean
@@ -4525,6 +4534,7 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: boolean
     close_reason?: boolean
+    call_started_at?: boolean
     default_voice_call_duration_sec?: boolean
     default_video_call_duration_sec?: boolean
     last_interaction_at?: boolean
@@ -4541,13 +4551,14 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: boolean
     close_reason?: boolean
+    call_started_at?: boolean
     default_voice_call_duration_sec?: boolean
     default_video_call_duration_sec?: boolean
     last_interaction_at?: boolean
     match_inactivity_timeout_interval?: boolean
   }
 
-  export type MatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user1_id" | "user2_id" | "matched_at" | "is_active" | "closed_at" | "close_reason" | "default_voice_call_duration_sec" | "default_video_call_duration_sec" | "last_interaction_at" | "match_inactivity_timeout_interval", ExtArgs["result"]["match"]>
+  export type MatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user1_id" | "user2_id" | "matched_at" | "is_active" | "closed_at" | "close_reason" | "call_started_at" | "default_voice_call_duration_sec" | "default_video_call_duration_sec" | "last_interaction_at" | "match_inactivity_timeout_interval", ExtArgs["result"]["match"]>
   export type MatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     calls?: boolean | Match$callsArgs<ExtArgs>
     user1?: boolean | UserDefaultArgs<ExtArgs>
@@ -4578,6 +4589,7 @@ export namespace Prisma {
       is_active: boolean
       closed_at: Date | null
       close_reason: string | null
+      call_started_at: Date | null
       default_voice_call_duration_sec: number
       default_video_call_duration_sec: number
       last_interaction_at: Date
@@ -5015,6 +5027,7 @@ export namespace Prisma {
     readonly is_active: FieldRef<"Match", 'Boolean'>
     readonly closed_at: FieldRef<"Match", 'DateTime'>
     readonly close_reason: FieldRef<"Match", 'String'>
+    readonly call_started_at: FieldRef<"Match", 'DateTime'>
     readonly default_voice_call_duration_sec: FieldRef<"Match", 'Int'>
     readonly default_video_call_duration_sec: FieldRef<"Match", 'Int'>
     readonly last_interaction_at: FieldRef<"Match", 'DateTime'>
@@ -9032,6 +9045,7 @@ export namespace Prisma {
     is_active: 'is_active',
     closed_at: 'closed_at',
     close_reason: 'close_reason',
+    call_started_at: 'call_started_at',
     default_voice_call_duration_sec: 'default_voice_call_duration_sec',
     default_video_call_duration_sec: 'default_video_call_duration_sec',
     last_interaction_at: 'last_interaction_at',
@@ -9502,6 +9516,7 @@ export namespace Prisma {
     is_active?: BoolFilter<"Match"> | boolean
     closed_at?: DateTimeNullableFilter<"Match"> | Date | string | null
     close_reason?: StringNullableFilter<"Match"> | string | null
+    call_started_at?: DateTimeNullableFilter<"Match"> | Date | string | null
     default_voice_call_duration_sec?: IntFilter<"Match"> | number
     default_video_call_duration_sec?: IntFilter<"Match"> | number
     last_interaction_at?: DateTimeFilter<"Match"> | Date | string
@@ -9519,6 +9534,7 @@ export namespace Prisma {
     is_active?: SortOrder
     closed_at?: SortOrderInput | SortOrder
     close_reason?: SortOrderInput | SortOrder
+    call_started_at?: SortOrderInput | SortOrder
     default_voice_call_duration_sec?: SortOrder
     default_video_call_duration_sec?: SortOrder
     last_interaction_at?: SortOrder
@@ -9539,6 +9555,7 @@ export namespace Prisma {
     is_active?: BoolFilter<"Match"> | boolean
     closed_at?: DateTimeNullableFilter<"Match"> | Date | string | null
     close_reason?: StringNullableFilter<"Match"> | string | null
+    call_started_at?: DateTimeNullableFilter<"Match"> | Date | string | null
     default_voice_call_duration_sec?: IntFilter<"Match"> | number
     default_video_call_duration_sec?: IntFilter<"Match"> | number
     last_interaction_at?: DateTimeFilter<"Match"> | Date | string
@@ -9556,6 +9573,7 @@ export namespace Prisma {
     is_active?: SortOrder
     closed_at?: SortOrderInput | SortOrder
     close_reason?: SortOrderInput | SortOrder
+    call_started_at?: SortOrderInput | SortOrder
     default_voice_call_duration_sec?: SortOrder
     default_video_call_duration_sec?: SortOrder
     last_interaction_at?: SortOrder
@@ -9578,6 +9596,7 @@ export namespace Prisma {
     is_active?: BoolWithAggregatesFilter<"Match"> | boolean
     closed_at?: DateTimeNullableWithAggregatesFilter<"Match"> | Date | string | null
     close_reason?: StringNullableWithAggregatesFilter<"Match"> | string | null
+    call_started_at?: DateTimeNullableWithAggregatesFilter<"Match"> | Date | string | null
     default_voice_call_duration_sec?: IntWithAggregatesFilter<"Match"> | number
     default_video_call_duration_sec?: IntWithAggregatesFilter<"Match"> | number
     last_interaction_at?: DateTimeWithAggregatesFilter<"Match"> | Date | string
@@ -10128,6 +10147,7 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: Date | string | null
     close_reason?: string | null
+    call_started_at?: Date | string | null
     default_voice_call_duration_sec?: number
     default_video_call_duration_sec?: number
     last_interaction_at?: Date | string
@@ -10145,6 +10165,7 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: Date | string | null
     close_reason?: string | null
+    call_started_at?: Date | string | null
     default_voice_call_duration_sec?: number
     default_video_call_duration_sec?: number
     last_interaction_at?: Date | string
@@ -10157,6 +10178,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    call_started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
     default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
     last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10174,6 +10196,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    call_started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
     default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
     last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10189,6 +10212,7 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: Date | string | null
     close_reason?: string | null
+    call_started_at?: Date | string | null
     default_voice_call_duration_sec?: number
     default_video_call_duration_sec?: number
     last_interaction_at?: Date | string
@@ -10200,6 +10224,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    call_started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
     default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
     last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10214,6 +10239,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    call_started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
     default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
     last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10946,6 +10972,7 @@ export namespace Prisma {
     is_active?: SortOrder
     closed_at?: SortOrder
     close_reason?: SortOrder
+    call_started_at?: SortOrder
     default_voice_call_duration_sec?: SortOrder
     default_video_call_duration_sec?: SortOrder
     last_interaction_at?: SortOrder
@@ -10968,6 +10995,7 @@ export namespace Prisma {
     is_active?: SortOrder
     closed_at?: SortOrder
     close_reason?: SortOrder
+    call_started_at?: SortOrder
     default_voice_call_duration_sec?: SortOrder
     default_video_call_duration_sec?: SortOrder
     last_interaction_at?: SortOrder
@@ -10982,6 +11010,7 @@ export namespace Prisma {
     is_active?: SortOrder
     closed_at?: SortOrder
     close_reason?: SortOrder
+    call_started_at?: SortOrder
     default_voice_call_duration_sec?: SortOrder
     default_video_call_duration_sec?: SortOrder
     last_interaction_at?: SortOrder
@@ -12464,6 +12493,7 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: Date | string | null
     close_reason?: string | null
+    call_started_at?: Date | string | null
     default_voice_call_duration_sec?: number
     default_video_call_duration_sec?: number
     last_interaction_at?: Date | string
@@ -12479,6 +12509,7 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: Date | string | null
     close_reason?: string | null
+    call_started_at?: Date | string | null
     default_voice_call_duration_sec?: number
     default_video_call_duration_sec?: number
     last_interaction_at?: Date | string
@@ -12501,6 +12532,7 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: Date | string | null
     close_reason?: string | null
+    call_started_at?: Date | string | null
     default_voice_call_duration_sec?: number
     default_video_call_duration_sec?: number
     last_interaction_at?: Date | string
@@ -12516,6 +12548,7 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: Date | string | null
     close_reason?: string | null
+    call_started_at?: Date | string | null
     default_voice_call_duration_sec?: number
     default_video_call_duration_sec?: number
     last_interaction_at?: Date | string
@@ -12754,6 +12787,7 @@ export namespace Prisma {
     is_active?: BoolFilter<"Match"> | boolean
     closed_at?: DateTimeNullableFilter<"Match"> | Date | string | null
     close_reason?: StringNullableFilter<"Match"> | string | null
+    call_started_at?: DateTimeNullableFilter<"Match"> | Date | string | null
     default_voice_call_duration_sec?: IntFilter<"Match"> | number
     default_video_call_duration_sec?: IntFilter<"Match"> | number
     last_interaction_at?: DateTimeFilter<"Match"> | Date | string
@@ -13663,6 +13697,7 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: Date | string | null
     close_reason?: string | null
+    call_started_at?: Date | string | null
     default_voice_call_duration_sec?: number
     default_video_call_duration_sec?: number
     last_interaction_at?: Date | string
@@ -13679,6 +13714,7 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: Date | string | null
     close_reason?: string | null
+    call_started_at?: Date | string | null
     default_voice_call_duration_sec?: number
     default_video_call_duration_sec?: number
     last_interaction_at?: Date | string
@@ -13880,6 +13916,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    call_started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
     default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
     last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13896,6 +13933,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    call_started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
     default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
     last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14751,6 +14789,7 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: Date | string | null
     close_reason?: string | null
+    call_started_at?: Date | string | null
     default_voice_call_duration_sec?: number
     default_video_call_duration_sec?: number
     last_interaction_at?: Date | string
@@ -14764,6 +14803,7 @@ export namespace Prisma {
     is_active?: boolean
     closed_at?: Date | string | null
     close_reason?: string | null
+    call_started_at?: Date | string | null
     default_voice_call_duration_sec?: number
     default_video_call_duration_sec?: number
     last_interaction_at?: Date | string
@@ -14959,6 +14999,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    call_started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
     default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
     last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14974,6 +15015,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    call_started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
     default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
     last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14988,6 +15030,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    call_started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
     default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
     last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14999,6 +15042,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    call_started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
     default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
     last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15014,6 +15058,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    call_started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
     default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
     last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15028,6 +15073,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     closed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     close_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    call_started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_voice_call_duration_sec?: IntFieldUpdateOperationsInput | number
     default_video_call_duration_sec?: IntFieldUpdateOperationsInput | number
     last_interaction_at?: DateTimeFieldUpdateOperationsInput | Date | string

@@ -76,6 +76,7 @@ model Match {
   is_active                         Boolean   @default(true)
   closed_at                         DateTime? @db.Timestamptz(3)
   close_reason                      String?
+  call_started_at                   DateTime? @db.Timestamptz(3)
   default_voice_call_duration_sec   Int       @default(300)
   default_video_call_duration_sec   Int       @default(300)
   last_interaction_at               DateTime  @default(now()) @db.Timestamptz(3)
