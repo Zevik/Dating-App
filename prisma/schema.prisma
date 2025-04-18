@@ -47,6 +47,7 @@ model User {
   matches_as_user2      Match[]   @relation("MatchesUser2")
   reports_received      Report[]  @relation("ReportsReceived")
   reports_made          Report[]  @relation("ReportsMade")
+  sent_messages         Message[] @relation("SentMessages")
 
   @@index([email])
   @@index([last_active_at])
@@ -77,6 +78,8 @@ model Match {
   closed_at                         DateTime? @db.Timestamptz(3)
   close_reason                      String?
   call_started_at                   DateTime? @db.Timestamptz(3)
+  call_accepted_at                  DateTime? @db.Timestamptz(3)
+  call_rejected_at                  DateTime? @db.Timestamptz(3)
   default_voice_call_duration_sec   Int       @default(300)
   default_video_call_duration_sec   Int       @default(300)
   last_interaction_at               DateTime  @default(now()) @db.Timestamptz(3)
@@ -84,6 +87,7 @@ model Match {
   calls                             Call[]
   user1                             User      @relation("MatchesUser1", fields: [user1_id], references: [id], onDelete: Cascade)
   user2                             User      @relation("MatchesUser2", fields: [user2_id], references: [id], onDelete: Cascade)
+  messages                          Message[]
 
   @@index([user1_id, is_active])
   @@index([user2_id, is_active])
@@ -145,4 +149,21 @@ model Block {
   @@unique([blocker_id, blocked_id])
   @@index([blocked_id])
   @@map("blocks")
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  match_id   Int      
+  sender_id  Int      
+  content    String   @db.VarChar(500)
+  created_at DateTime @default(now())
+  is_read    Boolean  @default(false)
+  read_at    DateTime?
+  
+  // Relations
+  match     Match    @relation(fields: [match_id], references: [id], onDelete: Cascade)
+  sender    User     @relation("SentMessages", fields: [sender_id], references: [id], onDelete: Cascade)
+  
+  @@index([match_id])
+  @@index([sender_id])
 }

@@ -16,6 +16,7 @@ import callsRouter from './routes/calls';
 import blocksRouter from './routes/blocks';
 import reportsRouter from './routes/reports';
 import adminRouter from './routes/admin';
+import messagesRouter from './routes/messages';
 import { errorHandler } from './middleware/errorMiddleware';
 
 // Load environment variables
@@ -38,6 +39,7 @@ app.use('/api/v1/calls', callsRouter);
 app.use('/api/v1/blocks', blocksRouter);
 app.use('/api/v1/reports', reportsRouter);
 app.use('/api/v1/admin', adminRouter);
+app.use('/api/v1/messages', messagesRouter);
 
 // Basic health check endpoint
 app.get('/health', (req, res) => {
