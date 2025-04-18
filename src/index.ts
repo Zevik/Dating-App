@@ -6,6 +6,7 @@ import dotenvExpand from 'dotenv-expand';
 dotenvExpand.expand(dotenv.config({ path: '.env.local' }));
 
 import express from 'express';
+import http from 'http';
 import env from 'env-var';
 import cors from 'cors';
 import authRouter from './routes/auth';
@@ -18,6 +19,7 @@ import reportsRouter from './routes/reports';
 import adminRouter from './routes/admin';
 import messagesRouter from './routes/messages';
 import { errorHandler } from './middleware/errorMiddleware';
+import { initWebSocket } from './ws/websocketServer';
 
 // Load environment variables
 // We already check required vars in check-env.ts
@@ -49,7 +51,13 @@ app.get('/health', (req, res) => {
 // Global Error Handler - Must be defined AFTER all other app.use() and routes calls
 app.use(errorHandler);
 
+// Create HTTP server
+const server = http.createServer(app);
+
 // Start server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
-}); 
+});
+
+// Initialize WebSocket server
+initWebSocket(server); 
