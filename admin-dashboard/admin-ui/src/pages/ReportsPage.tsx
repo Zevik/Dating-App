@@ -13,6 +13,13 @@ import {
   TableHeader,
   TableRow,
 } from '../components/ui/table';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../components/ui/tooltip';
+import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 
 interface ReportedUser {
   id: number | null;
@@ -64,7 +71,7 @@ const ReportsPage: React.FC = () => {
 
   const handleStatusChange = async (reportId: number, newStatus: string) => {
     try {
-      await adminApi.updateReportStatus(reportId, newStatus);
+      await adminApi.updateReportStatusViaPost(reportId, newStatus);
       // Update the local state
       setReports(reports.map(report => 
         report.id === reportId ? { ...report, status: newStatus } : report
@@ -149,12 +156,65 @@ const ReportsPage: React.FC = () => {
                       <TableCell>{report.id}</TableCell>
                       <TableCell>{formatDate(report.created_at)}</TableCell>
                       <TableCell>
-                        {report.reporter ? report.reporter.display_name : 'Unknown'}
+                        <div className="flex items-center space-x-2">
+                          <Avatar className="h-8 w-8">
+                            <AvatarImage 
+                              src={report.reporter?.profile_image_url || ''} 
+                              alt={report.reporter?.display_name || 'Unknown'} 
+                            />
+                            <AvatarFallback>
+                              {report.reporter?.display_name?.[0] || '?'}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <div className="font-medium">
+                              {report.reporter ? report.reporter.display_name : 'Unknown'}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {report.reporter?.email || 'No email'}
+                            </div>
+                          </div>
+                        </div>
                       </TableCell>
                       <TableCell>
-                        {report.reported ? report.reported.display_name : 'Unknown'}
+                        <div className="flex items-center space-x-2">
+                          <Avatar className="h-8 w-8">
+                            <AvatarImage 
+                              src={report.reported?.profile_image_url || ''} 
+                              alt={report.reported?.display_name || 'Unknown'} 
+                            />
+                            <AvatarFallback>
+                              {report.reported?.display_name?.[0] || '?'}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <div className="font-medium">
+                              {report.reported ? report.reported.display_name : 'Unknown'}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {report.reported?.email || 'No email'}
+                            </div>
+                          </div>
+                        </div>
                       </TableCell>
-                      <TableCell>{report.reason}</TableCell>
+                      <TableCell>
+                        {report.reason.length > 50 ? (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <span className="cursor-help">
+                                  {report.reason.substring(0, 50)}...
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent className="max-w-md">
+                                <p>{report.reason}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        ) : (
+                          report.reason
+                        )}
+                      </TableCell>
                       <TableCell>
                         <span 
                           className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -168,16 +228,46 @@ const ReportsPage: React.FC = () => {
                         </span>
                       </TableCell>
                       <TableCell>
-                        <Select
-                          value={report.status}
-                          onChange={(e) => handleStatusChange(report.id, e.target.value)}
-                          className="w-full"
-                        >
-                          <option value="pending">Pending</option>
-                          <option value="reviewed">Reviewed</option>
-                          <option value="resolved">Resolved</option>
-                          <option value="rejected">Rejected</option>
-                        </Select>
+                        <div className="flex space-x-2">
+                          {report.status !== 'reviewed' && (
+                            <Button 
+                              size="sm" 
+                              variant={report.status === 'reviewed' ? 'default' : 'outline'}
+                              onClick={() => handleStatusChange(report.id, 'reviewed')}
+                            >
+                              Review
+                            </Button>
+                          )}
+                          {report.status !== 'resolved' && (
+                            <Button 
+                              size="sm" 
+                              variant={report.status === 'resolved' ? 'default' : 'outline'}
+                              className="bg-green-600 hover:bg-green-700"
+                              onClick={() => handleStatusChange(report.id, 'resolved')}
+                            >
+                              Resolve
+                            </Button>
+                          )}
+                          {report.status !== 'rejected' && (
+                            <Button 
+                              size="sm" 
+                              variant={report.status === 'rejected' ? 'default' : 'outline'}
+                              className="bg-red-600 hover:bg-red-700"
+                              onClick={() => handleStatusChange(report.id, 'rejected')}
+                            >
+                              Reject
+                            </Button>
+                          )}
+                          {report.status !== 'pending' && (
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => handleStatusChange(report.id, 'pending')}
+                            >
+                              Reset
+                            </Button>
+                          )}
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))

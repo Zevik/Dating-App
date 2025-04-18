@@ -86,6 +86,15 @@ export const adminApi = {
       throw error;
     }
   },
+  updateReportStatusViaPost: async (reportId: number, status: string) => {
+    try {
+      const response = await instance.post(`/admin/reports/${reportId}/status`, { status });
+      return response.data;
+    } catch (error) {
+      console.error(`Update report ${reportId} status error:`, error);
+      throw error;
+    }
+  },
 };
 
 export default instance; 

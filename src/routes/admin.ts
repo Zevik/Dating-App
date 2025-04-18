@@ -16,6 +16,9 @@ router.get('/reports', authenticate, requireAdmin, getAllReportsController);
 // PATCH /api/v1/admin/reports/:id - Update report status
 router.patch('/reports/:id', authenticate, requireAdmin, updateReportStatusController);
 
+// POST /api/v1/admin/reports/:id/status - Update report status (alternative endpoint)
+router.post('/reports/:id/status', authenticate, requireAdmin, updateReportStatusController);
+
 // GET /api/v1/admin/stats - Get system statistics
 router.get('/stats', authenticate, requireAdmin, getAdminStatsController);
 
