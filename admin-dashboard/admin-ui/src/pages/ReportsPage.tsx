@@ -44,6 +44,7 @@ interface Report {
   status: string;
   created_at: string;
   admin_note?: string;
+  recording_url?: string;
   reporter: Reporter;
   reported: ReportedUser;
 }
@@ -198,12 +199,13 @@ const ReportsPage: React.FC = () => {
                   <TableHead>Status</TableHead>
                   <TableHead>Actions</TableHead>
                   <TableHead>Admin Note</TableHead>
+                  <TableHead>Recording</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredReports.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center">
+                    <TableCell colSpan={9} className="text-center">
                       No reports found
                     </TableCell>
                   </TableRow>
@@ -333,6 +335,15 @@ const ReportsPage: React.FC = () => {
                           defaultValue={report.admin_note || ""}
                           onBlur={(e) => handleUpdateNote(report.id, e.target.value)}
                         />
+                      </TableCell>
+                      <TableCell>
+                        {report.recording_url ? (
+                          <a href={report.recording_url} target="_blank" className="text-blue-600 underline">
+                            Listen
+                          </a>
+                        ) : (
+                          <span className="text-slate-400">No recording</span>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))

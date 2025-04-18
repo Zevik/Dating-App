@@ -1,6 +1,7 @@
 import prisma from '../lib/prisma';
 import { BadRequestError, NotFoundError, ConflictError } from '../errors/AppError';
 import { CreateReportInput, UpdateReportStatusInput } from '../validations/reportSchemas';
+import redis from '../lib/redisClient';
 
 /**
  * Create a new report about a user
@@ -47,14 +48,26 @@ export async function createReport(reporterId: number, data: CreateReportInput) 
     throw new ConflictError('You have already reported this user');
   }
 
+  // Check for a recording in Redis
+  const recordingKey = `recording:${reporterId}:${reported_user_id}`;
+  const recording_url = await redis.get(recordingKey);
+
   // Create report record
-  return prisma.report.create({
+  const report = await prisma.report.create({
     data: {
       reporter_id: reporterId,
       reported_user_id: reported_user_id,
-      reason: reason
+      reason: reason,
+      recording_url: recording_url || null
     }
   });
+
+  // If a recording was found, delete it from Redis
+  if (recording_url) {
+    await redis.del(recordingKey);
+  }
+
+  return report;
 }
 
 /**
@@ -121,6 +134,7 @@ export async function getAllReports() {
       reason: true,
       status: true,
       admin_note: true,
+      recording_url: true,
       created_at: true,
       reporter: {
         select: {
@@ -171,6 +185,8 @@ export async function updateReportStatus(reportId: number, data: UpdateReportSta
       id: true,
       reason: true,
       status: true,
+      admin_note: true,
+      recording_url: true,
       created_at: true,
       reporter: {
         select: {
@@ -215,6 +231,7 @@ export async function updateReportNote(reportId: number, note?: string) {
       reason: true,
       status: true,
       admin_note: true,
+      recording_url: true,
       created_at: true,
       reporter: {
         select: {

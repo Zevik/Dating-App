@@ -30,7 +30,8 @@ export async function reportUserController(req: Request, res: Response) {
       message: 'User reported successfully',
       data: {
         id: report.id,
-        created_at: report.created_at
+        created_at: report.created_at,
+        has_recording: !!report.recording_url
       }
     });
   } catch (error) {

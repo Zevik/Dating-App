@@ -6717,6 +6717,7 @@ export namespace Prisma {
     reported_user_id: number | null
     status: string | null
     admin_note: string | null
+    recording_url: string | null
   }
 
   export type ReportMaxAggregateOutputType = {
@@ -6727,6 +6728,7 @@ export namespace Prisma {
     reported_user_id: number | null
     status: string | null
     admin_note: string | null
+    recording_url: string | null
   }
 
   export type ReportCountAggregateOutputType = {
@@ -6737,6 +6739,7 @@ export namespace Prisma {
     reported_user_id: number
     status: number
     admin_note: number
+    recording_url: number
     _all: number
   }
 
@@ -6761,6 +6764,7 @@ export namespace Prisma {
     reported_user_id?: true
     status?: true
     admin_note?: true
+    recording_url?: true
   }
 
   export type ReportMaxAggregateInputType = {
@@ -6771,6 +6775,7 @@ export namespace Prisma {
     reported_user_id?: true
     status?: true
     admin_note?: true
+    recording_url?: true
   }
 
   export type ReportCountAggregateInputType = {
@@ -6781,6 +6786,7 @@ export namespace Prisma {
     reported_user_id?: true
     status?: true
     admin_note?: true
+    recording_url?: true
     _all?: true
   }
 
@@ -6878,6 +6884,7 @@ export namespace Prisma {
     reported_user_id: number | null
     status: string
     admin_note: string | null
+    recording_url: string | null
     _count: ReportCountAggregateOutputType | null
     _avg: ReportAvgAggregateOutputType | null
     _sum: ReportSumAggregateOutputType | null
@@ -6907,6 +6914,7 @@ export namespace Prisma {
     reported_user_id?: boolean
     status?: boolean
     admin_note?: boolean
+    recording_url?: boolean
     reporter?: boolean | Report$reporterArgs<ExtArgs>
     reported?: boolean | Report$reportedArgs<ExtArgs>
   }, ExtArgs["result"]["report"]>
@@ -6919,6 +6927,7 @@ export namespace Prisma {
     reported_user_id?: boolean
     status?: boolean
     admin_note?: boolean
+    recording_url?: boolean
     reporter?: boolean | Report$reporterArgs<ExtArgs>
     reported?: boolean | Report$reportedArgs<ExtArgs>
   }, ExtArgs["result"]["report"]>
@@ -6931,6 +6940,7 @@ export namespace Prisma {
     reported_user_id?: boolean
     status?: boolean
     admin_note?: boolean
+    recording_url?: boolean
     reporter?: boolean | Report$reporterArgs<ExtArgs>
     reported?: boolean | Report$reportedArgs<ExtArgs>
   }, ExtArgs["result"]["report"]>
@@ -6943,9 +6953,10 @@ export namespace Prisma {
     reported_user_id?: boolean
     status?: boolean
     admin_note?: boolean
+    recording_url?: boolean
   }
 
-  export type ReportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "reporter_id" | "reason" | "created_at" | "reported_user_id" | "status" | "admin_note", ExtArgs["result"]["report"]>
+  export type ReportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "reporter_id" | "reason" | "created_at" | "reported_user_id" | "status" | "admin_note" | "recording_url", ExtArgs["result"]["report"]>
   export type ReportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reporter?: boolean | Report$reporterArgs<ExtArgs>
     reported?: boolean | Report$reportedArgs<ExtArgs>
@@ -6973,6 +6984,7 @@ export namespace Prisma {
       reported_user_id: number | null
       status: string
       admin_note: string | null
+      recording_url: string | null
     }, ExtArgs["result"]["report"]>
     composites: {}
   }
@@ -7405,6 +7417,7 @@ export namespace Prisma {
     readonly reported_user_id: FieldRef<"Report", 'Int'>
     readonly status: FieldRef<"Report", 'String'>
     readonly admin_note: FieldRef<"Report", 'String'>
+    readonly recording_url: FieldRef<"Report", 'String'>
   }
     
 
@@ -9054,7 +9067,8 @@ export namespace Prisma {
     created_at: 'created_at',
     reported_user_id: 'reported_user_id',
     status: 'status',
-    admin_note: 'admin_note'
+    admin_note: 'admin_note',
+    recording_url: 'recording_url'
   };
 
   export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
@@ -9684,6 +9698,7 @@ export namespace Prisma {
     reported_user_id?: IntNullableFilter<"Report"> | number | null
     status?: StringFilter<"Report"> | string
     admin_note?: StringNullableFilter<"Report"> | string | null
+    recording_url?: StringNullableFilter<"Report"> | string | null
     reporter?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     reported?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
@@ -9696,6 +9711,7 @@ export namespace Prisma {
     reported_user_id?: SortOrderInput | SortOrder
     status?: SortOrder
     admin_note?: SortOrderInput | SortOrder
+    recording_url?: SortOrderInput | SortOrder
     reporter?: UserOrderByWithRelationInput
     reported?: UserOrderByWithRelationInput
   }
@@ -9711,6 +9727,7 @@ export namespace Prisma {
     reported_user_id?: IntNullableFilter<"Report"> | number | null
     status?: StringFilter<"Report"> | string
     admin_note?: StringNullableFilter<"Report"> | string | null
+    recording_url?: StringNullableFilter<"Report"> | string | null
     reporter?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     reported?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
@@ -9723,6 +9740,7 @@ export namespace Prisma {
     reported_user_id?: SortOrderInput | SortOrder
     status?: SortOrder
     admin_note?: SortOrderInput | SortOrder
+    recording_url?: SortOrderInput | SortOrder
     _count?: ReportCountOrderByAggregateInput
     _avg?: ReportAvgOrderByAggregateInput
     _max?: ReportMaxOrderByAggregateInput
@@ -9741,6 +9759,7 @@ export namespace Prisma {
     reported_user_id?: IntNullableWithAggregatesFilter<"Report"> | number | null
     status?: StringWithAggregatesFilter<"Report"> | string
     admin_note?: StringNullableWithAggregatesFilter<"Report"> | string | null
+    recording_url?: StringNullableWithAggregatesFilter<"Report"> | string | null
   }
 
   export type BlockWhereInput = {
@@ -10315,6 +10334,7 @@ export namespace Prisma {
     created_at?: Date | string
     status?: string
     admin_note?: string | null
+    recording_url?: string | null
     reporter?: UserCreateNestedOneWithoutReports_madeInput
     reported?: UserCreateNestedOneWithoutReports_receivedInput
   }
@@ -10327,6 +10347,7 @@ export namespace Prisma {
     reported_user_id?: number | null
     status?: string
     admin_note?: string | null
+    recording_url?: string | null
   }
 
   export type ReportUpdateInput = {
@@ -10334,6 +10355,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     admin_note?: NullableStringFieldUpdateOperationsInput | string | null
+    recording_url?: NullableStringFieldUpdateOperationsInput | string | null
     reporter?: UserUpdateOneWithoutReports_madeNestedInput
     reported?: UserUpdateOneWithoutReports_receivedNestedInput
   }
@@ -10346,6 +10368,7 @@ export namespace Prisma {
     reported_user_id?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     admin_note?: NullableStringFieldUpdateOperationsInput | string | null
+    recording_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReportCreateManyInput = {
@@ -10356,6 +10379,7 @@ export namespace Prisma {
     reported_user_id?: number | null
     status?: string
     admin_note?: string | null
+    recording_url?: string | null
   }
 
   export type ReportUpdateManyMutationInput = {
@@ -10363,6 +10387,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     admin_note?: NullableStringFieldUpdateOperationsInput | string | null
+    recording_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReportUncheckedUpdateManyInput = {
@@ -10373,6 +10398,7 @@ export namespace Prisma {
     reported_user_id?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     admin_note?: NullableStringFieldUpdateOperationsInput | string | null
+    recording_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BlockCreateInput = {
@@ -11160,6 +11186,7 @@ export namespace Prisma {
     reported_user_id?: SortOrder
     status?: SortOrder
     admin_note?: SortOrder
+    recording_url?: SortOrder
   }
 
   export type ReportAvgOrderByAggregateInput = {
@@ -11176,6 +11203,7 @@ export namespace Prisma {
     reported_user_id?: SortOrder
     status?: SortOrder
     admin_note?: SortOrder
+    recording_url?: SortOrder
   }
 
   export type ReportMinOrderByAggregateInput = {
@@ -11186,6 +11214,7 @@ export namespace Prisma {
     reported_user_id?: SortOrder
     status?: SortOrder
     admin_note?: SortOrder
+    recording_url?: SortOrder
   }
 
   export type ReportSumOrderByAggregateInput = {
@@ -12509,6 +12538,7 @@ export namespace Prisma {
     created_at?: Date | string
     status?: string
     admin_note?: string | null
+    recording_url?: string | null
     reporter?: UserCreateNestedOneWithoutReports_madeInput
   }
 
@@ -12519,6 +12549,7 @@ export namespace Prisma {
     created_at?: Date | string
     status?: string
     admin_note?: string | null
+    recording_url?: string | null
   }
 
   export type ReportCreateOrConnectWithoutReportedInput = {
@@ -12536,6 +12567,7 @@ export namespace Prisma {
     created_at?: Date | string
     status?: string
     admin_note?: string | null
+    recording_url?: string | null
     reported?: UserCreateNestedOneWithoutReports_receivedInput
   }
 
@@ -12546,6 +12578,7 @@ export namespace Prisma {
     reported_user_id?: number | null
     status?: string
     admin_note?: string | null
+    recording_url?: string | null
   }
 
   export type ReportCreateOrConnectWithoutReporterInput = {
@@ -12770,6 +12803,7 @@ export namespace Prisma {
     reported_user_id?: IntNullableFilter<"Report"> | number | null
     status?: StringFilter<"Report"> | string
     admin_note?: StringNullableFilter<"Report"> | string | null
+    recording_url?: StringNullableFilter<"Report"> | string | null
   }
 
   export type ReportUpsertWithWhereUniqueWithoutReporterInput = {
@@ -14743,6 +14777,7 @@ export namespace Prisma {
     created_at?: Date | string
     status?: string
     admin_note?: string | null
+    recording_url?: string | null
   }
 
   export type ReportCreateManyReporterInput = {
@@ -14752,6 +14787,7 @@ export namespace Prisma {
     reported_user_id?: number | null
     status?: string
     admin_note?: string | null
+    recording_url?: string | null
   }
 
   export type BlockUpdateWithoutBlockedInput = {
@@ -15003,6 +15039,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     admin_note?: NullableStringFieldUpdateOperationsInput | string | null
+    recording_url?: NullableStringFieldUpdateOperationsInput | string | null
     reporter?: UserUpdateOneWithoutReports_madeNestedInput
   }
 
@@ -15013,6 +15050,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     admin_note?: NullableStringFieldUpdateOperationsInput | string | null
+    recording_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReportUncheckedUpdateManyWithoutReportedInput = {
@@ -15022,6 +15060,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     admin_note?: NullableStringFieldUpdateOperationsInput | string | null
+    recording_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReportUpdateWithoutReporterInput = {
@@ -15029,6 +15068,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     admin_note?: NullableStringFieldUpdateOperationsInput | string | null
+    recording_url?: NullableStringFieldUpdateOperationsInput | string | null
     reported?: UserUpdateOneWithoutReports_receivedNestedInput
   }
 
@@ -15039,6 +15079,7 @@ export namespace Prisma {
     reported_user_id?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     admin_note?: NullableStringFieldUpdateOperationsInput | string | null
+    recording_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReportUncheckedUpdateManyWithoutReporterInput = {
@@ -15048,6 +15089,7 @@ export namespace Prisma {
     reported_user_id?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     admin_note?: NullableStringFieldUpdateOperationsInput | string | null
+    recording_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CallCreateManyMatchInput = {
