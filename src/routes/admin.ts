@@ -4,8 +4,10 @@ import { requireAdmin } from '../middleware/adminMiddleware';
 import { 
   getAllReportsController, 
   updateReportStatusController,
-  getAdminStatsController
+  getAdminStatsController,
+  updateReportNoteController
 } from '../controllers/adminController';
+import prisma from '../lib/prisma';
 
 const router = express.Router();
 
@@ -18,6 +20,9 @@ router.patch('/reports/:id', authenticate, requireAdmin, updateReportStatusContr
 
 // POST /api/v1/admin/reports/:id/status - Update report status (alternative endpoint)
 router.post('/reports/:id/status', authenticate, requireAdmin, updateReportStatusController);
+
+// PATCH /api/v1/admin/reports/:id/note - Update admin note for a report
+router.patch('/reports/:id/note', authenticate, requireAdmin, updateReportNoteController);
 
 // GET /api/v1/admin/stats - Get system statistics
 router.get('/stats', authenticate, requireAdmin, getAdminStatsController);

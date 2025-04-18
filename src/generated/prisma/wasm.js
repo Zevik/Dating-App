@@ -192,7 +192,8 @@ exports.Prisma.ReportScalarFieldEnum = {
   reason: 'reason',
   created_at: 'created_at',
   reported_user_id: 'reported_user_id',
-  status: 'status'
+  status: 'status',
+  admin_note: 'admin_note'
 };
 
 exports.Prisma.BlockScalarFieldEnum = {

@@ -13,5 +13,11 @@ export const updateReportStatusSchema = z.object({
   })
 });
 
+// Schema for updating a report's admin note
+export const updateReportNoteSchema = z.object({
+  note: z.string().max(1000, 'Note too long').optional()
+});
+
 export type CreateReportInput = z.infer<typeof createReportSchema>;
-export type UpdateReportStatusInput = z.infer<typeof updateReportStatusSchema>; 
+export type UpdateReportStatusInput = z.infer<typeof updateReportStatusSchema>;
+export type UpdateReportNoteInput = z.infer<typeof updateReportNoteSchema>; 

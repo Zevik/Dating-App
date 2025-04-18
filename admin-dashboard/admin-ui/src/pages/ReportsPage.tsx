@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { adminApi } from '../lib/api';
 import { useAuth } from '../contexts/auth-context';
 import { Button } from '../components/ui/button';
-import { Select } from '../components/ui/select';
+import { Input } from '../components/ui/input';
+import { Select, SelectItem } from '../components/ui/select';
 import {
   Table,
   TableBody,
@@ -20,6 +21,8 @@ import {
   TooltipTrigger,
 } from '../components/ui/tooltip';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
+import { Textarea } from '../components/ui/textarea';
+import { toast } from '../components/ui/toast';
 
 interface ReportedUser {
   id: number | null;
@@ -40,6 +43,7 @@ interface Report {
   reason: string;
   status: string;
   created_at: string;
+  admin_note?: string;
   reporter: Reporter;
   reported: ReportedUser;
 }
@@ -48,6 +52,8 @@ const ReportsPage: React.FC = () => {
   const [reports, setReports] = useState<Report[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const navigate = useNavigate();
   const { logout } = useAuth();
 
@@ -69,6 +75,16 @@ const ReportsPage: React.FC = () => {
     fetchReports();
   }, []);
 
+  const filteredReports = reports.filter((report) => {
+    const matchesStatus =
+      statusFilter === "all" || report.status.toLowerCase() === statusFilter;
+    const query = searchQuery.toLowerCase();
+    const matchesSearch =
+      report.reporter?.display_name?.toLowerCase().includes(query) ||
+      report.reported?.display_name?.toLowerCase().includes(query);
+    return matchesStatus && matchesSearch;
+  });
+
   const handleStatusChange = async (reportId: number, newStatus: string) => {
     try {
       await adminApi.updateReportStatusViaPost(reportId, newStatus);
@@ -79,6 +95,27 @@ const ReportsPage: React.FC = () => {
     } catch (error) {
       console.error('Error updating report status:', error);
       setError('Failed to update report status');
+    }
+  };
+
+  const handleUpdateNote = async (reportId: number, note: string) => {
+    try {
+      await adminApi.updateReportNote(reportId, note);
+      setReports(reports.map(report => 
+        report.id === reportId ? { ...report, admin_note: note } : report
+      ));
+      toast({
+        title: "Success",
+        description: "Note updated successfully",
+        variant: "success"
+      });
+    } catch (error) {
+      console.error('Error updating report note:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update note",
+        variant: "destructive"
+      });
     }
   };
 
@@ -128,9 +165,28 @@ const ReportsPage: React.FC = () => {
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow overflow-hidden">
+            <div className="flex flex-col sm:flex-row gap-4 m-4">
+              <Input
+                placeholder="Search by name..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="max-w-sm"
+              />
+              <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="reviewed">Reviewed</SelectItem>
+                <SelectItem value="resolved">Resolved</SelectItem>
+                <SelectItem value="rejected">Rejected</SelectItem>
+              </Select>
+            </div>
+            
             <Table>
               <TableCaption>
-                A list of all reports in the system
+                {filteredReports.length === 0 
+                  ? "No reports found matching your criteria" 
+                  : `Showing ${filteredReports.length} of ${reports.length} reports`
+                }
               </TableCaption>
               <TableHeader>
                 <TableRow>
@@ -141,17 +197,18 @@ const ReportsPage: React.FC = () => {
                   <TableHead>Reason</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Actions</TableHead>
+                  <TableHead>Admin Note</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {reports.length === 0 ? (
+                {filteredReports.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={7} className="text-center">
                       No reports found
                     </TableCell>
                   </TableRow>
                 ) : (
-                  reports.map((report) => (
+                  filteredReports.map((report) => (
                     <TableRow key={report.id}>
                       <TableCell>{report.id}</TableCell>
                       <TableCell>{formatDate(report.created_at)}</TableCell>
@@ -268,6 +325,14 @@ const ReportsPage: React.FC = () => {
                             </Button>
                           )}
                         </div>
+                      </TableCell>
+                      <TableCell>
+                        <Textarea
+                          className="min-h-[80px] text-sm resize-y"
+                          placeholder="Add admin note..."
+                          defaultValue={report.admin_note || ""}
+                          onBlur={(e) => handleUpdateNote(report.id, e.target.value)}
+                        />
                       </TableCell>
                     </TableRow>
                   ))

@@ -95,6 +95,15 @@ export const adminApi = {
       throw error;
     }
   },
+  updateReportNote: async (reportId: number, note: string) => {
+    try {
+      const response = await instance.patch(`/admin/reports/${reportId}/note`, { note });
+      return response.data;
+    } catch (error) {
+      console.error(`Update report ${reportId} note error:`, error);
+      throw error;
+    }
+  },
 };
 
 export default instance; 

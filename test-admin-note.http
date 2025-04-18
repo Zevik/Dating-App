@@ -1,0 +1,8 @@
+### Test PATCH admin note endpoint
+PATCH http://localhost:3000/admin/reports/1/note
+Content-Type: application/json
+Authorization: Bearer your_admin_token_here
+
+{
+  "note": "This is a test admin note for report #1"
+} 

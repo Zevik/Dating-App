@@ -120,6 +120,7 @@ export async function getAllReports() {
       id: true,
       reason: true,
       status: true,
+      admin_note: true,
       created_at: true,
       reporter: {
         select: {
@@ -170,6 +171,50 @@ export async function updateReportStatus(reportId: number, data: UpdateReportSta
       id: true,
       reason: true,
       status: true,
+      created_at: true,
+      reporter: {
+        select: {
+          id: true,
+          display_name: true
+        }
+      },
+      reported: {
+        select: {
+          id: true,
+          display_name: true
+        }
+      }
+    }
+  });
+}
+
+/**
+ * Update a report's admin note
+ * @param reportId ID of the report to update
+ * @param note Admin note content, can be undefined to clear the note
+ * @returns Updated report
+ */
+export async function updateReportNote(reportId: number, note?: string) {
+  // Check if report exists
+  const report = await prisma.report.findUnique({
+    where: { id: reportId }
+  });
+
+  if (!report) {
+    throw new NotFoundError('Report not found');
+  }
+
+  // Update report note
+  return prisma.report.update({
+    where: { id: reportId },
+    data: {
+      admin_note: note ?? null
+    },
+    select: {
+      id: true,
+      reason: true,
+      status: true,
+      admin_note: true,
       created_at: true,
       reporter: {
         select: {

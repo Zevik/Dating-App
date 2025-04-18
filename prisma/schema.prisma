@@ -122,6 +122,7 @@ model Report {
   created_at      DateTime @default(now()) @db.Timestamptz(3)
   reported_user_id Int?
   status          String   @default("pending") @db.Text // pending, reviewed, resolved, rejected
+  admin_note      String?  @db.Text // Field for admin notes about the report
 
   reporter        User?     @relation("ReportsMade", fields: [reporter_id], references: [id], onDelete: SetNull)
   reported        User?     @relation("ReportsReceived", fields: [reported_user_id], references: [id], onDelete: SetNull)

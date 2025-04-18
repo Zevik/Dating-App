@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { getAllReports, updateReportStatus } from '../services/reportService';
+import { getAllReports, updateReportStatus, updateReportNote } from '../services/reportService';
 import { getAdminStats } from '../services/adminService';
-import { updateReportStatusSchema } from '../validations/reportSchemas';
+import { updateReportStatusSchema, updateReportNoteSchema } from '../validations/reportSchemas';
 import { ZodError } from 'zod';
 
 /**
@@ -55,6 +55,42 @@ export async function updateReportStatusController(req: Request, res: Response, 
     }
   } catch (error) {
     console.error('Error updating report status:', error);
+    next(error);
+  }
+}
+
+/**
+ * Update a report's admin note
+ * PATCH /api/v1/admin/reports/:id/note
+ */
+export async function updateReportNoteController(req: Request, res: Response, next: NextFunction) {
+  try {
+    const reportId = parseInt(req.params.id, 10);
+    if (isNaN(reportId)) {
+      return res.status(400).json({ message: 'Invalid report ID format' });
+    }
+    
+    // Validate request body using Zod
+    try {
+      const validatedData = updateReportNoteSchema.parse(req.body);
+      
+      const updatedReport = await updateReportNote(reportId, validatedData.note);
+      
+      return res.status(200).json({
+        success: true,
+        report: updatedReport
+      });
+    } catch (validationError) {
+      if (validationError instanceof ZodError) {
+        return res.status(400).json({
+          message: 'Validation failed',
+          errors: validationError.flatten().fieldErrors
+        });
+      }
+      throw validationError;
+    }
+  } catch (error) {
+    console.error('Error updating report note:', error);
     next(error);
   }
 }

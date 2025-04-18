@@ -20,4 +20,20 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
 )
 Select.displayName = "Select"
 
-export { Select } 
+export interface SelectItemProps
+  extends React.OptionHTMLAttributes<HTMLOptionElement> {}
+
+const SelectItem = React.forwardRef<HTMLOptionElement, SelectItemProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <option
+        className={cn("focus:bg-accent focus:text-accent-foreground", className)}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+SelectItem.displayName = "SelectItem"
+
+export { Select, SelectItem } 
