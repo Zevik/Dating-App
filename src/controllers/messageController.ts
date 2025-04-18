@@ -41,7 +41,7 @@ export async function sendMessageController(req: Request, res: Response, next: N
 }
 
 /**
- * Get messages for a match with pagination
+ * Get messages for a match
  * GET /api/v1/messages/:matchId
  */
 export async function getMessagesController(req: Request, res: Response, next: NextFunction) {

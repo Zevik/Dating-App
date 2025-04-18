@@ -1,6 +1,6 @@
 import prisma from '../lib/prisma';
 import { ForbiddenError, NotFoundError } from '../errors/AppError';
-import { PaginationParams, PaginatedResult } from '../utils/paginationUtils';
+import { PaginationParams } from '../utils/paginationUtils';
 
 /**
  * Create a new message in a match
@@ -50,11 +50,11 @@ export async function createMessage(matchId: number, senderId: number, content: 
 }
 
 /**
- * Get messages for a specific match with pagination
+ * Get messages for a specific match
  * @param matchId ID of the match to get messages for
  * @param userId ID of the user requesting the messages (for authorization)
  * @param pagination Pagination parameters
- * @returns Paginated list of messages
+ * @returns List of messages
  * @throws NotFoundError if match not found
  * @throws ForbiddenError if user not part of the match
  */
@@ -62,7 +62,7 @@ export async function getMessagesForMatch(
   matchId: number, 
   userId: number,
   pagination?: PaginationParams
-): Promise<PaginatedResult<any>> {
+): Promise<{ messages: any[] }> {
   const { page = 1, limit = 20 } = pagination || {};
   const skip = (page - 1) * limit;
 
@@ -79,11 +79,6 @@ export async function getMessagesForMatch(
   if (match.user1_id !== userId && match.user2_id !== userId) {
     throw new ForbiddenError('User is not part of this match');
   }
-
-  // Count total messages
-  const totalMessages = await prisma.message.count({
-    where: { match_id: matchId }
-  });
 
   // Get messages with pagination
   const messages = await prisma.message.findMany({
@@ -103,13 +98,7 @@ export async function getMessagesForMatch(
   });
 
   return {
-    data: messages,
-    meta: {
-      total: totalMessages,
-      page,
-      limit,
-      pages: Math.ceil(totalMessages / limit)
-    }
+    messages
   };
 }
 
