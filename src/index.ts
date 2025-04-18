@@ -11,6 +11,7 @@ import cors from 'cors';
 import authRouter from './routes/auth';
 import userRouter from './routes/users';
 import matchesRouter from './routes/matches';
+import matchRouter from './routes/match';
 import callsRouter from './routes/calls';
 import blocksRouter from './routes/blocks';
 import reportsRouter from './routes/reports';
@@ -32,6 +33,7 @@ app.use(express.json()); // for parsing application/json
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/matches', matchesRouter);
+app.use('/api/v1/match', matchRouter);
 app.use('/api/v1/calls', callsRouter);
 app.use('/api/v1/blocks', blocksRouter);
 app.use('/api/v1/reports', reportsRouter);
