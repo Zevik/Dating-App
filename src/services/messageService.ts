@@ -104,7 +104,7 @@ export async function getMessagesForMatch(
 
   return {
     data: messages,
-    pagination: {
+    meta: {
       total: totalMessages,
       page,
       limit,
