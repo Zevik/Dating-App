@@ -6,6 +6,7 @@ import ReportsPage from './pages/ReportsPage';
 import SettingsPage from './pages/SettingsPage';
 import UsersPage from './pages/UsersPage';
 import MatchesPage from './pages/MatchesPage';
+import ActiveMatch from './pages/ActiveMatch';
 
 // Protected route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -65,6 +66,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <MatchesPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/match" 
+            element={
+              <ProtectedRoute>
+                <ActiveMatch />
               </ProtectedRoute>
             } 
           />
