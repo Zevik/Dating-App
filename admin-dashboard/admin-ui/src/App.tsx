@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './contexts/auth-context';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import ReportsPage from './pages/ReportsPage';
+import ActiveMatch from './pages/ActiveMatch';
 import { useEffect } from 'react';
 import { Toaster } from './components/ui/toast';
 
@@ -50,6 +51,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ReportsPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/match" 
+            element={
+              <ProtectedRoute>
+                <ActiveMatch />
               </ProtectedRoute>
             } 
           />
