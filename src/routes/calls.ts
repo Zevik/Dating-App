@@ -50,7 +50,11 @@ router.post('/save-recording', async (req, res, next) => {
       .getPublicUrl(filename).data;
 
     // Store temporarily in Redis for 5 minutes
-    await redis.setEx(`recording:${userId}:${otherUserId}`, 300, publicUrl);
+    try {
+      await redis.setEx(`recording:${userId}:${otherUserId}`, 300, publicUrl);
+    } catch (e) {
+      console.warn("Redis not available – skipping temporary storage of recording URL in dev.", e);
+    }
 
     res.json({ success: true, url: publicUrl });
   } catch (e) {

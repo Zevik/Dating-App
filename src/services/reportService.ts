@@ -50,7 +50,13 @@ export async function createReport(reporterId: number, data: CreateReportInput) 
 
   // Check for a recording in Redis
   const recordingKey = `recording:${reporterId}:${reported_user_id}`;
-  const recording_url = await redis.get(recordingKey);
+  let recording_url = null;
+  
+  try {
+    recording_url = await redis.get(recordingKey);
+  } catch (e) {
+    console.warn("Redis not available – skipping recording fetch in dev.", e);
+  }
 
   // Create report record
   const report = await prisma.report.create({
@@ -64,7 +70,11 @@ export async function createReport(reporterId: number, data: CreateReportInput) 
 
   // If a recording was found, delete it from Redis
   if (recording_url) {
-    await redis.del(recordingKey);
+    try {
+      await redis.del(recordingKey);
+    } catch (e) {
+      console.warn("Redis not available – skipping deletion in dev.", e);
+    }
   }
 
   return report;
