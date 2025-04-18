@@ -165,6 +165,8 @@ exports.Prisma.MatchScalarFieldEnum = {
   closed_at: 'closed_at',
   close_reason: 'close_reason',
   call_started_at: 'call_started_at',
+  call_accepted_at: 'call_accepted_at',
+  call_rejected_at: 'call_rejected_at',
   default_voice_call_duration_sec: 'default_voice_call_duration_sec',
   default_video_call_duration_sec: 'default_video_call_duration_sec',
   last_interaction_at: 'last_interaction_at',
@@ -205,6 +207,16 @@ exports.Prisma.BlockScalarFieldEnum = {
   created_at: 'created_at'
 };
 
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  match_id: 'match_id',
+  sender_id: 'sender_id',
+  content: 'content',
+  created_at: 'created_at',
+  is_read: 'is_read',
+  read_at: 'read_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -242,7 +254,8 @@ exports.Prisma.ModelName = {
   Match: 'Match',
   Call: 'Call',
   Report: 'Report',
-  Block: 'Block'
+  Block: 'Block',
+  Message: 'Message'
 };
 
 /**

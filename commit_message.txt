@@ -1,0 +1,9 @@
+feat: add working message interface + fetch & send flow
+
+- Implemented complete MatchChat UI in client-app
+- Fetches active match with token and displays chat
+- Sends messages via POST to API
+- Full Hebrew UI, connected to backend REST
+- Fixed CORS and PostCSS issues
+- Tailwind now works properly with .cjs config
+- Styling minimal but functional 
